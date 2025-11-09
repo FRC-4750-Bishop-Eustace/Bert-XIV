@@ -1,4 +1,4 @@
-# 🧭 BertLib Style Guide
+# 🧭 Bert XIV Style Guide
 
 This document defines the official formatting and naming rules for this project. Every contributor must follow these conventions to ensure consistent, readable, and maintainable code.
 
@@ -12,7 +12,7 @@ This document defines the official formatting and naming rules for this project.
 - **Trailing Whitespace:** None
 - **Final Newline:** Required
 
-> 🧩 These rules are automatically enforced by the provided [`.editorconfig`](https://github.com/Rohan-Bharatia/BertLib/blob/main/.editorconfig) file.
+> 🧩 These rules are automatically enforced by the provided [`.editorconfig`](https://github.com/FRC-4750-Bishop-Eustace/Bert-XIV/blob/main/.editorconfig) file.
 
 ## 📁 File & Directory Naming Conventions
 

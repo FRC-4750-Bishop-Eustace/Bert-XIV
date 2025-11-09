@@ -1,6 +1,6 @@
 # 🔐 Security Policy
 
-Thank you for helping to improve the security of BertLib! Security issues are taken seriously and the BertLib team appreciates all your efforts to responsibly disclose your findings.
+Thank you for helping to improve the security of Bert XIV! Security issues are taken seriously and the Bert team appreciates all your efforts to responsibly disclose your findings.
 
 ## #️⃣ Supported Version(s)
 
@@ -23,9 +23,9 @@ If you spot a vulnerability, please do the following:
 
 ## 🔐 Security Updates
 
-We will release security updates as soon as they are available. We recommend all users to update to the latest version to benefit from security fixes. Please stay informed on security updates. Watch [BertLib](https://github.com/Rohan-Bharatia/BertLib) for releases and updates.
+We will release security updates as soon as they are available. We recommend all users to update to the latest version to benefit from security fixes. Please stay informed on security updates. Watch [Bert-XIV](https://github.com/FRC-4750-Bishop-Eustace/Bert-XIV) for releases and updates.
 
 ## 🔗 Security Recources
 
-- [Security Documentation](https://github.com/Rohan-Bharatia/BertLib?tab=security-ov-file)
-- [Security Advisories](https://github.com/Rohan-Bharatia/BertLib/security/advisories)
+- [Security Documentation](https://github.com/FRC-4750-Bishop-Eustace/Bert-XIV?tab=security-ov-file)
+- [Security Advisories](https://github.com/FRC-4750-Bishop-Eustace/Bert-XIV/security/advisories)

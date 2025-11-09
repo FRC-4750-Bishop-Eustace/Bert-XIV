@@ -1,4 +1,4 @@
-name: Build WPILib (C++) Project
+name: Run RobotPy Tests
 
 on:
   push:
