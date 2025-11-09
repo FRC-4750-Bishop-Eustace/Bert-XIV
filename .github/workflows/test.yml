@@ -1,0 +1,28 @@
+name: Build WPILib (C++) Project
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential python3
+
+      - name: Setup RobotPy
+        run: |
+          python3 -m robotpy sync
+
+      - name: Build RobotPy
+        run: |
+          python3 -m robotpy test
