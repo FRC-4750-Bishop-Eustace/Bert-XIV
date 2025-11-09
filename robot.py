@@ -22,6 +22,54 @@
 
 import commands2
 
-class Robot(commands2.TimedCommandRobot):
+class MyRobot(commands2.TimedCommandRobot):
     def __init__(self) -> None:
         super().__init__()
+
+    def RobotInit(self) -> None:
+        super().RobotInit()
+
+    def RobotPeriodic(self) -> None:
+        super().RobotPeriodic()
+
+    def AutonomousInit(self) -> None:
+        super().AutonomousInit()
+
+    def AutonomousPeriodic(self) -> None:
+        super().AutonomousPeriodic()
+
+    def AutonomousExit(self) -> None:
+        super().AutonomousExit()
+
+    def TeleopInit(self) -> None:
+        super().TeleopInit()
+
+    def TeleopPeriodic(self) -> None:
+        super().TeleopPeriodic()
+
+    def TeleopExit(self) -> None:
+        super().TeleopExit()
+
+    def DisabledInit(self) -> None:
+        super().DisabledInit()
+
+    def DisabledPeriodic(self) -> None:
+        super().DisabledPeriodic()
+
+    def DisabledExit(self) -> None:
+        super().DisabledExit()
+
+    def TestInit(self) -> None:
+        super().TestInit()
+
+    def TestPeriodic(self) -> None:
+        super().TestPeriodic()
+
+    def TestExit(self) -> None:
+        super().TestExit()
+
+    def SimulationInit(self) -> None:
+        super().SimulationInit()
+
+    def SimulationPeriodic(self) -> None:
+        super().SimulationPeriodic()
