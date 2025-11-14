@@ -26,50 +26,50 @@ class MyRobot(commands2.TimedCommandRobot):
     def __init__(self) -> None:
         super().__init__()
 
-    def RobotInit(self) -> None:
-        super().RobotInit()
+    def robotInit(self) -> None:
+        pass
 
-    def RobotPeriodic(self) -> None:
-        super().RobotPeriodic()
+    def robotPeriodic(self) -> None:
+        pass
 
-    def AutonomousInit(self) -> None:
-        super().AutonomousInit()
+    def autonomousInit(self) -> None:
+        pass
 
-    def AutonomousPeriodic(self) -> None:
-        super().AutonomousPeriodic()
+    def autonomousPeriodic(self) -> None:
+        pass
 
-    def AutonomousExit(self) -> None:
-        super().AutonomousExit()
+    def autonomousExit(self) -> None:
+        pass
 
-    def TeleopInit(self) -> None:
-        super().TeleopInit()
+    def teleopInit(self) -> None:
+        pass
 
-    def TeleopPeriodic(self) -> None:
-        super().TeleopPeriodic()
+    def teleopPeriodic(self) -> None:
+        pass
 
-    def TeleopExit(self) -> None:
-        super().TeleopExit()
+    def teleopExit(self) -> None:
+        pass
 
-    def DisabledInit(self) -> None:
-        super().DisabledInit()
+    def disabledInit(self) -> None:
+        pass
 
-    def DisabledPeriodic(self) -> None:
-        super().DisabledPeriodic()
+    def disabledPeriodic(self) -> None:
+        pass
 
-    def DisabledExit(self) -> None:
-        super().DisabledExit()
+    def disabledExit(self) -> None:
+        pass
 
-    def TestInit(self) -> None:
-        super().TestInit()
+    def testInit(self) -> None:
+        pass
 
-    def TestPeriodic(self) -> None:
-        super().TestPeriodic()
+    def testPeriodic(self) -> None:
+        pass
 
-    def TestExit(self) -> None:
-        super().TestExit()
+    def testExit(self) -> None:
+        pass
 
-    def SimulationInit(self) -> None:
-        super().SimulationInit()
+    def _simulationInit(self) -> None:
+        pass
 
-    def SimulationPeriodic(self) -> None:
-        super().SimulationPeriodic()
+    def _simulationPeriodic(self) -> None:
+        pass
