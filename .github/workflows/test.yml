@@ -26,4 +26,5 @@ jobs:
 
       - name: Build RobotPy
         run: |
-          python3 -m robotpy test
+          python3 -m robotpy create-physics
+          python3 -m robotpy test --builtin
