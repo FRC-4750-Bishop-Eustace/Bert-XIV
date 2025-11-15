@@ -20,58 +20,49 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import commands2
+from ..encoder_base import Encoder
+from ..device import Device
 
-import hardware
-
-class MyRobot(commands2.TimedCommandRobot):
-    def __init__(self) -> None:
+class AbsoluteEncoder(Encoder):
+    def __init__(self, motor: Device) -> None:
         super().__init__()
+        self.motor = motor
 
-    def robotInit(self) -> None:
-        pass
+        try:
+            self.hw = motor.hw.getAbsoluteEncoder()
 
-    def robotPeriodic(self) -> None:
-        pass
+        except Exception:
+            class Dummy:
+                def __init__(self, mtr: Device) -> None:
+                    self.mtr = mtr
 
-    def autonomousInit(self) -> None:
-        pass
+                def GetPosition(self) -> float:
+                    return 0.0
 
-    def autonomousPeriodic(self) -> None:
-        pass
+                def GetVelocity(self) -> float:
+                    return 0.0
 
-    def autonomousExit(self) -> None:
-        pass
+                def Reset(self) -> None:
+                    pass
 
-    def teleopInit(self) -> None:
-        pass
+            self.hw = Dummy(motor)
 
-    def teleopPeriodic(self) -> None:
-        pass
+    def GetPosition(self) -> float:
+        try:
+            return self.hw.GetPosition()
+        except Exception:
+            return self.hw.GetPosition()
 
-    def teleopExit(self) -> None:
-        pass
+    def GetVelocity(self) -> float:
+        try:
+            return self.hw.GetVelocity()
+        except Exception:
+            return self.hw.GetVelocity()
 
-    def disabledInit(self) -> None:
-        pass
+    def Reset(self) -> None:
+        try:
+            pass
+        except Exception:
+            self.hw.Reset()
 
-    def disabledPeriodic(self) -> None:
-        pass
-
-    def disabledExit(self) -> None:
-        pass
-
-    def testInit(self) -> None:
-        pass
-
-    def testPeriodic(self) -> None:
-        pass
-
-    def testExit(self) -> None:
-        pass
-
-    def _simulationInit(self) -> None:
-        pass
-
-    def _simulationPeriodic(self) -> None:
-        pass
+Device.RegisterBackend("encoder", "REV_AbsoluteEncoder", AbsoluteEncoder)

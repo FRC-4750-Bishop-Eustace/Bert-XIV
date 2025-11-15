@@ -1,1 +1,2 @@
 robotpy
+opencv-python

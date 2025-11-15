@@ -20,58 +20,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import commands2
+from .device import Device
+from .motor_base import Motor
+from .encoder_base import Encoder
+from .imu_base import IMU
+from .camera_base import Camera
+from .solenoid_base import Solenoid
 
-import hardware
-
-class MyRobot(commands2.TimedCommandRobot):
-    def __init__(self) -> None:
-        super().__init__()
-
-    def robotInit(self) -> None:
-        pass
-
-    def robotPeriodic(self) -> None:
-        pass
-
-    def autonomousInit(self) -> None:
-        pass
-
-    def autonomousPeriodic(self) -> None:
-        pass
-
-    def autonomousExit(self) -> None:
-        pass
-
-    def teleopInit(self) -> None:
-        pass
-
-    def teleopPeriodic(self) -> None:
-        pass
-
-    def teleopExit(self) -> None:
-        pass
-
-    def disabledInit(self) -> None:
-        pass
-
-    def disabledPeriodic(self) -> None:
-        pass
-
-    def disabledExit(self) -> None:
-        pass
-
-    def testInit(self) -> None:
-        pass
-
-    def testPeriodic(self) -> None:
-        pass
-
-    def testExit(self) -> None:
-        pass
-
-    def _simulationInit(self) -> None:
-        pass
-
-    def _simulationPeriodic(self) -> None:
-        pass
+__all__ = [
+    "Device",
+    "Motor",
+    "Encoder",
+    "IMU",
+    "Camera",
+    "Solenoid",
+]

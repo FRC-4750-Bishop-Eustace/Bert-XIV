@@ -20,58 +20,30 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import commands2
+from ..camera_base import Camera
+from ..device import Device
+from typing import Any
 
-import hardware
-
-class MyRobot(commands2.TimedCommandRobot):
-    def __init__(self) -> None:
+class Limelight(Camera):
+    def __init__(self, tableName: str = "limelight") -> None:
         super().__init__()
+        self.tableName = tableName
 
-    def robotInit(self) -> None:
+        try:
+            import ntcore
+            self.nt = ntcore.NetworkTables.getTable(self.tableName)
+        except Exception:
+            self.nt = None
+
+    def Start(self) -> None:
         pass
 
-    def robotPeriodic(self) -> None:
+    def Stop(self) -> None:
         pass
 
-    def autonomousInit(self) -> None:
-        pass
+    def CaptureFrame(self) -> Any:
+        if self.nt is not None:
+            return dict(tx=self.nt.getNumber("tx", 0.0), ty=self.nt.getNumber("ty", 0.0), ta=self.nt.getNumber("ta", 0.0))
+        return None
 
-    def autonomousPeriodic(self) -> None:
-        pass
-
-    def autonomousExit(self) -> None:
-        pass
-
-    def teleopInit(self) -> None:
-        pass
-
-    def teleopPeriodic(self) -> None:
-        pass
-
-    def teleopExit(self) -> None:
-        pass
-
-    def disabledInit(self) -> None:
-        pass
-
-    def disabledPeriodic(self) -> None:
-        pass
-
-    def disabledExit(self) -> None:
-        pass
-
-    def testInit(self) -> None:
-        pass
-
-    def testPeriodic(self) -> None:
-        pass
-
-    def testExit(self) -> None:
-        pass
-
-    def _simulationInit(self) -> None:
-        pass
-
-    def _simulationPeriodic(self) -> None:
-        pass
+Device.RegisterBackend("camera", "HAILO_LimeLight", Limelight)

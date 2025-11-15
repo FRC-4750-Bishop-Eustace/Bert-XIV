@@ -23,6 +23,5 @@ robotpy_extras = [
 
 # Other pip packages to install
 requires = [
-    # "phoenix6~=24.2.1",
     "sleipnirgroup-choreolib",
 ]

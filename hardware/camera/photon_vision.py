@@ -20,58 +20,33 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import commands2
+from ..camera_base import Camera
+from ..device import Device
+from typing import Any
 
-import hardware
+class PhotonVision(Camera):
+    def __init__(self, cameraName: str = "photonvision") -> None:
+        super.__init__()
+        self.cameraName = cameraName
 
-class MyRobot(commands2.TimedCommandRobot):
-    def __init__(self) -> None:
-        super().__init__()
+        try:
+            import photon_vision
 
-    def robotInit(self) -> None:
+            self.client = photon_vision.PhotonCamera(self.cameraName)
+
+        except Exception:
+            self.client = None
+
+    def Start(self) -> None:
         pass
 
-    def robotPeriodic(self) -> None:
+    def Stop(self) -> None:
         pass
 
-    def autonomousInit(self) -> None:
-        pass
+    def CaptureFrame(self) -> Any:
+        if self.client is not None:
+            return self.client.getLatestResult()
+        return None
 
-    def autonomousPeriodic(self) -> None:
-        pass
 
-    def autonomousExit(self) -> None:
-        pass
-
-    def teleopInit(self) -> None:
-        pass
-
-    def teleopPeriodic(self) -> None:
-        pass
-
-    def teleopExit(self) -> None:
-        pass
-
-    def disabledInit(self) -> None:
-        pass
-
-    def disabledPeriodic(self) -> None:
-        pass
-
-    def disabledExit(self) -> None:
-        pass
-
-    def testInit(self) -> None:
-        pass
-
-    def testPeriodic(self) -> None:
-        pass
-
-    def testExit(self) -> None:
-        pass
-
-    def _simulationInit(self) -> None:
-        pass
-
-    def _simulationPeriodic(self) -> None:
-        pass
+Device.RegisterBackend("camera", "Chameleon_PhotonVision", PhotonVision)

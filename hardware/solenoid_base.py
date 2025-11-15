@@ -20,58 +20,33 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import commands2
+from abc import abstractmethod
+from typing import Any, Dict
+from .device import Device
 
-import hardware
-
-class MyRobot(commands2.TimedCommandRobot):
+class Solenoid(Device):
     def __init__(self) -> None:
         super().__init__()
 
-    def robotInit(self) -> None:
-        pass
+    @abstractmethod
+    def Set(self, value: int) -> None:
+        raise NotImplementedError
 
-    def robotPeriodic(self) -> None:
-        pass
+    @abstractmethod
+    def Get(self) -> int:
+        raise NotImplementedError
+    
+    @abstractmethod
+    def Toggle(self) -> None:
+        raise NotImplementedError
 
-    def autonomousInit(self) -> None:
-        pass
+    @classmethod
+    def Create(cls, vendor: str, typ: str, **kwargs) -> "Solenoid":
+        backendName = f"{vendor}_{typ}".replace(" ", "").lower()
+        return cls.Create(backendName, **kwargs)
 
-    def autonomousPeriodic(self) -> None:
-        pass
-
-    def autonomousExit(self) -> None:
-        pass
-
-    def teleopInit(self) -> None:
-        pass
-
-    def teleopPeriodic(self) -> None:
-        pass
-
-    def teleopExit(self) -> None:
-        pass
-
-    def disabledInit(self) -> None:
-        pass
-
-    def disabledPeriodic(self) -> None:
-        pass
-
-    def disabledExit(self) -> None:
-        pass
-
-    def testInit(self) -> None:
-        pass
-
-    def testPeriodic(self) -> None:
-        pass
-
-    def testExit(self) -> None:
-        pass
-
-    def _simulationInit(self) -> None:
-        pass
-
-    def _simulationPeriodic(self) -> None:
-        pass
+    @classmethod
+    def CreateFromConfig(cls, config: Dict[str, Any]) -> "Solenoid":
+        cfg = dict(config)
+        cfg["device_type"] = cfg.get("device_type", "solenoid")
+        return cls.CreateFromConfig(cfg)

@@ -20,58 +20,43 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import commands2
+from ..camera_base import Camera
+from ..device import Device
+from typing import Any
 
-import hardware
-
-class MyRobot(commands2.TimedCommandRobot):
-    def __init__(self) -> None:
+class USBCamera(Camera):
+    def __init__(self, deviceId: int = 0, resolution: tuple = (640, 480), fps: int = 30) -> None:
         super().__init__()
+        self.deviceId = deviceId
+        self.resolution = resolution
+        self.fps = fps
+        self.running = False
 
-    def robotInit(self) -> None:
-        pass
+        try:
+            import cv2
+            self.cv2 = cv2
+            self.cap = None
+        except Exception:
+            self.cv2 = None
+            self.cap = None
 
-    def robotPeriodic(self) -> None:
-        pass
+    def Start(self) -> None:
+        if self.cv2 is not None:
+            self.cap = self.cv2.VideoCapture(self.deviceId)
+        self.running = True
 
-    def autonomousInit(self) -> None:
-        pass
+    def Stop(self) -> None:
+        if self.cap is not None:
+            self.cap.release()
+            self.cap = None
+        self.running = False
 
-    def autonomousPeriodic(self) -> None:
-        pass
+    def CaptureFrame(self) -> Any:
+        if not self.running:
+            return None
+        if self.cap is not None:
+            ret, frame = self.cap.read()
+            return frame
+        return None
 
-    def autonomousExit(self) -> None:
-        pass
-
-    def teleopInit(self) -> None:
-        pass
-
-    def teleopPeriodic(self) -> None:
-        pass
-
-    def teleopExit(self) -> None:
-        pass
-
-    def disabledInit(self) -> None:
-        pass
-
-    def disabledPeriodic(self) -> None:
-        pass
-
-    def disabledExit(self) -> None:
-        pass
-
-    def testInit(self) -> None:
-        pass
-
-    def testPeriodic(self) -> None:
-        pass
-
-    def testExit(self) -> None:
-        pass
-
-    def _simulationInit(self) -> None:
-        pass
-
-    def _simulationPeriodic(self) -> None:
-        pass
+Device.RegisterBackend("camera", "WPI_USBCamera", USBCamera)

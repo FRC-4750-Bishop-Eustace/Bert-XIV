@@ -20,58 +20,38 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import commands2
+from abc import abstractmethod
+from typing import Any, Dict
+from .device import Device
+from wpimath.geometry import Translation3d, Rotation3d, Pose3d
 
-import hardware
-
-class MyRobot(commands2.TimedCommandRobot):
+class IMU(Device):
     def __init__(self) -> None:
         super().__init__()
 
-    def robotInit(self) -> None:
-        pass
+    @abstractmethod
+    def GetPosition(self) -> Translation3d:
+        raise NotImplementedError
 
-    def robotPeriodic(self) -> None:
-        pass
+    @abstractmethod
+    def GetRotation(self) -> Rotation3d:
+        raise NotImplementedError
 
-    def autonomousInit(self) -> None:
-        pass
+    @abstractmethod
+    def GetAcceleration(self) -> Translation3d:
+        raise NotImplementedError
 
-    def autonomousPeriodic(self) -> None:
-        pass
+    @abstractmethod
+    def Reset(self, pose: Pose3d = Pose3d()) -> None:
+        raise NotImplementedError
 
-    def autonomousExit(self) -> None:
-        pass
+    @classmethod
+    def Create(cls, vendor: str, typ: str, **kwargs) -> "IMU":
+        backendName = f"{vendor}_{typ}".replace(" ", "").lower()
+        return Device.Create("imu", backendName, **kwargs)
 
-    def teleopInit(self) -> None:
-        pass
-
-    def teleopPeriodic(self) -> None:
-        pass
-
-    def teleopExit(self) -> None:
-        pass
-
-    def disabledInit(self) -> None:
-        pass
-
-    def disabledPeriodic(self) -> None:
-        pass
-
-    def disabledExit(self) -> None:
-        pass
-
-    def testInit(self) -> None:
-        pass
-
-    def testPeriodic(self) -> None:
-        pass
-
-    def testExit(self) -> None:
-        pass
-
-    def _simulationInit(self) -> None:
-        pass
-
-    def _simulationPeriodic(self) -> None:
-        pass
+    @classmethod
+    def CreateFromConfig(cls, config: Dict[str, Any]) -> "IMU":
+        cfg = dict(config)
+        cfg["device_type"] = cfg.get("device_type", "imu")
+        return Device.CreateFromConfig(cfg)
