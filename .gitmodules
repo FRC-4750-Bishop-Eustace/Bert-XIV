@@ -1,0 +1,3 @@
+[submodule "limelight-robotpy"]
+	path = limelight-robotpy
+	url = https://github.com/Rohan-Bharatia/limelight-robotpy.git
