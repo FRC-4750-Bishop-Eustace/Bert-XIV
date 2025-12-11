@@ -71,4 +71,4 @@ class WPIEncoder(Encoder):
         except Exception:
             self.hw.Reset()
 
-Device.RegisterBackend("encoder", "WPI_Encoder", WPIEncoder)
+Encoder.RegisterBackend("WPI", "Encoder", WPIEncoder)

@@ -45,12 +45,12 @@ class IMU(Device):
     def Reset(self, pose: Pose3d = Pose3d()) -> None:
         raise NotImplementedError
 
-    @classmethod
-    def Create(cls, vendor: str, typ: str, **kwargs) -> "IMU":
-        backendName = f"{vendor}_{typ}".replace(" ", "").lower()
+    @staticmethod
+    def Create(cls, vendor: str, model: str, **kwargs) -> "IMU":
+        backendName = f"{vendor}_{model}".replace(" ", "")
         return Device.Create("imu", backendName, **kwargs)
 
-    @classmethod
+    @staticmethod
     def CreateFromConfig(cls, config: Dict[str, Any]) -> "IMU":
         cfg = dict(config)
         cfg["device_type"] = cfg.get("device_type", "imu")

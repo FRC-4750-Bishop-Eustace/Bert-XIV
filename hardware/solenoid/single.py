@@ -70,4 +70,4 @@ class SingleSolenoid(Solenoid):
         except Exception:
             self.hw.Toggle()
 
-Device.RegisterBackend("solenoid", "WPI_SingleSolenoid", SingleSolenoid)
+Solenoid.RegisterBackend("WPI", "Single Solenoid", SingleSolenoid)

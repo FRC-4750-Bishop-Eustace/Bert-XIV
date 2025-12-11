@@ -92,4 +92,4 @@ class SparkMAX(Motor):
         except Exception:
             self.hw.Stop()
 
-Device.RegisterBackend("motor", "REV_SparkMAX", SparkMAX)
+Motor.RegisterBackend("REV", "Spark MAX", SparkMAX)

@@ -40,12 +40,12 @@ class Camera(Device):
     def CaptureFrame(self) -> Any:
         raise NotImplementedError
 
-    @classmethod
-    def Create(cls, vendor: str, typ: str, **kwargs) -> "Camera":
-        backendName = f"{vendor}_{typ}".replace(" ", "").lower()
+    @staticmethod
+    def Create(cls, vendor: str, model: str, **kwargs) -> "Camera":
+        backendName = f"{vendor}_{model}".replace(" ", "")
         return cls.Create("camera", backendName, **kwargs)
 
-    @classmethod
+    @staticmethod
     def CreateFromConfig(cls, config: Dict[str, Any]) -> "Camera":
         cfg = dict(config)
         cfg["device_type"] = cfg.get("device_type", "camera")

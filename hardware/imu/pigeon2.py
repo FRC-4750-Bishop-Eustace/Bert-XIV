@@ -80,4 +80,4 @@ class Pigeon2(IMU):
         except Exception:
             self.hw.Reset(pose)
 
-Device.RegisterBackend("imu", "CTRE_Pigeon2", Pigeon2)
+IMU.RegisterBackend("CTRE", "Pigeon 2", Pigeon2)

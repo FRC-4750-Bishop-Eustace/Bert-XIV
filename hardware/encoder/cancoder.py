@@ -75,4 +75,4 @@ class CANcoder(Encoder):
         except Exception:
             self.hw.Reset()
 
-Device.RegisterBackend("encoder", "CTRE_CANcoder", CANcoder)
+Encoder.RegisterBackend("CTRE", "CAN coder", CANcoder)

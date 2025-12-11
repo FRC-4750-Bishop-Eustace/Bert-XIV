@@ -40,12 +40,12 @@ class Encoder(Device):
     def Reset(self) -> None:
         raise NotImplementedError
 
-    @classmethod
-    def Create(cls, vendor: str, typ: str, **kwargs) -> "Encoder":
-        backendName = f"{vendor}_{typ}".replace(" ", "").lower()
+    @staticmethod
+    def Create(cls, vendor: str, model: str, **kwargs) -> "Encoder":
+        backendName = f"{vendor}_{model}".replace(" ", "")
         return cls.Create("encoder", backendName, **kwargs)
 
-    @classmethod
+    @staticmethod
     def CreateFromConfig(cls, config: Dict[str, Any]) -> "Encoder":
         cfg = dict(config)
         cfg["device_type"] = cfg.get("device_type", "encoder")

@@ -49,4 +49,4 @@ class PhotonVision(Camera):
         return None
 
 
-Device.RegisterBackend("camera", "Chameleon_PhotonVision", PhotonVision)
+Camera.RegisterBackend("Chameleon", "Photon Vision", PhotonVision)

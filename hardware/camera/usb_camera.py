@@ -59,4 +59,4 @@ class USBCamera(Camera):
             return frame
         return None
 
-Device.RegisterBackend("camera", "WPI_USBCamera", USBCamera)
+Camera.RegisterBackend("WPI", "USB Camera", USBCamera)

@@ -21,47 +21,51 @@
 # SOFTWARE.
 
 from abc import ABC
-from typing import Dict, Type, Any
+from typing import Dict, Tuple, Type, Any
 
 class Device(ABC):
-    registry: Dict[str, Dict[str, Type["Device"]]] = {}
+    registry: Dict[Tuple[str, str], Type["Device"]] = {}
 
-    @classmethod
+    @staticmethod
     def RegisterBackend(cls, deviceType: str, backendName: str, backendClass: Type["Device"]) -> None:
-        deviceType = deviceType.lower()
-        backendName = backendName.lower()
-        cls.registry.setdefault(deviceType, {})[backendName] = backendClass
+        key = (deviceType, backendName)
+        cls.registry[key] = backendClass
 
-    @classmethod
+    @staticmethod
     def GetBackendClass(cls, deviceType: str, backendName: str) -> Type["Device"]:
-        deviceType = deviceType.lower()
-        backendName = backendName.lower()
+        key = (deviceType, backendName)
         try:
-            return cls.registry[deviceType][backendName]
+            return cls.registry[key]
         except KeyError as e:
-            raise ValueError(f"No backend registered for \'{deviceType}\' -> \'{backendName}\'") from e
+            raise ValueError(f"No backend registered for \'{key[0]}\' -> \'{key[1]}\'") from e
 
-    @classmethod
-    def Create(cls, deviceType: str, backendName: str, *args, **kwargs) -> "Device":
+    @staticmethod
+    def Create(cls, deviceType: str, backendName: str, **kwargs) -> "Device":
         backendClass = cls.GetBackendClass(deviceType, backendName)
-        return backendClass(*args, **kwargs)
+        return backendClass(**kwargs)
 
-    @classmethod
+    @staticmethod
     def CreateFromConfig(cls, config: dict) -> "Device":
-        deviceType = config.get("device_type") or config.get("type_hint") or config.get("kind")
+        deviceType = (
+            config.get("device_type") or
+            config.get("type_hint") or
+            config.get("kind")
+        )
         if deviceType is None:
-            raise ValueError("No device type specified in JSON config (\"device_type\" or \"type_hint\" or \"kind\")")
+            raise ValueError("No device type specified")
 
-        vendor = config.get("vendor") or config.get("backend") or config.get("manufacturer")
+        vendor = (
+            config.get("vendor") or
+            config.get("backend") or
+            config.get("manufacturer")
+        )
         if vendor is None:
-            raise ValueError("No vendor specified in JSON config (\"vendor\" or \"backend\" or \"manufacturer\")")
+            raise ValueError("No vendor specified")
 
-        typ = config.get("type") or config.get("model")
-        if typ is None:
-            raise ValueError("No type specified in JSON config (\"type\" or \"model\")")
+        model = config.get("model") or config.get("type")
+        if model is None:
+            raise ValueError("No model specified")
 
-        params = config.get("params", {}) or config.get("parameters", {})
-
-        backendName = f"{vendor}_{typ}".replace(" ", "").lower()
-
-        return cls.Create(deviceType, vendor, typ, **params)
+        kwargs = config.get("params") or config.get("parameters") or {}
+        backendName = f"{vendor}_{model}".replace(" ", "")
+        return cls.Create(deviceType, backendName, **kwargs)

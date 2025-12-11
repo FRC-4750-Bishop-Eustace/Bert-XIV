@@ -48,12 +48,12 @@ class Motor(Device):
     def Stop(self) -> None:
         raise NotImplementedError
 
-    @classmethod
-    def Create(cls, vendor: str, typ: str, **kwargs) -> "Motor":
-        backendName = f"{vendor}_{typ}".replace(" ", "").lower()
+    @staticmethod
+    def Create(cls, vendor: str, model: str, **kwargs) -> "Motor":
+        backendName = f"{vendor}_{model}".replace(" ", "")
         return Device.Create("motor", backendName, **kwargs)
 
-    @classmethod
+    @staticmethod
     def CreateFromConfig(cls, config: Dict[str, Any]) -> "Motor":
         cfg = dict(config)
         cfg["device_type"] = cfg.get("device_type", "motor")

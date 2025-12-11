@@ -65,13 +65,6 @@ class TalonFXS(Motor):
 
             self.hw = Dummy(self.deviceId, self.canbus, self.inverted)
 
-    def __del__(self):
-        self.Stop()
-        try:
-            self.hw.close()
-        except Exception:
-            pass
-
     def Set(self, speed: float) -> None:
         try:
             self.hw.set(speed)
@@ -102,4 +95,4 @@ class TalonFXS(Motor):
         except Exception:
             self.hw.Stop()
 
-Device.RegisterBackend("motor", "CTRE_TalonFXS", TalonFXS)
+Motor.RegisterBackend("CTRE", "Talon FXS", TalonFXS)

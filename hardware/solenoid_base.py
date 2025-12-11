@@ -35,17 +35,17 @@ class Solenoid(Device):
     @abstractmethod
     def Get(self) -> int:
         raise NotImplementedError
-    
+
     @abstractmethod
     def Toggle(self) -> None:
         raise NotImplementedError
 
-    @classmethod
-    def Create(cls, vendor: str, typ: str, **kwargs) -> "Solenoid":
-        backendName = f"{vendor}_{typ}".replace(" ", "").lower()
+    @staticmethod
+    def Create(cls, vendor: str, model: str, **kwargs) -> "Solenoid":
+        backendName = f"{vendor}_{model}".replace(" ", "")
         return cls.Create(backendName, **kwargs)
 
-    @classmethod
+    @staticmethod
     def CreateFromConfig(cls, config: Dict[str, Any]) -> "Solenoid":
         cfg = dict(config)
         cfg["device_type"] = cfg.get("device_type", "solenoid")

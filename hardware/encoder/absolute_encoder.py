@@ -65,4 +65,4 @@ class AbsoluteEncoder(Encoder):
         except Exception:
             self.hw.Reset()
 
-Device.RegisterBackend("encoder", "REV_AbsoluteEncoder", AbsoluteEncoder)
+Encoder.RegisterBackend("REV", "Absolute Encoder", AbsoluteEncoder)

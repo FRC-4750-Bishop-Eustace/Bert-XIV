@@ -73,4 +73,4 @@ class DoubleSolenoid(Solenoid):
         except Exception:
             self.hw.Toggle()
 
-Device.RegisterBackend("solenoid", "WPI_DoubleSolenoid", DoubleSolenoid)
+Solenoid.RegisterBackend("WPI", "Double Solenoid", DoubleSolenoid)

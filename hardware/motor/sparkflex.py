@@ -92,4 +92,4 @@ class SparkFlex(Motor):
         except Exception:
             self.hw.Stop()
 
-Device.RegisterBackend("motor", "REV_SparkFlex", SparkFlex)
+Motor.RegisterBackend("REV", "Spark Flex", SparkFlex)

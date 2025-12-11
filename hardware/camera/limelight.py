@@ -46,4 +46,4 @@ class Limelight(Camera):
             return dict(tx=self.nt.getNumber("tx", 0.0), ty=self.nt.getNumber("ty", 0.0), ta=self.nt.getNumber("ta", 0.0))
         return None
 
-Device.RegisterBackend("camera", "HAILO_LimeLight", Limelight)
+Camera.RegisterBackend("Hailo", "Limelight", Limelight)

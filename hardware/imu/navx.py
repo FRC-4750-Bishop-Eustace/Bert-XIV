@@ -77,4 +77,4 @@ class NavX(IMU):
         except Exception:
             self.hw.Reset(pose)
 
-Device.RegisterBackend("imu", "Kauai_NavX", NavX)
+IMU.RegisterBackend("Kauai Labs", "NavX", NavX)

@@ -81,4 +81,4 @@ class ADIS16470(IMU):
         except Exception:
             self.hw.Reset(pose)
 
-Device.RegisterBackend("imu", "WPI_ADIS16470", ADIS16470)
+IMU.RegisterBackend("WPI", "ADIS 16470", ADIS16470)
