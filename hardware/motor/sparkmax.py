@@ -22,11 +22,12 @@
 
 from typing import Any
 from ..motor_base import Motor
+from ..enums import MotorMode
 
 class SparkMAX(Motor):
     backendName = "REV_SparkMAX"
 
-    def __init__(self, deviceId: int, typ: Any, inverted: bool) -> None:
+    def __init__(self, deviceId: int, typ: MotorMode, inverted: bool) -> None:
         super().__init__()
         self.deviceId = deviceId
         self.typ = typ
@@ -35,7 +36,7 @@ class SparkMAX(Motor):
         try:
             import rev
 
-            self.hw = rev.SparkMax(self.deviceId, self.typ)
+            self.hw = rev.SparkMax(self.deviceId, rev.SparkMax.MotorType.kBrushless if self.typ == MotorMode.kBrushless else rev.SparkMax.MotorType.kBrushed)
             self.hw.setInverted(self.inverted)
 
         except Exception:

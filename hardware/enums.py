@@ -20,28 +20,40 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .enums import *
-from .device import Device
-from .motor_base import Motor
-from .encoder_base import Encoder
-from .imu_base import IMU
-from .camera_base import Camera
-from .solenoid_base import Solenoid
-from .loader import *
+from enum import Enum
 
-__all__ = [
-    "DeviceType",
-    "MotorType",
-    "MotorMode",
-    "EncoderType",
-    "IMUType",
-    "CameraType",
-    "SolenoidType",
-    "Device",
-    "Motor",
-    "Encoder",
-    "IMU",
-    "Camera",
-    "Solenoid",
-    "Loader",
-]
+class DeviceType(Enum):
+    kMotor = "motor"
+    kEncoder = "encoder"
+    kIMU = "imu"
+    kCamera = "camera"
+    kSolenoid = "solenoid"
+
+class MotorType(Enum):
+    kTalonFX = "CTRE_TalonFX"
+    kTalonFXS = "CTRE_TalonFXS"
+    kSparkMAX = "REV_SparkMAX"
+    kSparkFlex = "REV_SparkFlex"
+
+class MotorMode(Enum):
+    kBrushless = "Brushless"
+    kBrushed = "Brushed"
+
+class EncoderType(Enum):
+    kEncoder = "WPI_Encoder"
+    kCANcoder = "CTRE_CANcoder"
+    kAbsoluteEncoder = "REV_AbsoluteEncoder"
+
+class IMUType(Enum):
+    kADIS16470 = "WPI_ADIS16470"
+    kPigeon2 = "CTRE_Pigeon2"
+    kNavX = "KauaiLabs_NavX"
+
+class CameraType(Enum):
+    kUSB = "WPI_USBCamera"
+    kLimelight = "Hailo_Limelight"
+    kPhotonVision = "Chameleon_PhotonVision"
+
+class SolenoidType(Enum):
+    kSingle = "WPI_SingleSolenoid"
+    kDouble = "WPI_DoubleSolenoid"

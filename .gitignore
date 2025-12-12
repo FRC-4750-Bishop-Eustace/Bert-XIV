@@ -1,5 +1,6 @@
 # Log file
 *.log
+*.ssh
 
 ### Linux ###
 *~

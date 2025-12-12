@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 from typing import Type
-from enum import Enum
+from .enums import *
 from .device import Device
 from .motor_base import Motor
 from .encoder_base import Encoder
@@ -33,38 +33,6 @@ from .encoder import *
 from .imu import *
 from .camera import *
 from .solenoid import *
-
-class DeviceType(Enum):
-    kMotor = "motor"
-    kEncoder = "encoder"
-    kIMU = "imu"
-    kCamera = "camera"
-    kSolenoid = "solenoid"
-
-class MotorType(Enum):
-    kTalonFX = "CTRE_TalonFX"
-    kTalonFXS = "CTRE_TalonFXS"
-    kSparkMAX = "REV_SparkMAX"
-    kSparkFlex = "REV_SparkFlex"
-
-class EncoderType(Enum):
-    kEncoder = "WPI_Encoder"
-    kCANcoder = "CTRE_CANcoder"
-    kAbsoluteEncoder = "REV_AbsoluteEncoder"
-
-class IMUType(Enum):
-    kADIS16470 = "WPI_ADIS16470"
-    kPigeon2 = "CTRE_Pigeon2"
-    kNavX = "KauaiLabs_NavX"
-
-class CameraType(Enum):
-    kUSB = "WPI_USBCamera"
-    kLimelight = "Hailo_Limelight"
-    kPhotonVision = "Chameleon_PhotonVision"
-
-class SolenoidType(Enum):
-    kSingle = "WPI_SingleSolenoid"
-    kDouble = "WPI_DoubleSolenoid"
 
 class Loader:
     def __init__(self, load: bool = True) -> None:
@@ -108,8 +76,8 @@ class Loader:
         self.UnloadAll()
         self.LoadAll()
 
-    def Create(self, typ: DeviceType, name: Enum, **kwargs) -> Device:
-        return Device.Create(typ.value, name.value, **kwargs)
+    def Create(self, deviceType: DeviceType, backendName: Enum, **kwargs) -> Device:
+        return Device.Create(deviceType.value, backendName.value, **kwargs)
 
     def CreateMotor(self, name: MotorType, **kwargs) -> Motor:
         return self.Create(DeviceType.kMotor, name, **kwargs)
