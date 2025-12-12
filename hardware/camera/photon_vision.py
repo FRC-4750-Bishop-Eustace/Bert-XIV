@@ -21,10 +21,11 @@
 # SOFTWARE.
 
 from ..camera_base import Camera
-from ..device import Device
 from typing import Any
 
 class PhotonVision(Camera):
+    backendName: str = "Chameleon_PhotonVision"
+
     def __init__(self, cameraName: str = "photonvision") -> None:
         super.__init__()
         self.cameraName = cameraName
@@ -47,6 +48,3 @@ class PhotonVision(Camera):
         if self.client is not None:
             return self.client.getLatestResult()
         return None
-
-
-Camera.RegisterBackend("Chameleon", "Photon Vision", PhotonVision)

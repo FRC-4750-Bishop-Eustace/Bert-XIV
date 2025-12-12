@@ -21,9 +21,10 @@
 # SOFTWARE.
 
 from ..encoder_base import Encoder
-from ..device import Device
 
 class WPIEncoder(Encoder):
+    backendName: str = "WPI_Encoder"
+
     def __init__(self, channelA: int, channelB: int, inverted: bool):
         super().__init__()
         self.channelA = channelA
@@ -70,5 +71,3 @@ class WPIEncoder(Encoder):
             self.hw.reset()
         except Exception:
             self.hw.Reset()
-
-Encoder.RegisterBackend("WPI", "Encoder", WPIEncoder)

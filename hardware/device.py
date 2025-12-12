@@ -25,13 +25,20 @@ from typing import Dict, Tuple, Type, Any
 
 class Device(ABC):
     registry: Dict[Tuple[str, str], Type["Device"]] = {}
+    deviceType: str = None
+    backendName: str = None
 
-    @staticmethod
+    @classmethod
     def RegisterBackend(cls, deviceType: str, backendName: str, backendClass: Type["Device"]) -> None:
         key = (deviceType, backendName)
         cls.registry[key] = backendClass
 
-    @staticmethod
+    @classmethod
+    def UnregisterBackend(cls, deviceType: str, backendName: str) -> None:
+        key = (deviceType, backendName)
+        del cls.registry[key]
+
+    @classmethod
     def GetBackendClass(cls, deviceType: str, backendName: str) -> Type["Device"]:
         key = (deviceType, backendName)
         try:
@@ -39,12 +46,12 @@ class Device(ABC):
         except KeyError as e:
             raise ValueError(f"No backend registered for \'{key[0]}\' -> \'{key[1]}\'") from e
 
-    @staticmethod
+    @classmethod
     def Create(cls, deviceType: str, backendName: str, **kwargs) -> "Device":
         backendClass = cls.GetBackendClass(deviceType, backendName)
         return backendClass(**kwargs)
 
-    @staticmethod
+    @classmethod
     def CreateFromConfig(cls, config: dict) -> "Device":
         deviceType = (
             config.get("device_type") or

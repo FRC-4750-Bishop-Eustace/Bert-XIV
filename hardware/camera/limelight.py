@@ -21,10 +21,11 @@
 # SOFTWARE.
 
 from ..camera_base import Camera
-from ..device import Device
 from typing import Any
 
 class Limelight(Camera):
+    backendName: str = "Hailo_Limelight"
+
     def __init__(self, tableName: str = "limelight") -> None:
         super().__init__()
         self.tableName = tableName
@@ -45,5 +46,3 @@ class Limelight(Camera):
         if self.nt is not None:
             return dict(tx=self.nt.getNumber("tx", 0.0), ty=self.nt.getNumber("ty", 0.0), ta=self.nt.getNumber("ta", 0.0))
         return None
-
-Camera.RegisterBackend("Hailo", "Limelight", Limelight)

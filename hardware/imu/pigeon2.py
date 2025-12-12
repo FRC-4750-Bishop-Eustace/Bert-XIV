@@ -21,10 +21,11 @@
 # SOFTWARE.
 
 from ..imu_base import IMU
-from ..device import Device
 from wpimath.geometry import Translation3d, Rotation3d, Pose3d
 
 class Pigeon2(IMU):
+    backendName: str = "CTRE_Pigeon2"
+
     def __init__(self, deviceId: int, canbus: str) -> None:
         super().__init__()
         self.deviceId = deviceId
@@ -79,5 +80,3 @@ class Pigeon2(IMU):
             self.hw.reset()
         except Exception:
             self.hw.Reset(pose)
-
-IMU.RegisterBackend("CTRE", "Pigeon 2", Pigeon2)

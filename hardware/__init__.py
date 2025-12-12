@@ -26,12 +26,20 @@ from .encoder_base import Encoder
 from .imu_base import IMU
 from .camera_base import Camera
 from .solenoid_base import Solenoid
+from .loader import *
 
 __all__ = [
+    "DeviceType",
     "Device",
+    "MotorType",
     "Motor",
+    "EncoderType",
     "Encoder",
+    "IMUType",
     "IMU",
+    "CameraType",
     "Camera",
+    "SolenoidType",
     "Solenoid",
+    "Loader",
 ]

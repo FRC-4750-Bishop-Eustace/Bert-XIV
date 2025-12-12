@@ -25,6 +25,8 @@ from typing import Any, Dict
 from .device import Device
 
 class Solenoid(Device):
+    deviceType: str = "solenoid"
+
     def __init__(self) -> None:
         super().__init__()
 
@@ -40,12 +42,12 @@ class Solenoid(Device):
     def Toggle(self) -> None:
         raise NotImplementedError
 
-    @staticmethod
+    @classmethod
     def Create(cls, vendor: str, model: str, **kwargs) -> "Solenoid":
         backendName = f"{vendor}_{model}".replace(" ", "")
         return cls.Create(backendName, **kwargs)
 
-    @staticmethod
+    @classmethod
     def CreateFromConfig(cls, config: Dict[str, Any]) -> "Solenoid":
         cfg = dict(config)
         cfg["device_type"] = cfg.get("device_type", "solenoid")

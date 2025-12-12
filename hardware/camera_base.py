@@ -25,6 +25,8 @@ from typing import Any, Dict
 from .device import Device
 
 class Camera(Device):
+    deviceType: str = "camera"
+
     def __init__(self) -> None:
         super().__init__()
 
@@ -40,12 +42,12 @@ class Camera(Device):
     def CaptureFrame(self) -> Any:
         raise NotImplementedError
 
-    @staticmethod
+    @classmethod
     def Create(cls, vendor: str, model: str, **kwargs) -> "Camera":
         backendName = f"{vendor}_{model}".replace(" ", "")
         return cls.Create("camera", backendName, **kwargs)
 
-    @staticmethod
+    @classmethod
     def CreateFromConfig(cls, config: Dict[str, Any]) -> "Camera":
         cfg = dict(config)
         cfg["device_type"] = cfg.get("device_type", "camera")

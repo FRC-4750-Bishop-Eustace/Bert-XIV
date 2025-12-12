@@ -26,6 +26,8 @@ from .device import Device
 from wpimath.geometry import Translation3d, Rotation3d, Pose3d
 
 class IMU(Device):
+    deviceType: str = "imu"
+
     def __init__(self) -> None:
         super().__init__()
 
@@ -45,12 +47,12 @@ class IMU(Device):
     def Reset(self, pose: Pose3d = Pose3d()) -> None:
         raise NotImplementedError
 
-    @staticmethod
+    @classmethod
     def Create(cls, vendor: str, model: str, **kwargs) -> "IMU":
         backendName = f"{vendor}_{model}".replace(" ", "")
         return Device.Create("imu", backendName, **kwargs)
 
-    @staticmethod
+    @classmethod
     def CreateFromConfig(cls, config: Dict[str, Any]) -> "IMU":
         cfg = dict(config)
         cfg["device_type"] = cfg.get("device_type", "imu")

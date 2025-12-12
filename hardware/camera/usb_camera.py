@@ -21,10 +21,11 @@
 # SOFTWARE.
 
 from ..camera_base import Camera
-from ..device import Device
 from typing import Any
 
 class USBCamera(Camera):
+    backendName: str = "WPI_USBCamera"
+
     def __init__(self, deviceId: int = 0, resolution: tuple = (640, 480), fps: int = 30) -> None:
         super().__init__()
         self.deviceId = deviceId
@@ -58,5 +59,3 @@ class USBCamera(Camera):
             ret, frame = self.cap.read()
             return frame
         return None
-
-Camera.RegisterBackend("WPI", "USB Camera", USBCamera)

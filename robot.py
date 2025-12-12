@@ -22,14 +22,15 @@
 
 import commands2
 
-import hardware
+from hardware import *
 
 class MyRobot(commands2.TimedCommandRobot):
     def __init__(self) -> None:
         super().__init__()
 
     def robotInit(self) -> None:
-        pass
+        self.loader: Loader = Loader()
+        print(self.loader)
 
     def robotPeriodic(self) -> None:
         pass

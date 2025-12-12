@@ -21,9 +21,10 @@
 # SOFTWARE.
 
 from ..motor_base import Motor
-from ..device import Device
 
 class TalonFX(Motor):
+    backendName: str = "CTRE_TalonFX"
+
     def __init__(self, deviceId: int, canbus: str, inverted: bool) -> None:
         super().__init__()
         self.deviceId = deviceId
@@ -94,5 +95,3 @@ class TalonFX(Motor):
             self.hw.stopMotor()
         except Exception:
             self.hw.Stop()
-
-Motor.RegisterBackend("CTRE", "Talon FX", TalonFX)

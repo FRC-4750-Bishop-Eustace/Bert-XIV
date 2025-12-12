@@ -21,10 +21,11 @@
 # SOFTWARE.
 
 from ..imu_base import IMU
-from ..device import Device
 from wpimath.geometry import Translation3d, Rotation3d, Pose3d
 
 class NavX(IMU):
+    backendName: str = "KauaiLabs_NavX"
+
     def __init__(self) -> None:
         super().__init__()
 
@@ -76,5 +77,3 @@ class NavX(IMU):
             self.hw.reset()
         except Exception:
             self.hw.Reset(pose)
-
-IMU.RegisterBackend("Kauai Labs", "NavX", NavX)

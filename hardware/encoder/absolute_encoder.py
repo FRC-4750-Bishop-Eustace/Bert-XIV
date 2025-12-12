@@ -21,10 +21,14 @@
 # SOFTWARE.
 
 from ..encoder_base import Encoder
-from ..device import Device
+
+from typing import Type
+from ..motor import SparkMAX, SparkFlex
 
 class AbsoluteEncoder(Encoder):
-    def __init__(self, motor: Device) -> None:
+    backendName: str = "REV_AbsoluteEncoder"
+
+    def __init__(self, motor: Type[SparkMAX|SparkFlex]) -> None:
         super().__init__()
         self.motor = motor
 
@@ -64,5 +68,3 @@ class AbsoluteEncoder(Encoder):
             pass
         except Exception:
             self.hw.Reset()
-
-Encoder.RegisterBackend("REV", "Absolute Encoder", AbsoluteEncoder)

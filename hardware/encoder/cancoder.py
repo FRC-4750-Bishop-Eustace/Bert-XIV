@@ -21,9 +21,10 @@
 # SOFTWARE.
 
 from ..encoder_base import Encoder
-from ..device import Device
 
 class CANcoder(Encoder):
+    backendName: str = "CTRE_CANcoder"
+
     def __init__(self, deviceId: int, canbus: str):
         super().__init__()
         self.deviceId = deviceId
@@ -74,5 +75,3 @@ class CANcoder(Encoder):
             pass
         except Exception:
             self.hw.Reset()
-
-Encoder.RegisterBackend("CTRE", "CAN coder", CANcoder)

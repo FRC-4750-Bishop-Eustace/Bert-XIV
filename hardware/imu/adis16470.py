@@ -21,10 +21,11 @@
 # SOFTWARE.
 
 from ..imu_base import IMU
-from ..device import Device
 from wpimath.geometry import Translation3d, Rotation3d, Pose3d
 
 class ADIS16470(IMU):
+    backendName: str = "WPI_ADIS16470"
+
     def __init__(self) -> None:
         super().__init__()
 
@@ -80,5 +81,3 @@ class ADIS16470(IMU):
             self.hw.setGyroAngle(self.IMUAxis.kRoll, pose.rotation().z)
         except Exception:
             self.hw.Reset(pose)
-
-IMU.RegisterBackend("WPI", "ADIS 16470", ADIS16470)

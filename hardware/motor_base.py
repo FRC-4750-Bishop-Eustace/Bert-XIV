@@ -25,6 +25,8 @@ from typing import Any, Dict
 from .device import Device
 
 class Motor(Device):
+    deviceType = "motor"
+
     def __init__(self) -> None:
         super().__init__()
 
@@ -33,7 +35,7 @@ class Motor(Device):
         raise NotImplementedError
 
     @abstractmethod
-    def SetVelocity(self, velocity: float) -> None:
+    def SetVoltage(self, voltage: float) -> None:
         raise NotImplementedError
 
     @abstractmethod
@@ -48,12 +50,12 @@ class Motor(Device):
     def Stop(self) -> None:
         raise NotImplementedError
 
-    @staticmethod
+    @classmethod
     def Create(cls, vendor: str, model: str, **kwargs) -> "Motor":
         backendName = f"{vendor}_{model}".replace(" ", "")
         return Device.Create("motor", backendName, **kwargs)
 
-    @staticmethod
+    @classmethod
     def CreateFromConfig(cls, config: Dict[str, Any]) -> "Motor":
         cfg = dict(config)
         cfg["device_type"] = cfg.get("device_type", "motor")

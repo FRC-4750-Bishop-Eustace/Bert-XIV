@@ -25,6 +25,8 @@ from typing import Any, Dict
 from .device import Device
 
 class Encoder(Device):
+    deviceType: str = "encoder"
+
     def __init__(self) -> None:
         super().__init__()
 
@@ -40,12 +42,12 @@ class Encoder(Device):
     def Reset(self) -> None:
         raise NotImplementedError
 
-    @staticmethod
+    @classmethod
     def Create(cls, vendor: str, model: str, **kwargs) -> "Encoder":
         backendName = f"{vendor}_{model}".replace(" ", "")
         return cls.Create("encoder", backendName, **kwargs)
 
-    @staticmethod
+    @classmethod
     def CreateFromConfig(cls, config: Dict[str, Any]) -> "Encoder":
         cfg = dict(config)
         cfg["device_type"] = cfg.get("device_type", "encoder")

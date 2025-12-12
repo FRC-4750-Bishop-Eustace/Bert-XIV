@@ -22,9 +22,10 @@
 
 from typing import Any
 from ..motor_base import Motor
-from ..device import Device
 
 class SparkFlex(Motor):
+    backendName = "REV_SparkFlex"
+
     def __init__(self, deviceId: int, typ: Any, inverted: bool) -> None:
         super().__init__()
         self.deviceId = deviceId
@@ -91,5 +92,3 @@ class SparkFlex(Motor):
             self.hw.stopMotor()
         except Exception:
             self.hw.Stop()
-
-Motor.RegisterBackend("REV", "Spark Flex", SparkFlex)

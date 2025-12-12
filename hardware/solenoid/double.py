@@ -21,9 +21,10 @@
 # SOFTWARE.
 
 from ..solenoid_base import Solenoid
-from ..device import Device
 
 class DoubleSolenoid(Solenoid):
+    backendName: str = "WPI_DoubleSolenoid"
+
     def __init__(self, module: int, channelFwd: int, channelRev: int):
         super().__init__()
         self.module = module
@@ -72,5 +73,3 @@ class DoubleSolenoid(Solenoid):
             self.hw.toggle()
         except Exception:
             self.hw.Toggle()
-
-Solenoid.RegisterBackend("WPI", "Double Solenoid", DoubleSolenoid)
