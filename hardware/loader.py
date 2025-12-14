@@ -94,7 +94,7 @@ class Loader:
     def CreateSolenoid(self, name: SolenoidType, **kwargs) -> Solenoid:
         return self.Create(DeviceType.kSolenoid, name, **kwargs)
 
-    def __str__(self) -> str:
+    def GetBackends(self) -> str:
         if len(Device.registry) == 0:
             return "\033[1;31mNo backends registered.\033[0m"
 

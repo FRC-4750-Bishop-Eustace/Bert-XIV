@@ -20,59 +20,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from commands2 import TimedCommandRobot
-from hardware import *
-from subsystems import *
+class CommandBuilder:
+    def __init__(self, independent: bool = False):
+        self.independent = independent
 
-class MyRobot(TimedCommandRobot):
-    def __init__(self) -> None:
-        super().__init__()
-
-    def robotInit(self) -> None:
-        self.loader: Loader = Loader()
-        print(self.loader.GetBackends())
-
-    def robotPeriodic(self) -> None:
-        pass
-
-    def autonomousInit(self) -> None:
-        pass
-
-    def autonomousPeriodic(self) -> None:
-        pass
-
-    def autonomousExit(self) -> None:
-        pass
-
-    def teleopInit(self) -> None:
-        pass
-
-    def teleopPeriodic(self) -> None:
-        pass
-
-    def teleopExit(self) -> None:
-        pass
-
-    def disabledInit(self) -> None:
-        pass
-
-    def disabledPeriodic(self) -> None:
-        pass
-
-    def disabledExit(self) -> None:
-        pass
-
-    def testInit(self) -> None:
-        pass
-
-    def testPeriodic(self) -> None:
-        pass
-
-    def testExit(self) -> None:
-        pass
-
-    def _simulationInit(self) -> None:
-        pass
-
-    def _simulationPeriodic(self) -> None:
-        pass
+    def IsIndependent(self) -> bool:
+        return self.independent
+    def SetIndependent(self, independent: bool) -> None:
+        self.independent = independent
