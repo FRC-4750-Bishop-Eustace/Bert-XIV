@@ -21,8 +21,9 @@ if [ ! -x "$(command -v docker)" ]; then
             brew install docker
             ;;
         Linux)
-            curl -fsSL https://get.docker.com -o get-docker.sh
-            sudo sh get-docker.sh
+            mkdir -p bin
+            curl -fsSL https://get.docker.com -o bin/get-docker.sh
+            sudo sh bin/get-docker.sh
             ;;
         *)
             echo "Docker is not installed. Please install it."
@@ -36,7 +37,7 @@ if [ ! -x "$(command -v act)" ]; then
             brew install act
             ;;
         Linux)
-            curl -sSL https://github.com/rhysd/act/releases/latest/download/install.sh | sudo bash
+            curl -sSL https://raw.githubusercontent.com/nektos/act/master/install.sh | sh
             ;;
         *)
             echo "act is not installed. Please install it."
@@ -44,4 +45,4 @@ if [ ! -x "$(command -v act)" ]; then
     esac
 fi
 
-sudo act push -P ubuntu-latest=ghcr.io/catthehacker/ubuntu:full-latest
+sudo ./bin/act push -P ubuntu-latest=ghcr.io/catthehacker/ubuntu:full-latest

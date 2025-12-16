@@ -94,7 +94,7 @@ class DrivetrainController:
     def DriveWithJoystick(self, period: float) -> None:
         xSpeed = -self.xSlewRate.calculate(
             wpimath.applyDeadband(
-                self.controllergetRawAxis(1),
+                self.controller.getRawAxis(1),
                 self.xDeadband
             )
         )
