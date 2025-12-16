@@ -20,11 +20,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-class CommandBuilder:
-    def __init__(self) -> None:
-        self.independent = False
+from .vision import *
 
-    def IsIndependent(self) -> bool:
-        return self.independent
-    def SetIndependent(self, independent: bool) -> None:
-        self.independent = independent
+__all__ = [
+    "VisionData",
+    "Vision"
+]

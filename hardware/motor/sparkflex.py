@@ -37,7 +37,9 @@ class SparkFlex(Motor):
             import rev
 
             self.hw = rev.SparkFlex(self.deviceId, rev.SparkMax.MotorType.kBrushless if self.typ == MotorMode.kBrushless else rev.SparkMax.MotorType.kBrushed)
-            self.hw.setInverted(self.inverted)
+            config = rev.SparkFlexConfig()
+            config.inverted(self.inverted)
+            self.hw.configure(config, rev.SparkBase.ResetMode.kNoResetSafeParameters, rev.SparkBase.PersistMode.kPersistParameters)
 
         except Exception:
             class Dummy:

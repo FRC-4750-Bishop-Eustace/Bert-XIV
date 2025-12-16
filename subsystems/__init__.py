@@ -22,8 +22,23 @@
 
 from .subsystem_base import SubsystemBase
 from .command_builder import CommandBuilder
+from .commands import *
+from .drivetrain import *
+from .vision import *
 
 __all__ = [
     "SubsystemBase",
     "CommandBuilder",
+    "InitExecuteCommand",
+    "ExecuteEndCommand",
+    "DrivetrainConfig",
+    "Module",
+    "Drivetrain",
+    "DifferentialDrive",
+    "MecanumDrive",
+    "SwerveDrive",
+    "DriveType",
+    "DrivetrainController",
+    "VisionData",
+    "Vision",
 ]

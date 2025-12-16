@@ -37,7 +37,7 @@ class AbsoluteEncoder(Encoder):
 
         except Exception:
             class Dummy:
-                def __init__(self, mtr: Device) -> None:
+                def __init__(self, mtr: Type[SparkMAX|SparkFlex]) -> None:
                     self.mtr = mtr
 
                 def GetPosition(self) -> float:

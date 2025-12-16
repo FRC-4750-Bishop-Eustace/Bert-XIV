@@ -20,11 +20,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-class CommandBuilder:
-    def __init__(self) -> None:
-        self.independent = False
+from typing import Callable, Any
+from commands2 import FunctionalCommand
+from .subsystem_base import SubsystemBase
 
-    def IsIndependent(self) -> bool:
-        return self.independent
-    def SetIndependent(self, independent: bool) -> None:
-        self.independent = independent
+class InitExecuteCommand(FunctionalCommand):
+    def __init__(self, onInit: Callable[[], Any], onExecute: Callable[[], Any], *requirements: SubsystemBase):
+        super().__init__(onInit, onExecute, lambda interrupted: None, lambda: False, requirements)
+
+class ExecuteEndCommand(FunctionalCommand):
+    def __init__(self, onExecute: Callable[[], Any], onEnd: Callable[[], Any], *requirements: SubsystemBase):
+        super().__init__(lambda interrupted: None, onExecute, onEnd, lambda: False, requirements)

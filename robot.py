@@ -20,7 +20,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from commands2 import TimedCommandRobot
+from typing import override
+import wpilib
+from commands2 import TimedCommandRobot, CommandScheduler
 from hardware import *
 from subsystems import *
 
@@ -28,51 +30,112 @@ class MyRobot(TimedCommandRobot):
     def __init__(self) -> None:
         super().__init__()
 
+    @override
     def robotInit(self) -> None:
-        self.loader: Loader = Loader()
+        self.loader = Loader()
         print(self.loader.GetBackends())
 
-    def robotPeriodic(self) -> None:
-        pass
+        self.controller = wpilib.PS4Controller(0)
 
+        self.drivetrain = DrivetrainController(
+            DriveType.kSwerve,
+            self.controller,
+            True
+        )
+        self.drivetrain.SetTrackingConfig(self.loader.CreateIMU(IMUType.kNavX), CameraType.kLimelight, "limelight")
+        self.drivetrain.SetDriveConfig(
+            [
+                Module(
+                    self.loader.CreateMotor(MotorType.kSparkMAX, deviceId=0, typ=MotorMode.kBrushless, inverted=False),
+                    self.loader.CreateEncoder(EncoderType.kAbsoluteEncoder, motor=self.loader.CreateMotor(MotorType.kSparkMAX, deviceId=0, typ=MotorMode.kBrushless, inverted=False))
+                ), # front left drive
+                Module(
+                    self.loader.CreateMotor(MotorType.kSparkMAX, deviceId=0, typ=MotorMode.kBrushless, inverted=True),
+                    self.loader.CreateEncoder(EncoderType.kCANcoder, deviceId=0, canbus="rio")
+                ), # front left steer
+                Module(
+                    self.loader.CreateMotor(MotorType.kSparkMAX, deviceId=0, typ=MotorMode.kBrushless, inverted=False),
+                    self.loader.CreateEncoder(EncoderType.kAbsoluteEncoder, motor=self.loader.CreateMotor(MotorType.kSparkMAX, deviceId=0, typ=MotorMode.kBrushless, inverted=False))
+                ), # front right drive
+                Module(
+                    self.loader.CreateMotor(MotorType.kSparkMAX, deviceId=0, typ=MotorMode.kBrushless, inverted=True),
+                    self.loader.CreateEncoder(EncoderType.kCANcoder, deviceId=0, canbus="rio")
+                ), # front right steer
+                Module(
+                    self.loader.CreateMotor(MotorType.kSparkMAX, deviceId=0, typ=MotorMode.kBrushless, inverted=False),
+                    self.loader.CreateEncoder(EncoderType.kAbsoluteEncoder, motor=self.loader.CreateMotor(MotorType.kSparkMAX, deviceId=0, typ=MotorMode.kBrushless, inverted=False))
+                ), # back left drive
+                Module(
+                    self.loader.CreateMotor(MotorType.kSparkMAX, deviceId=0, typ=MotorMode.kBrushless, inverted=True),
+                    self.loader.CreateEncoder(EncoderType.kCANcoder, deviceId=0, canbus="rio")
+                ), # back left steer
+                Module(
+                    self.loader.CreateMotor(MotorType.kSparkMAX, deviceId=0, typ=MotorMode.kBrushless, inverted=False),
+                    self.loader.CreateEncoder(EncoderType.kAbsoluteEncoder, motor=self.loader.CreateMotor(MotorType.kSparkMAX, deviceId=0, typ=MotorMode.kBrushless, inverted=False))
+                ), # back right drive
+                Module(
+                    self.loader.CreateMotor(MotorType.kSparkMAX, deviceId=0, typ=MotorMode.kBrushless, inverted=True),
+                    self.loader.CreateEncoder(EncoderType.kCANcoder, deviceId=0, canbus="rio")
+                ), # back right steer
+            ]
+        )
+
+    @override
+    def robotPeriodic(self) -> None:
+        CommandScheduler.getInstance().run()
+
+    @override
     def autonomousInit(self) -> None:
         pass
 
+    @override
     def autonomousPeriodic(self) -> None:
         pass
 
+    @override
     def autonomousExit(self) -> None:
         pass
 
+    @override
     def teleopInit(self) -> None:
         pass
 
+    @override
     def teleopPeriodic(self) -> None:
-        pass
+        self.drivetrain.DriveWithJoystick(self.getPeriod())
 
+    @override
     def teleopExit(self) -> None:
         pass
 
+    @override
     def disabledInit(self) -> None:
         pass
 
+    @override
     def disabledPeriodic(self) -> None:
         pass
 
+    @override
     def disabledExit(self) -> None:
         pass
 
+    @override
     def testInit(self) -> None:
         pass
 
+    @override
     def testPeriodic(self) -> None:
         pass
 
+    @override
     def testExit(self) -> None:
         pass
 
+    @override
     def _simulationInit(self) -> None:
         pass
 
+    @override
     def _simulationPeriodic(self) -> None:
         pass
