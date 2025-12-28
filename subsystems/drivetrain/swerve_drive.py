@@ -114,19 +114,20 @@ class SwerveDrive(Drivetrain):
             pid.enableContinuousInput(-math.pi, math.pi)
 
     def Drive(self, x: float, y: float, theta, fieldRelative: bool, period: float) -> None:
-        realSpeeds = self.kinematics.toChassisSpeeds(
-            wpimath.kinematics.ChassisSpeeds.discretize(
+        realSpeeds = wpimath.kinematics.ChassisSpeeds.discretize(
+            (
                 wpimath.kinematics.ChassisSpeeds.fromFieldRelativeSpeeds(
                     x,
                     y,
                     theta,
                     self.gyro.GetRotation()
-                ) if fieldRelative else wpimath.kinematics.ChassisSpeeds(x, y, theta),
-                period
-            )
+                )
+                if fieldRelative
+                else wpimath.kinematics.ChassisSpeeds(x, y, theta)
+            ),
+            period
         )
-        wpimath.kinematics.SwerveDrive4Kinematics.desaturateWheelSpeeds(realSpeeds, self.config.maxSpeed)
-        speeds = [realSpeeds.frontLeft, realSpeeds.frontRight, realSpeeds.backLeft, realSpeeds.backRight]
+        speeds = self.kinematics.toSwerveModuleStates(realSpeeds)
 
         for index in range(len(self.driveModules)):
             rot = wpimath.geometry.Rotation2d(self.steerModules[index].encoder.GetPosition())
@@ -145,8 +146,8 @@ class SwerveDrive(Drivetrain):
                 self.steerPID[index].getSetpoint().velocity
             )
 
-            self.driveModules[index].SetVoltage(driveOutput)
-            self.steerModules[index].SetVoltage(steerOutput)
+            self.driveModules[index].motor.SetVoltage(driveOutput)
+            self.steerModules[index].motor.SetVoltage(steerOutput)
 
     def SubsystemPeriodic(self) -> None:
         self.estimator.update(

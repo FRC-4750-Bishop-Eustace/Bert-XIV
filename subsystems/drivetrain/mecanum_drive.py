@@ -93,7 +93,7 @@ class MecanumDrive(Drivetrain):
 
         for index, module in enumerate(self.modules):
             output = self.feedforward.calculate(speeds[index]) + self.modulePID[index].calculate(
-                module.ncoder.GetVelocity(),
+                module.encoder.GetVelocity(),
                 speeds[index]
             )
 
