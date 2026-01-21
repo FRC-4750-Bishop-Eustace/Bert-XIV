@@ -20,9 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .swerve import *
+from .default_auto import DefaultAuto
 
 __all__ = [
-    "SwerveModule",
-    "Drivetrain"
+    "DefaultAuto",
 ]

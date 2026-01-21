@@ -21,7 +21,6 @@
 # SOFTWARE.
 
 from robot_container import RobotContainer
-from typing import override
 from commands2 import TimedCommandRobot, CommandScheduler
 from urcl import URCL
 
@@ -29,72 +28,20 @@ class MyRobot(TimedCommandRobot):
     def __init__(self) -> None:
         super().__init__()
 
+    def robotInit(self) -> None:
         URCL.start()
 
-    @override
-    def robotInit(self) -> None:
         self.robot = RobotContainer()
         self.autoCmd = None
 
-    @override
     def robotPeriodic(self) -> None:
         CommandScheduler.getInstance().run()
 
-    @override
     def autonomousInit(self) -> None:
         self.autoCmd = self.robot.getAutonomousCommand()
         if self.autoCmd:
             self.autoCmd.schedule()
 
-    @override
-    def autonomousPeriodic(self) -> None:
-        pass
-
-    @override
-    def autonomousExit(self) -> None:
-        pass
-
-    @override
     def teleopInit(self) -> None:
         if self.autoCmd:
             self.autoCmd.cancel()
-
-    @override
-    def teleopPeriodic(self) -> None:
-        pass
-
-    @override
-    def teleopExit(self) -> None:
-        pass
-
-    @override
-    def disabledInit(self) -> None:
-        pass
-
-    @override
-    def disabledPeriodic(self) -> None:
-        pass
-
-    @override
-    def disabledExit(self) -> None:
-        pass
-
-    @override
-    def testInit(self) -> None:
-        pass
-
-    @override
-    def testPeriodic(self) -> None:
-        pass
-
-    @override
-    def testExit(self) -> None:
-        pass
-
-    @override
-    def _simulationInit(self) -> None:
-        pass
-
-    @override
-    def _simulationPeriodic(self) -> None:
-        pass

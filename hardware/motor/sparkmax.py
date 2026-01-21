@@ -43,24 +43,35 @@ class SparkMAX(Motor):
 
         except Exception:
             class Dummy:
+                class DummyAbsoluteEncoder:
+                    def __init__(self) -> None:
+                        self.position = 0
+                        self.speed = 0
+
+                    def getPosition(self) -> float:
+                        return self.position
+
+                    def getVelocity(self) -> float:
+                        return self.speed
+
                 def __init__(self, id: int, typ: Any, inv: bool) -> None:
                     self.id = id
                     self.typ = typ
                     self.inv = inv
+                    self.speed = 0
+                    self.voltage = 0
+                    self.enc = self.DummyAbsoluteEncoder()
 
-                def Set(self, speed: float) -> None:
+                def set(self, speed: float) -> None:
                     self.speed = speed
 
-                def SetVoltage(self, voltage: float) -> None:
+                def setVoltage(self, voltage: float) -> None:
                     self.voltage = voltage
 
-                def GetPosition(self) -> float:
-                    return self.position
+                def getAbsoluteEncoder(self) -> DummyAbsoluteEncoder:
+                    return self.enc
 
-                def GetVelocity(self) -> float:
-                    return self.speed
-
-                def Stop(self) -> None:
+                def stopMotor(self) -> None:
                     self.speed = 0
                     self.voltage = 0
 
@@ -70,28 +81,28 @@ class SparkMAX(Motor):
         try:
             self.hw.set(speed)
         except Exception:
-            self.hw.Set(speed)
+            self.hw.set(speed)
 
     def SetVoltage(self, voltage: float) -> None:
         try:
             self.hw.setVoltage(voltage)
         except Exception:
-            self.hw.SetVoltage(voltage)
+            self.hw.setVoltage(voltage)
 
     def GetPosition(self) -> float:
         try:
             return self.hw.getAbsoluteEncoder().getPosition()
         except Exception:
-            return self.hw.GetPosition()
+            return self.hw.getAbsoluteEncoder().getPosition()
 
     def GetVelocity(self) -> float:
         try:
             return self.hw.getAbsoluteEncoder().getVelocity()
         except Exception:
-            return self.hw.GetVelocity()
+            return self.hw.getAbsoluteEncoder().getVelocity()
 
     def Stop(self) -> None:
         try:
             self.hw.stopMotor()
         except Exception:
-            self.hw.Stop()
+            self.hw.stopMotor()

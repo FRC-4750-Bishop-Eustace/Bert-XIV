@@ -39,18 +39,41 @@ class NavX(IMU):
             class Dummy:
                 def __init__(self) -> None:
                     self.pose = Pose3d()
+                    self.accel = Translation3d()
+                    self.rate = 0
 
-                def GetPosition(self) -> Translation3d:
-                    return self.pose.translation()
+                def getDisplacementX(self) -> float:
+                    return self.pose.translation.x
 
-                def GetRotation(self) -> Rotation3d:
-                    return self.pose.rotation()
+                def getDisplacementY(self) -> float:
+                    return self.pose.translation.y
 
-                def GetAcceleration(self) -> Translation3d:
-                    return self.Translation3d()
+                def getDisplacementZ(self) -> float:
+                    return self.pose.translation.z
 
-                def Reset(self, pose: Pose3d = Pose3d()) -> None:
-                    self.pose = pose
+                def getRoll(self) -> float:
+                    return self.pose.rotation.roll
+
+                def getYaw(self) -> float:
+                    return self.pose.rotation.yaw
+
+                def getPitch(self) -> float:
+                    return self.pose.rotation.pitch
+
+                def getRawAccelX(self) -> float:
+                    return self.accel.x
+
+                def getRawAccelY(self) -> float:
+                    return self.accel.y
+
+                def getRawAccelZ(self) -> float:
+                    return self.accel.z
+
+                def getRate(self) -> float:
+                    return self.rate
+
+                def reset(self) -> None:
+                    pass
 
             self.hw = Dummy()
 
@@ -58,22 +81,28 @@ class NavX(IMU):
         try:
             return Translation3d(self.hw.getDisplacementX(), self.hw.getDisplacementY(), self.hw.getDisplacementZ())
         except Exception:
-            return self.hw.GetPosition()
+            return Translation3d(self.hw.getDisplacementX(), self.hw.getDisplacementY(), self.hw.getDisplacementZ())
 
     def GetRotation(self) -> Rotation3d:
         try:
             return Rotation3d(self.hw.getRoll(), self.hw.getYaw(), self.hw.getPitch())
         except Exception:
-            return self.hw.GetRotation()
+            return Rotation3d(self.hw.getRoll(), self.hw.getYaw(), self.hw.getPitch())
 
     def GetAcceleration(self) -> Translation3d:
         try:
             return Translation3d(self.hw.getRawAccelX(), self.hw.getRawAccelY(), self.hw.getRawAccelZ())
         except Exception:
-            return self.hw.GetAcceleration()
+            return Translation3d(self.hw.getRawAccelX(), self.hw.getRawAccelY(), self.hw.getRawAccelZ())
+
+    def GetRate(self) -> float:
+        try:
+            return self.hw.getRate()
+        except Exception:
+            return self.hw.getRate()
 
     def Reset(self, pose: Pose3d = Pose3d()) -> None:
         try:
             self.hw.reset()
         except Exception:
-            self.hw.Reset(pose)
+            self.hw.reset()

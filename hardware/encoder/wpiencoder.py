@@ -43,13 +43,13 @@ class WPIEncoder(Encoder):
                     self.b = b
                     self.inv = inv
 
-                def GetPosition(self) -> float:
+                def getDistance(self) -> float:
                     return 0.0
 
-                def GetVelocity(self) -> float:
+                def getRate(self) -> float:
                     return 0.0
 
-                def Reset(self) -> None:
+                def reset(self) -> None:
                     pass
 
             self.hw = Dummy(self.channelA, self.channelB, self.inverted)
@@ -58,16 +58,16 @@ class WPIEncoder(Encoder):
         try:
             return self.hw.getDistance()
         except Exception:
-            return self.hw.GetPosition()
+            return self.hw.getDistance()
 
     def GetVelocity(self) -> float:
         try:
             return self.hw.getRate()
         except Exception:
-            return self.hw.GetVelocity()
+            return self.hw.getRate()
 
     def Reset(self) -> None:
         try:
             self.hw.reset()
         except Exception:
-            self.hw.Reset()
+            self.hw.reset()

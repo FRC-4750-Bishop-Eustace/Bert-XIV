@@ -20,9 +20,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .swerve import *
+from wpilib import Timer
+from commands2 import Command
 
-__all__ = [
-    "SwerveModule",
-    "Drivetrain"
-]
+class AutonBase(Command):
+    def __init__(self, timeout: float = 15.0): # 15 second autonomous routine
+        super().__init__()
+        self.timeout = timeout
+        self.timer = Timer()
+
+    def initialize(self) -> None:
+        self.timer.reset()
+        self.timer.start()
+
+    def isFinished(self) -> bool:
+        return self.timer.hasElapsed(self.timeout)

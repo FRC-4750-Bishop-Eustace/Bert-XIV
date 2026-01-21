@@ -42,13 +42,13 @@ class SingleSolenoid(Solenoid):
                     self.ch = ch
                     self.state = 0
 
-                def Set(self, value: int) -> None:
+                def set(self, value: int) -> None:
                     self.state = value
 
-                def Get(self) -> int:
+                def get(self) -> int:
                     return self.state
 
-                def Toggle(self) -> None:
+                def toggle(self) -> None:
                     self.state = not self.state
 
             self.hw = Dummy(module, channel)
@@ -57,16 +57,16 @@ class SingleSolenoid(Solenoid):
         try:
             self.hw.set(bool(value))
         except Exception:
-            self.hw.Set(value)
+            self.hw.set(value)
 
     def Get(self) -> int:
         try:
             return int(self.hw.get())
         except Exception:
-            return self.hw.Get()
+            return self.hw.get()
 
     def Toggle(self) -> None:
         try:
             self.hw.toggle()
         except Exception:
-            self.hw.Toggle()
+            self.hw.toggle()

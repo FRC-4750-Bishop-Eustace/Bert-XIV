@@ -21,8 +21,9 @@
 # SOFTWARE.
 
 from .swerve import *
+from .autonomous import *
 
 __all__ = [
-    "SwerveModule",
-    "Drivetrain"
+    "DriveWithJoystick",
+    "DefaultAuto",
 ]

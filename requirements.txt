@@ -5,4 +5,3 @@ opencv-python
 robotpy-navx
 robotpy-rev
 phoenix6
-robptpy-pathplannerlib

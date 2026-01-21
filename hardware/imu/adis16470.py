@@ -37,41 +37,104 @@ class ADIS16470(IMU):
             self.hw.calibrate()
 
         except Exception:
+            from enum import Enum
+
             class Dummy:
+                class IMUAxis(Enum):
+                    kX = 0
+                    kY = 1
+                    kZ = 2
+                    kYaw = 3
+                    kPitch = 4
+                    kRoll = 5
+
                 def __init__(self) -> None:
                     self.pose = Pose3d()
+                    self.accel = Translation3d()
+                    self.rate = Pose3d()
 
-                def GetPosition(self) -> Translation3d:
-                    return self.pose.translation()
+                def getAngle(self, axis: IMUAxis) -> float:
+                    match axis:
+                        case self.IMUAxis.kX:
+                            return self.pose.translation.x
+                        case self.IMUAxis.kY:
+                            return self.pose.translation.y
+                        case self.IMUAxis.kZ:
+                            return self.pose.translation.z
+                        case self.IMUAxis.kYaw:
+                            return self.pose.rotation.yaw
+                        case self.IMUAxis.kPitch:
+                            return self.pose.rotation.pitch
+                        case self.IMUAxis.kRoll:
+                            return self.pose.rotation.pitch
 
-                def GetRotation(self) -> Rotation3d:
-                    return self.pose.rotation()
+                def getAccelX(self) -> float:
+                    return self.accel.x
 
-                def GetAcceleration(self) -> Translation3d:
-                    return self.Translation3d()
+                def getAccelY(self) -> float:
+                    return self.accel.y
 
-                def Reset(self, pose: Pose3d = Pose3d()) -> None:
-                    self.pose = pose
+                def getAccelZ(self) -> float:
+                    return self.accel.z
+
+                def getRate(self, axis: IMUAxis) -> float:
+                    match axis:
+                        case self.IMUAxis.kX:
+                            return self.rate.translation.x
+                        case self.IMUAxis.kY:
+                            return self.rate.translation.y
+                        case self.IMUAxis.kZ:
+                            return self.rate.translation.z
+                        case self.IMUAxis.kYaw:
+                            return self.rate.rotation.yaw
+                        case self.IMUAxis.kPitch:
+                            return self.rate.rotation.pitch
+                        case self.IMUAxis.kRoll:
+                            return self.rate.rotation.pitch
+
+                def reset(self) -> None:
+                    self.pose = Pose3d()
+
+                def setGyroAngle(self, axis: IMUAxis, angle: float) -> None:
+                    match axis:
+                        case self.IMUAxis.kX:
+                            self.pose.translation.x = angle
+                        case self.IMUAxis.kY:
+                            self.pose.translation.y = angle
+                        case self.IMUAxis.kZ:
+                            self.pose.translation.z = angle
+                        case self.IMUAxis.kYaw:
+                            self.pose.rotation.yaw = angle
+                        case self.IMUAxis.kPitch:
+                            self.pose.rotation.pitch = angle
+                        case self.IMUAxis.kRoll:
+                            self.pose.rotation.pitch = angle
 
             self.hw = Dummy()
 
     def GetPosition(self) -> Translation3d:
         try:
-            return Translation3d(self.hw.GetAngle(self.IMUAxis.kX), self.hw.GetAngle(self.IMUAxis.kY), self.hw.GetAngle(self.IMUAxis.kZ))
+            return Translation3d(self.hw.getAngle(self.IMUAxis.kX), self.hw.getAngle(self.IMUAxis.kY), self.hw.getAngle(self.IMUAxis.kZ))
         except Exception:
-            return self.hw.GetPosition()
+            return Translation3d(self.hw.getAngle(self.IMUAxis.kX), self.hw.getAngle(self.IMUAxis.kY), self.hw.getAngle(self.IMUAxis.kZ))
 
     def GetRotation(self) -> Rotation3d:
         try:
-            return Rotation3d(self.hw.GetAngle(self.IMUAxis.kPitch), self.hw.GetAngle(self.IMUAxis.kYaw), self.hw.GetAngle(self.IMUAxis.kRoll))
+            return Rotation3d(self.hw.getAngle(self.IMUAxis.kPitch), self.hw.getAngle(self.IMUAxis.kYaw), self.hw.getAngle(self.IMUAxis.kRoll))
         except Exception:
-            return self.hw.GetRotation()
+            return Rotation3d(self.hw.getAngle(self.IMUAxis.kPitch), self.hw.getAngle(self.IMUAxis.kYaw), self.hw.getAngle(self.IMUAxis.kRoll))
 
     def GetAcceleration(self) -> Translation3d:
         try:
-            return Translation3d(self.hw.GetAccelX(), self.hw.GetAccelY(), self.hw.GetAccelZ())
+            return Translation3d(self.hw.getAccelX(), self.hw.getAccelY(), self.hw.getAccelZ())
         except Exception:
-            return self.hw.GetAcceleration()
+            return Translation3d(self.hw.getAccelX(), self.hw.getAccelY(), self.hw.getAccelZ())
+
+    def GetRate(self) -> float:
+        try:
+            return self.hw.getRate(self.IMUAxis.kYaw)
+        except Exception:
+            return self.hw.getRate(self.IMUAxis.kYaw)
 
     def Reset(self, pose: Pose3d = Pose3d()) -> None:
         try:
@@ -80,4 +143,4 @@ class ADIS16470(IMU):
             self.hw.setGyroAngle(self.IMUAxis.kYaw, pose.rotation().y)
             self.hw.setGyroAngle(self.IMUAxis.kRoll, pose.rotation().z)
         except Exception:
-            self.hw.Reset(pose)
+            self.hw.reset()

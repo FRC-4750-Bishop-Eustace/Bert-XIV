@@ -39,32 +39,28 @@ class AbsoluteEncoder(Encoder):
             class Dummy:
                 def __init__(self, mtr: Type[SparkMAX|SparkFlex]) -> None:
                     self.mtr = mtr
+                    self.position = 0
+                    self.velocity = 0
 
-                def GetPosition(self) -> float:
-                    return 0.0
+                def getPosition(self) -> float:
+                    return self.position
 
-                def GetVelocity(self) -> float:
-                    return 0.0
-
-                def Reset(self) -> None:
-                    pass
+                def getVelocity(self) -> float:
+                    return self.velocity
 
             self.hw = Dummy(motor)
 
     def GetPosition(self) -> float:
         try:
-            return self.hw.GetPosition()
+            return self.hw.getPosition()
         except Exception:
-            return self.hw.GetPosition()
+            return self.hw.getPosition()
 
     def GetVelocity(self) -> float:
         try:
-            return self.hw.GetVelocity()
+            return self.hw.getVelocity()
         except Exception:
-            return self.hw.GetVelocity()
+            return self.hw.getVelocity()
 
     def Reset(self) -> None:
-        try:
-            pass
-        except Exception:
-            self.hw.Reset()
+        pass

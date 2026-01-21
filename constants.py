@@ -24,10 +24,10 @@ import math
 from wpimath.geometry import Rotation2d
 
 # Speed config
-kMaxSpeed = 3.5
-kRMaxSpeed = 8.5
-kTMaxSpeed = 3.0
-kMaxAngularSpeed = math.pi
+maxSpeed = 3.5
+rMaxSpeed = 8.5
+tMaxSpeed = 3.0
+maxAngularSpeed = math.pi
 frontLeftZero = 0
 frontRightZero = 0
 backLeftZero = 0
@@ -76,3 +76,11 @@ backRightTurnEncoderId = 12
 backLeftDriveMotorId = 2
 backLeftTurnMotorId = 1
 backLeftTurnEncoderId = 11
+
+# Controllers
+xSlewRate = 3
+ySlewRate = 3
+rotSlewRate = 1
+xDeadband = 0.1
+yDeadband = 0.1
+rotDeadband = 0.2

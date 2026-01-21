@@ -37,18 +37,24 @@ class CANcoder(Encoder):
 
         except Exception:
             class Dummy:
+                class Value:
+                    def __init__(self, value: float = 0) -> None:
+                        self.value = value
+
                 def __init__(self, id: int, bus: str):
                     self.id = id
                     self.bus = bus
+                    self.position = self.Value()
+                    self.velocity = self.Value()
 
-                def GetPosition(self) -> float:
-                    return 0.0
+                def get_position(self) -> "Value":
+                    return self.position
 
-                def GetVelocity(self) -> float:
-                    return 0.0
+                def get_velocity(self) -> "Value":
+                    return self.velocity
 
-                def Reset(self) -> None:
-                    pass
+                def set_position(self, pos: float) -> None:
+                    self.position = self.Value(pos)
 
             self.hw = Dummy(self.deviceId, self.canbus)
 
@@ -56,22 +62,16 @@ class CANcoder(Encoder):
         try:
             return float(self.hw.get_position().value)
         except Exception:
-            return self.hw.GetPosition()
+            return self.hw.get_position().value
 
     def GetVelocity(self) -> float:
         try:
             return float(self.hw.get_velocity().value)
         except Exception:
-            return self.hw.GetVelocity()
+            return self.hw.get_velocity().value
 
     def Reset(self) -> None:
         try:
             self.hw.set_position(0.0)
         except Exception:
-            self.hw.Reset()
-
-    def Reset(self) -> None:
-        try:
-            pass
-        except Exception:
-            self.hw.Reset()
+            self.hw.set_position(0.0)

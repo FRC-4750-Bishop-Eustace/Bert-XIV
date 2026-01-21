@@ -45,13 +45,13 @@ class DoubleSolenoid(Solenoid):
                     self.rev = rev
                     self.state = 0
 
-                def Set(self, value: int) -> None:
+                def set(self, value: int) -> None:
                     self.state = value
 
-                def Get(self) -> int:
+                def get(self) -> int:
                     return self.state
 
-                def Toggle(self) -> None:
+                def toggle(self) -> None:
                     self.state = not self.state
 
             self.hw = Dummy(self.module, self.channelFwd, self.channelRev)
@@ -60,16 +60,16 @@ class DoubleSolenoid(Solenoid):
         try:
             self.hw.set(self.Position.kForward if value == 1 else self.Position.kReverse if value == -1 else self.Position.kOff)
         except Exception:
-            self.hw.Set(value)
+            self.hw.set(value)
 
     def Get(self) -> int:
         try:
             return 1 if self.hw.get() == self.Position.kForward else -1 if self.hw.get() == self.Position.kReverse else 0
         except Exception:
-            return self.hw.Get()
+            return self.hw.get()
 
     def Toggle(self) -> None:
         try:
             self.hw.toggle()
         except Exception:
-            self.hw.Toggle()
+            self.hw.toggle()

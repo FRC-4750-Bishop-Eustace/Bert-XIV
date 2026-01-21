@@ -1,3 +1,4 @@
+
 # MIT License
 #
 # Copyright (c) 2025 Beʳᵗ FRC Team 4750
@@ -20,9 +21,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .swerve import *
+from .auton_base import AutonBase
 
-__all__ = [
-    "SwerveModule",
-    "Drivetrain"
-]
+class DefaultAuto(AutonBase):
+    def __init__(self) -> None:
+        super().__init__()

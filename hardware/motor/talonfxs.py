@@ -43,24 +43,32 @@ class TalonFXS(Motor):
 
         except Exception:
             class Dummy:
+                class Value:
+                    def __init__(self, value: float = 0) -> None:
+                        self.value: float = value
+
                 def __init__(self, id: int, bus: str, inv: bool) -> None:
                     self.id = id
                     self.bus = bus
                     self.inv = inv
+                    self.speed = 0
+                    self.voltage = 0
+                    self.position = self.Value()
+                    self.velocity = self.Value()
 
-                def Set(self, speed: float) -> None:
+                def set(self, speed: float) -> None:
                     self.speed = speed
 
-                def SetVoltage(self, voltage: float) -> None:
+                def setVoltage(self, voltage: float) -> None:
                     self.voltage = voltage
 
-                def GetPosition(self) -> float:
+                def get_position(self) -> "Value":
                     return self.position
 
-                def GetVelocity(self) -> float:
+                def get_velocity(self) -> "Value":
                     return self.velocity
 
-                def Stop(self) -> None:
+                def stopMotor(self) -> None:
                     self.speed = 0
                     self.voltage = 0
 
@@ -70,28 +78,28 @@ class TalonFXS(Motor):
         try:
             self.hw.set(speed)
         except Exception:
-            self.hw.Set(speed)
+            self.hw.set(speed)
 
     def SetVoltage(self, voltage: float) -> None:
         try:
             self.hw.setVoltage(voltage)
         except Exception:
-            self.hw.SetVoltage(voltage)
+            self.hw.setVoltage(voltage)
 
     def GetPosition(self) -> float:
         try:
             return float(self.hw.get_position().value)
         except Exception:
-            return self.hw.GetPosition()
+            return self.hw.get_position().value
 
     def GetVelocity(self) -> float:
         try:
             return float(self.hw.get_velocity().value)
         except Exception:
-            return self.hw.GetVelocity()
+            return self.hw.get_velocity().value
 
     def Stop(self) -> None:
         try:
             self.hw.stopMotor()
         except Exception:
-            self.hw.Stop()
+            self.hw.stopMotor()

@@ -20,9 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .swerve import *
+from .drive_with_joystick import DriveWithJoystick
 
 __all__ = [
-    "SwerveModule",
-    "Drivetrain"
+    "DriveWithJoystick",
 ]

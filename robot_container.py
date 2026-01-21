@@ -22,17 +22,21 @@
 
 from hardware import *
 from subsystems import *
+from commands import *
+from wpilib import PS4Controller
 from commands2 import Command
-import commands2.cmd as cmd
 
 class RobotContainer:
     def __init__(self) -> None:
         self.loader = Loader()
         print(self.loader.GetBackends())
 
-        self.drivetrain = Drivetrain(self.loader)
+        self.controller = PS4Controller(0)
 
-        self.drivetrain.setDefaultCommand(cmd.none())
+        self.swerve = Drivetrain(self.loader, "limelight")
+        self.swerve.setDefaultCommand(
+            DriveWithJoystick(self.swerve, self.controller)
+        )
 
     def getAutonomousCommand(self) -> Command:
-        return cmd.none()
+        return DefaultAuto()
