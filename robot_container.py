@@ -20,11 +20,19 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-class CommandBuilder:
-    def __init__(self) -> None:
-        self.independent = False
+from hardware import *
+from subsystems import *
+from commands2 import Command
+import commands2.cmd as cmd
 
-    def IsIndependent(self) -> bool:
-        return self.independent
-    def SetIndependent(self, independent: bool) -> None:
-        self.independent = independent
+class RobotContainer:
+    def __init__(self) -> None:
+        self.loader = Loader()
+        print(self.loader.GetBackends())
+
+        self.drivetrain = Drivetrain(self.loader)
+
+        self.drivetrain.setDefaultCommand(cmd.none())
+
+    def getAutonomousCommand(self) -> Command:
+        return cmd.none()

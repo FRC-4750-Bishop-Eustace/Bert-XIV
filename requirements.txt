@@ -1,2 +1,8 @@
 robotpy
 opencv-python
+
+# Temporary until vendors come out with a RobotPy v2026.2.1 API:
+robotpy-navx
+robotpy-rev
+phoenix6
+robptpy-pathplannerlib

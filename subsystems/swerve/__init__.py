@@ -20,19 +20,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .drivetrain_base import *
-from .differential_drive import DifferentialDrive
-from .mecanum_drive import MecanumDrive
-from .swerve_drive import SwerveDrive
-from .drivetrain_controller import *
+from .swerve_module import SwerveModule
+from .drivetrain import Drivetrain
 
 __all__ = [
-    "DrivetrainConfig",
-    "Module",
+    "SwerveModule",
     "Drivetrain",
-    "DifferentialDrive",
-    "MecanumDrive",
-    "SwerveDrive",
-    "DriveType",
-    "DrivetrainController",
 ]

@@ -3,27 +3,22 @@
 [tool.robotpy]
 
 # Version of robotpy this project depends on
-robotpy_version = "2025.3.2.2"
+robotpy_version = "2026.2.1"
 
 # Which extra RobotPy components should be installed
-robotpy_extras = [
-    # "all",
+components = [
     "apriltag",
     "commands2",
     "cscore",
-    "navx",
-    "pathplannerlib",
-    # "phoenix5",
-    "phoenix6",
-    "rev",
-    # "romi",
+    # "navx",
+    # "pathplannerlib",
+    # "phoenix6",
+    # "rev",
     "sim",
-    # "xrp",
 ]
 
 # Other pip packages to install
 requires = [
     "sleipnirgroup-choreolib",
-    "photonlibpy",
     "robotpy-urcl",
 ]

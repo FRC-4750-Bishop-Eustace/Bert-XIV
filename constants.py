@@ -1,0 +1,78 @@
+# MIT License
+#
+# Copyright (c) 2025 Beʳᵗ FRC Team 4750
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+import math
+from wpimath.geometry import Rotation2d
+
+# Speed config
+kMaxSpeed = 3.5
+kRMaxSpeed = 8.5
+kTMaxSpeed = 3.0
+kMaxAngularSpeed = math.pi
+frontLeftZero = 0
+frontRightZero = 0
+backLeftZero = 0
+backRightZero = 0
+zeroThreshold = Rotation2d(0.3)
+
+# PID and feed-forward
+class PID:
+    def __init__(self, kP, kI, kD) -> None:
+        self.kP = kP
+        self.kI = kI
+        self.kD = kD
+
+class FeedForward:
+    def __init__(self, kS, kV, kA=0, kG=0) -> None:
+        self.kS = kS
+        self.kV = kV
+        self.kA = kA
+        self.kG = kG
+
+swerveDrivePID = PID(0.02, 0, 0)
+swerveDriveFF = FeedForward(1.8, 3)
+swerveTurnPID = PID(7.8, 0, 0.055)
+swerveTurnFF = FeedForward(0, 0)
+elevatorPID = PID(0.1, 0, 0.01)
+elevatorFF = FeedForward(0, 0, 0, 0)
+
+# Chassis config
+chassisHalfLength = 0.32
+wheelRadius = 0.0508
+driveReduction = 425 / 63
+encoderResolution = 4096
+vEncoderResolution = 42
+maxAngularVelocity = 1000
+maxAngularAcceleration = 1000
+
+frontLeftDriveMotorId = 4
+frontLeftTurnMotorId = 3
+frontLeftTurnEncoderId = 13
+frontRightDriveMotorId = 7
+frontRightTurnMotorId = 8
+frontRightTurnEncoderId = 10
+backRightDriveMotorId = 5
+backRightTurnMotorId = 6
+backRightTurnEncoderId = 12
+backLeftDriveMotorId = 2
+backLeftTurnMotorId = 1
+backLeftTurnEncoderId = 11
