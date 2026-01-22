@@ -23,7 +23,7 @@
 from hardware import *
 from subsystems import *
 from commands import *
-from wpilib import PS4Controller
+from wpilib import PS4Controller, Field2d
 from commands2 import Command
 
 class RobotContainer:
@@ -37,6 +37,12 @@ class RobotContainer:
         self.swerve.setDefaultCommand(
             DriveWithJoystick(self.swerve, self.controller)
         )
+
+        self.field = Field2d()
+        self.field.setRobotPose(self.swerve.getPose())
+
+    def updateField(self) -> None:
+        self.field.setRobotPose(self.swerve.getPose())
 
     def getAutonomousCommand(self) -> Command:
         return DefaultAuto()

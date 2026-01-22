@@ -20,6 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+from health import RobotHealth
 from robot_container import RobotContainer
 from commands2 import TimedCommandRobot, CommandScheduler
 from urcl import URCL
@@ -31,11 +32,15 @@ class MyRobot(TimedCommandRobot):
     def robotInit(self) -> None:
         URCL.start()
 
+        self.health = RobotHealth()
+
         self.robot = RobotContainer()
         self.autoCmd = None
 
     def robotPeriodic(self) -> None:
         CommandScheduler.getInstance().run()
+        self.robot.updateField()
+        self.health.update(self.getPeriod())
 
     def autonomousInit(self) -> None:
         self.autoCmd = self.robot.getAutonomousCommand()

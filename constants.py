@@ -23,6 +23,18 @@
 import math
 from wpimath.geometry import Rotation2d
 
+# Robot health
+voltageWarn = 10.5
+voltageCritical = 9.3
+totalCurrentWarn = 180
+totalCurrentCritical = 220
+perChannelCurrentWarn = 60
+perChannelCurrentTime = 0.5
+cpuTempWarn = 75.0
+cpuTempCritical = 85.0
+canUsageWarn = 0.80
+messageInterval = 1.0
+
 # Speed config
 maxSpeed = 3.5
 rMaxSpeed = 8.5
