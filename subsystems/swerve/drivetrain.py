@@ -21,15 +21,20 @@
 # SOFTWARE.
 
 import math
+from pathlib import Path
 from .swerve_module import SwerveModule
 from .limelight_helpers import setRobotOrientation, PoseEstimate
 from hardware import *
 import constants
 import wpimath
 from wpimath.geometry import Translation2d, Rotation2d, Pose2d
+from wpimath.controller import PIDController
 from wpimath.kinematics import SwerveDrive4Kinematics, ChassisSpeeds
 from wpimath.estimator import SwerveDrive4PoseEstimator
-from commands2 import Subsystem
+from commands2 import Subsystem, Command
+import commands2.cmd as cmd
+import choreo
+from choreo.trajectory import SwerveTrajectory
 
 class Drivetrain(Subsystem):
     def __init__(self, loader: Loader, camera: str|None = None) -> None:
@@ -65,6 +70,24 @@ class Drivetrain(Subsystem):
             [0.05, 0.05, math.pi / 36],
             [0.5, 0.5, math.pi / 6]
         )
+
+        self.drivePID = PIDController(
+            constants.swerveAutoDrivePID.kP,
+            constants.swerveAutoDrivePID.kI,
+            constants.swerveAutoDrivePID.kD
+        )
+        self.turnPID = PIDController(
+            constants.swerveAutoTurnPID.kP,
+            constants.swerveAutoTurnPID.kI,
+            constants.swerveAutoTurnPID.kD
+        )
+        self.trajectories: dict[str, SwerveTrajectory|None] = {}
+        for path in Path("./deploy/choreo").glob("*.traj"):
+            try:
+                self.trajectories[path.name] = choreo.load_swerve_trajectory(path.name)
+            except Exception:
+                print(f"\033[31;1mFailed to load trajectory: {path.name}\033[0m")
+                self.trajectories[path.name] = None
 
         self.camera = camera
 
@@ -122,8 +145,8 @@ class Drivetrain(Subsystem):
                 if mt1.tagCount >= 2:
                     mt1_valid = True
                     mt1_std = [0.4, 0.4, 9999999]
-                elif len(mt1.rawFiducials) == 1:
-                    fid = mt1.rawFiducials[0]
+                elif len(mt1.fiducials) == 1:
+                    fid = mt1.fiducials[0]
                     if fid.ambiguity < 0.8 and fid.distToCamera < 4.0:
                         mt1_valid = True
                         scale = min(fid.distToCamera / 4.0, 1.0)
@@ -147,8 +170,32 @@ class Drivetrain(Subsystem):
                 self.estimator.setVisionMeasurementStdDevs(mt1_std)
                 self.estimator.addVisionMeasurement(mt1.pose, mt1.timestamp)
 
-    def stop(self) -> None:
-        self.drive(0, 0, 0, False, 0.002)
+    def followPath(self, path: str) -> Command:
+        sample: SwerveTrajectory = self.trajectories[path]
+        if sample:
+            self.pose = self.getPose()
+            speeds = ChassisSpeeds(
+                sample.vx + self.drivePID.calculate(
+                    self.pose.X(),
+                    self.pose.Y()
+                ),
+                sample.vy + self.drivePID.calculate(
+                    self.pose.X(),
+                    self.pose.Y()
+                ),
+                sample.omega + self.turnPID.calculate(
+                    self.pose.rotation().radians(),
+                    sample.heading
+                )
+            )
+
+            return cmd.run(lambda: self.drive(speeds[0], speeds[1], speeds[2], True, 0.02))
+        else:
+            print(f"\033[31;1mPath {path} not found\033[0m")
+            return cmd.none()
+
+    def stop(self) -> Command:
+        return cmd.run(lambda: self.drive(0, 0, 0, False, 0.02))
 
     def getPose(self) -> Pose2d:
         return self.estimator.getEstimatedPosition()

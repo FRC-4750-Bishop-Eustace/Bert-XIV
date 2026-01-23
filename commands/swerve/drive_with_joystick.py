@@ -63,9 +63,9 @@ class DriveWithJoystick(Command):
                 )
             ) +
             applyDeadband(
-                (self.controller.getRawAxis(3) + 1) / 2,
+                (self.controller.getRawAxis(4) + 1) / 2,
                 constants.rotDeadband
             ) * constants.rMaxSpeed
         )
 
-        self.swerve.drive(xSpeed, ySpeed, rotSpeed, self.fieldRelative, 0.002)
+        self.swerve.drive(xSpeed, ySpeed, rotSpeed, self.fieldRelative, 0.02)

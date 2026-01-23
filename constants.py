@@ -64,6 +64,8 @@ swerveDrivePID = PID(0.02, 0, 0)
 swerveDriveFF = FeedForward(1.8, 3)
 swerveTurnPID = PID(7.8, 0, 0.055)
 swerveTurnFF = FeedForward(0, 0)
+swerveAutoDrivePID = PID(0.4, 0, 0.001)
+swerveAutoTurnPID = PID(1, 0, 0)
 elevatorPID = PID(0.1, 0, 0.01)
 elevatorFF = FeedForward(0, 0, 0, 0)
 

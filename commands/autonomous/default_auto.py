@@ -1,4 +1,3 @@
-
 # MIT License
 #
 # Copyright (c) 2025 Beʳᵗ FRC Team 4750
@@ -21,8 +20,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .auton_base import AutonBase
+from wpilib import Timer
+from commands2 import Command
 
-class DefaultAuto(AutonBase):
-    def __init__(self) -> None:
+class DefaultAuto(Command):
+    def __init__(self):
         super().__init__()
