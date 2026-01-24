@@ -22,6 +22,7 @@
 
 import constants
 from subsystems import *
+from wpilib import DriverStation
 from commands2 import Command
 from wpilib import PS4Controller
 from wpimath import applyDeadband
@@ -37,11 +38,17 @@ class DriveWithJoystick(Command):
         self.rotSlewRate = SlewRateLimiter(constants.rotSlewRate)
         self.fieldRelative = False
 
-        self.addRequirements(swerve)
+        self.addRequirements(self.swerve)
+
+    def setFieldRelative(self, fieldRelative: bool) -> None:
+        self.fieldRelative = fieldRelative
+
+    def getFieldRelative(self) -> bool:
+        return self.fieldRelative
 
     def execute(self) -> None:
-        if self.controller.getRawButton(2) == 1:
-            self.fieldRelative = not self.fieldRelative
+        if not DriverStation.isTeleopEnabled():
+            return
 
         xSpeed = self.xSlewRate.calculate(
             applyDeadband(

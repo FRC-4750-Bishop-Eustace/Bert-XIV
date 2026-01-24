@@ -20,11 +20,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .swerve import *
-from .intake import *
+from subsystems import *
+from commands2 import Command
 
-__all__ = [
-    "SwerveModule",
-    "Drivetrain",
-    "Intake",
-]
+class DisengageIntake(Command):
+    def __init__(self, intake: Intake) -> None:
+        super().__init__()
+        self.intake = intake
+
+        self.addRequirements(self.intake)
+
+    def initialize(self) -> None:
+        for piston in self.intake.pistons:
+            piston.Set(0)

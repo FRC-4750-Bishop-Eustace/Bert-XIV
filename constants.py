@@ -91,6 +91,18 @@ backLeftDriveMotorId = 2
 backLeftTurnMotorId = 1
 backLeftTurnEncoderId = 11
 
+# Intake config
+intakeSpeed = 0.667
+
+intakeLeftMotorId = -1
+intakeRightMotorId = -1
+intakeSolenoid1Module = -1
+intakeSolenoid1Channel = -1
+intakeSolenoid2Module = -1
+intakeSolenoid2Channel = -1
+intakeSolenoid3Module = -1
+intakeSolenoid3Channel = -1
+
 # Controllers
 xSlewRate = 3
 ySlewRate = 3

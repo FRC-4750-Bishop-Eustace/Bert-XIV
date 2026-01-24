@@ -20,11 +20,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .swerve import *
-from .intake import *
+from .engage_intake import EngageIntake
+from .disengage_intake import DisengageIntake
+from .toggle_intake import ToggleIntake
 
 __all__ = [
-    "SwerveModule",
-    "Drivetrain",
-    "Intake",
+    "EngageIntake",
+    "DisengageIntake",
+    "ToggleIntake",
 ]

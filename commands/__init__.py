@@ -21,9 +21,13 @@
 # SOFTWARE.
 
 from .swerve import *
+from .intake import *
 from .autonomous import *
 
 __all__ = [
     "DriveWithJoystick",
+    "EngageIntake",
+    "DisengageIntake",
+    "ToggleIntake",
     "DefaultAuto",
 ]

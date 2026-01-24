@@ -189,13 +189,19 @@ class Drivetrain(Subsystem):
                 )
             )
 
-            return cmd.run(lambda: self.drive(speeds[0], speeds[1], speeds[2], True, 0.02))
+            return cmd.run(
+                lambda: [self.drive(speeds[0], speeds[1], speeds[2], True, 0.02)],
+                self
+            )
         else:
             print(f"\033[31;1mPath {path} not found\033[0m")
             return cmd.none()
 
     def stop(self) -> Command:
-        return cmd.run(lambda: self.drive(0, 0, 0, False, 0.02))
+        return cmd.run(
+            lambda: [self.drive(0, 0, 0, False, 0.02)],
+            self
+        )
 
     def getPose(self) -> Pose2d:
         return self.estimator.getEstimatedPosition()

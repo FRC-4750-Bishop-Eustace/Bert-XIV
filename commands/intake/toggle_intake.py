@@ -20,11 +20,31 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .swerve import *
-from .intake import *
+from subsystems import *
+from wpilib import DriverStation
+from commands2 import Command
 
-__all__ = [
-    "SwerveModule",
-    "Drivetrain",
-    "Intake",
-]
+class ToggleIntake(Command):
+    def __init__(self, intake: Intake):
+        super().__init__()
+        self.intake = intake
+        self.enabled = False
+
+        self.addRequirements(self.intake)
+
+    def setEnabled(self, enabled: bool) -> None:
+        self.enabled = enabled
+
+    def getEnabled(self) -> bool:
+        return self.enabled
+
+    def execute(self):
+        if not DriverStation.isTeleopEnabled():
+            return
+
+        if self.enabled:
+            for piston in self.intake.pistons:
+                piston.Set(1)
+        else:
+            for piston in self.intake.pistons:
+                piston.Set(0)

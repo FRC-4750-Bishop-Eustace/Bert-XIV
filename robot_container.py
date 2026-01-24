@@ -24,7 +24,8 @@ from hardware import *
 from subsystems import *
 from commands import *
 from wpilib import PS4Controller, Field2d
-from commands2 import Command
+from commands2 import Command, InstantCommand
+from commands2.button import JoystickButton
 
 class RobotContainer:
     def __init__(self) -> None:
@@ -34,12 +35,27 @@ class RobotContainer:
         self.controller = PS4Controller(0)
 
         self.swerve = Drivetrain(self.loader, "limelight")
-        self.swerve.setDefaultCommand(
-            DriveWithJoystick(self.swerve, self.controller)
-        )
+        self.swerveCmd = DriveWithJoystick(self.swerve, self.controller)
+        self.swerve.setDefaultCommand(self.swerveCmd)
+
+        self.intake = Intake(self.loader)
+        self.intakeCmd = ToggleIntake(self.intake)
+        self.intake.setDefaultCommand(self.intakeCmd)
 
         self.field = Field2d()
         self.field.setRobotPose(self.swerve.getPose())
+
+    def configureBinding(self, button: int, function) -> None:
+        JoystickButton(self.controller, button).onTrue(
+            InstantCommand(
+                function,
+                self
+            )
+        )
+
+    def configureBindings(self) -> None:
+        self.configureBinding(2, lambda: [self.swerveCmd.setFieldRelative(not self.swerveCmd.getFieldRelative())])
+        self.configureBinding(4, lambda: [self.intakeCmd.setEnabled(not self.intakeCmd.getEnabled())])
 
     def updateField(self) -> None:
         self.field.setRobotPose(self.swerve.getPose())

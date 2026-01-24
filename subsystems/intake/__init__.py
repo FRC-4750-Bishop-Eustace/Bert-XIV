@@ -20,11 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .swerve import *
-from .intake import *
+from .intake import Intake
 
 __all__ = [
-    "SwerveModule",
-    "Drivetrain",
-    "Intake",
+    "Intake"
 ]
