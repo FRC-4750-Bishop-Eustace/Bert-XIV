@@ -22,7 +22,6 @@
 
 from ntcore import NetworkTable, NetworkTableInstance, NetworkTableEntry
 from wpimath.geometry import Translation2d, Rotation2d, Pose2d, Translation3d, Rotation3d, Pose3d
-from typing import Any
 
 def sanitizeName(name: str) -> str:
     if name == "":
@@ -55,13 +54,13 @@ def getTable(name: str) -> NetworkTable:
 def getTableEntry(name: str, entry: str) -> NetworkTableEntry:
     return getTable(name).getEntry(entry)
 
-def getFloat(name: str, entry: str) -> Any:
+def getFloat(name: str, entry: str) -> float:
     return getTableEntry(name, entry).getDouble(0.0)
 
-def getArray(name: str, entry: str) -> Any:
+def getArray(name: str, entry: str) -> list[float]:
     return getTableEntry(name, entry).getDoubleArray([0.0] * 7)
 
-def getString(name: str, entry: str) -> Any:
+def getString(name: str, entry: str) -> str:
     return getTableEntry(name, entry).getString("")
 
 def setFloat(name: str, entry: str, data) -> None:
@@ -70,58 +69,58 @@ def setFloat(name: str, entry: str, data) -> None:
 def setArray(name: str, entry: str, data) -> None:
     getTableEntry(name, entry).setDoubleArray(data, 0)
 
-def getTX(name: str) -> Any:
+def getTX(name: str) -> float:
     return getFloat(name, "tx")
 
-def getTV(name: str) -> Any:
+def getTV(name: str) -> float:
     return getFloat(name, "tv")
 
-def getTY(name: str) -> Any:
+def getTY(name: str) -> float:
     return getFloat(name, "ty")
 
-def getTA(name: str) -> Any:
+def getTA(name: str) -> float:
     return getFloat(name, "ta")
 
-def getLatencyPipeline(name: str) -> Any:
+def getLatencyPipeline(name: str) -> float:
     return getFloat(name, "tl")
 
-def getLatencyCapture(name: str) -> Any:
+def getLatencyCapture(name: str) -> float:
     return getFloat(name, "cl")
 
-def getJSONDump(name: str) -> Any:
+def getJSONDump(name: str) -> str:
     return getString(name, "json")
 
-def getRobotPose(name: str) -> Any:
+def getRobotPose(name: str) -> list[float]:
     return getArray(name, "botpose")
 
-def getRobotPoseRed(name: str) -> Any:
+def getRobotPoseRed(name: str) -> list[float]:
     return getArray(name, "botpose_wpired")
 
-def getRobotPoseBlue(name: str) -> Any:
+def getRobotPoseBlue(name: str) -> list[float]:
     return getArray(name, "botpose_wpiblue")
 
 def getRobotPoseTargetSpace(name: str):
     return getArray(name, "botpose_targetspace")
 
-def getCameraPoseTargetSpace(name: str) -> Any:
+def getCameraPoseTargetSpace(name: str) -> list[float]:
     return getArray(name, "camerapose_targetspace")
 
-def getCameraPoseRobotSpace(name: str) -> Any:
+def getCameraPoseRobotSpace(name: str) -> list[float]:
     return getArray(name, "camerapose_robotspace")
 
-def getTargetPoseCameraSpace(name: str) -> Any:
+def getTargetPoseCameraSpace(name: str) -> list[float]:
     return getArray(name, "targetpose_cameraspace")
 
-def getTargetPoseRobotSpace(name: str) -> Any:
+def getTargetPoseRobotSpace(name: str) -> list[float]:
     return getArray(name, "targetpose_robotspace")
 
-def getTargetColor(name: str) -> Any:
+def getTargetColor(name: str) -> list[float]:
     return getArray(name, "tc")
 
-def getFudicialID(name: str) -> Any:
+def getFudicialID(name: str) -> float:
     return getFloat(name, "tid")
 
-def getNeuralClassID(name: str) ->Any:
+def getNeuralClassID(name: str) -> float:
     return getFloat(name, "tclass")
 
 def setPipelineIndex(name: str, index: int) -> None:
@@ -180,7 +179,7 @@ def setCameraPoseRobotSpace(name: str, pos: Translation3d, rot: Translation3d) -
 def setScriptData(name: str, data) -> None:
     setArray(name, "llrobot", [data[0], len(data)])
 
-def getScriptData(name: str) -> Any:
+def getScriptData(name: str) -> list[float]:
     return getArray(name, "llpython")
 
 def extractArrayEntry(data, pos: int) -> float:
@@ -209,7 +208,7 @@ class RawFiducial:
         raw: list[RawFiducial] = []
         for i in range(0, fiducials):
             base: int = i * vals
-            id: int = extractArrayEntry(raw, base)
+            id: int = int(extractArrayEntry(arr, base))
             txnc: float = extractArrayEntry(raw, base + 1)
             tync: float = extractArrayEntry(raw, base + 2)
             ta: float = extractArrayEntry(raw, base + 3)
@@ -222,10 +221,11 @@ class RawFiducial:
         return raw
 
 class RawDetection:
-    def __init__(self, id: int, txnc: float, tync: float, x0: float, y0: float, x1: float, y1: float, x2: float, y2: float, x3: float, y3: float):
+    def __init__(self, id: int, txnc: float, tync: float, ta: float, x0: float, y0: float, x1: float, y1: float, x2: float, y2: float, x3: float, y3: float):
         self.id: int = id
         self.txnc: float = txnc
         self.tync: float = tync
+        self.ta: float = ta
         self.x0: float = x0
         self.y0: float = y0
         self.x1: float = x1
@@ -246,7 +246,7 @@ class RawDetection:
         raw: list[RawDetection] = []
         for i in range(0, detections):
             base: int = i * vals
-            id: int = extractArrayEntry(arr, base)
+            id: int = int(extractArrayEntry(arr, base))
             txnc: float = extractArrayEntry(arr, base + 1)
             tync: float = extractArrayEntry(arr, base + 2)
             ta: float = extractArrayEntry(arr, base + 3)
