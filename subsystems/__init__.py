@@ -21,10 +21,8 @@
 # SOFTWARE.
 
 from .swerve import *
-from .intake import *
 
 __all__ = [
     "SwerveModule",
     "Drivetrain",
-    "Intake",
 ]

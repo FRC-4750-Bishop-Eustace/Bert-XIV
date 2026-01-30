@@ -51,3 +51,9 @@ class MyRobot(TimedCommandRobot):
     def teleopInit(self) -> None:
         if self.autoCmd:
             self.autoCmd.cancel()
+
+    def disabledPeriodic(self) -> None:
+        pass
+
+    def _simulationPeriodic(self) -> None:
+        pass
