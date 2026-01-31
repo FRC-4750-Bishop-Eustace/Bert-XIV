@@ -52,13 +52,13 @@ class NavX(IMU):
                     return self.pose.translation.z
 
                 def getRoll(self) -> float:
-                    return self.pose.rotation.roll
+                    return self.pose.rotation().x
 
                 def getYaw(self) -> float:
-                    return self.pose.rotation.yaw
+                    return self.pose.rotation().z
 
                 def getPitch(self) -> float:
-                    return self.pose.rotation.pitch
+                    return self.pose.rotation().y
 
                 def getRawAccelX(self) -> float:
                     return self.accel.x

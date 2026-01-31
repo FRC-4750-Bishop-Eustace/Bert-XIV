@@ -62,11 +62,11 @@ class ADIS16470(IMU):
                         case self.IMUAxis.kZ:
                             return self.pose.translation.z
                         case self.IMUAxis.kYaw:
-                            return self.pose.rotation.yaw
+                            return self.pose.rotation().z
                         case self.IMUAxis.kPitch:
-                            return self.pose.rotation.pitch
+                            return self.pose.rotation().y
                         case self.IMUAxis.kRoll:
-                            return self.pose.rotation.pitch
+                            return self.pose.rotation().x
 
                 def getAccelX(self) -> float:
                     return self.accel.x
@@ -104,11 +104,11 @@ class ADIS16470(IMU):
                         case self.IMUAxis.kZ:
                             self.pose.translation.z = angle
                         case self.IMUAxis.kYaw:
-                            self.pose.rotation.yaw = angle
+                            self.pose.rotation().z = angle
                         case self.IMUAxis.kPitch:
-                            self.pose.rotation.pitch = angle
+                            self.pose.rotation().y = angle
                         case self.IMUAxis.kRoll:
-                            self.pose.rotation.pitch = angle
+                            self.pose.rotation().x = angle
 
             self.hw = Dummy()
 
