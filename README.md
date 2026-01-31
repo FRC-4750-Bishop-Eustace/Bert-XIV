@@ -1,15 +1,69 @@
-# 🤖 Bert XIV 🤖
+# LimelightLib Python
 
-![Run RobotPy Tests](https://github.com/FRC-4750-Bishop-Eustace/Bert-XIV/actions/workflows/test.yml/badge.svg)
+## Discover all connected Limelights, and interact with them via REST and Websockets
 
----
+```
+import limelight
+import limelightresults
+import json
+import time
 
-Source code for Bert XIV.
+discovered_limelights = limelight.discover_limelights(debug=True)
+print("discovered limelights:", discovered_limelights)
 
-## 📝 License
+if discovered_limelights:
+    limelight_address = discovered_limelights[0] 
+    ll = limelight.Limelight(limelight_address)
+    results = ll.get_results()
+    status = ll.get_status()
+    print("-----")
+    print("targeting results:", results)
+    print("-----")
+    print("status:", status)
+    print("-----")
+    print("temp:", ll.get_temp())
+    print("-----")
+    print("name:", ll.get_name())
+    print("-----")
+    print("fps:", ll.get_fps())
+    print("-----")
+    print("hwreport:", ll.hw_report())
 
-Bert XIV is released under the [MIT License](https://opensource.org/licenses/MIT).
+    ll.enable_websocket()
+   
+    # print the current pipeline settings
+    print(ll.get_pipeline_atindex(0))
 
-## 🔧 Contributing
+    # update the current pipeline and flush to disk
+    pipeline_update = {
+    'area_max': 98.7,
+    'area_min': 1.98778
+    }
+    ll.update_pipeline(json.dumps(pipeline_update),flush=1)
 
-To start contributing to Bert XIV as a member of FRC 4750 Crusaders, follow the instructions in the [contributing guide](https://github.com/FRC-4750-Bishop-Eustace/Bert-XIV/blob/main/.github/CONTRIBUTING.md), as well as the [code of conduct](https://github.com/FRC-4750-Bishop-Eustace/Bert-XIV/blob/main/.github/CODE-OF-CONDUCT.md), the [security policy](https://github.com/FRC-4750-Bishop-Eustace/Bert-XIV/blob/main/.github/SECURITY.md), and the [style guide](https://github.com/FRC-4750-Bishop-Eustace/Bert-XIV/blob/main/.github/STYLE-GUIDE.md).
+    print(ll.get_pipeline_atindex(0))
+
+    # switch to pipeline 1
+    ll.pipeline_switch(1)
+
+    # update custom user data
+    ll.update_python_inputs([4.2,0.1,9.87])
+    
+    
+    try:
+        while True:
+            result = ll.get_latest_results()
+            parsed_result = limelightresults.parse_results(result)
+            if parsed_result is not None:
+                print("valid targets: ", parsed_result.validity, ", pipelineIndex: ", parsed_result.pipeline_id,", Targeting Latency: ", parsed_result.targeting_latency)
+                #for tag in parsed_result.fiducialResults:
+                #    print(tag.robot_pose_target_space, tag.fiducial_id)
+            time.sleep(1)  # Set this to 0 for max fps
+
+
+    except KeyboardInterrupt:
+        print("Program interrupted by user, shutting down.")
+    finally:
+        ll.disable_websocket()
+
+```

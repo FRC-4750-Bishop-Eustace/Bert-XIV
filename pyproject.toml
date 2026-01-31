@@ -1,24 +1,30 @@
-# Use this configuration file to control what RobotPy packages are installed on your RoboRIO
+#
+# Use this configuration file to control what RobotPy packages are installed
+# on your RoboRIO
+# 2025.2.1.0
 
 [tool.robotpy]
 
 # Version of robotpy this project depends on
-robotpy_version = "2026.2.1"
+robotpy_version = "2025.3.2.2"
 
 # Which extra RobotPy components should be installed
-components = [
+# -> equivalent to `pip install robotpy[extra1, ...]
+robotpy_extras = [
+    # "all"
     "apriltag",
     "commands2",
     "cscore",
-    # "navx",
-    # "pathplannerlib",
-    # "phoenix6",
-    # "rev",
-    "sim",
+    "navx",
+    # "pathplannerlib"
+    #"phoenix5",
+    # "playingwithfusion"
+    "rev"
+    #"sleipnirgroup-choreolib"
+    # "romi"
+    # "sim"
+    # "xrp"
 ]
 
 # Other pip packages to install
-requires = [
-    "sleipnirgroup-choreolib",
-    "robotpy-urcl",
-]
+requires = ["sleipnirgroup-choreolib", "phoenix6~=25.2.1", "robotpy-urcl"]

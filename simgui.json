@@ -1,0 +1,15 @@
+{
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/A-PIDtune": "PIDController",
+      "/SmartDashboard/A-PIDx": "PIDController",
+      "/SmartDashboard/A-PIDy": "PIDController",
+      "/SmartDashboard/TurnPID": "ProfiledPIDController",
+      "/SmartDashboard/field": "Field2d"
+    }
+  },
+  "NetworkTables Info": {
+    "visible": true
+  }
+}
