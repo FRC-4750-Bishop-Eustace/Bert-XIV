@@ -22,6 +22,8 @@
 
 import math
 from wpimath.geometry import Rotation2d
+from wpimath.controller import PIDController, ProfiledPIDController, SimpleMotorFeedforwardMeters
+from wpimath.trajectory import TrapezoidProfile
 
 # Robot health
 voltageWarn = 10.5
@@ -46,29 +48,6 @@ backLeftZero = 0
 backRightZero = 0
 zeroThreshold = Rotation2d(0.3)
 
-# PID and feed-forward
-class PID:
-    def __init__(self, kP, kI, kD) -> None:
-        self.kP = kP
-        self.kI = kI
-        self.kD = kD
-
-class FeedForward:
-    def __init__(self, kS, kV, kA=0, kG=0) -> None:
-        self.kS = kS
-        self.kV = kV
-        self.kA = kA
-        self.kG = kG
-
-swerveDrivePID = PID(0.02, 0, 0)
-swerveDriveFF = FeedForward(1.8, 3)
-swerveTurnPID = PID(7.8, 0, 0.055)
-swerveTurnFF = FeedForward(0, 0)
-swerveAutoDrivePID = PID(0.4, 0, 0.001)
-swerveAutoTurnPID = PID(1, 0, 0)
-elevatorPID = PID(0.1, 0, 0.01)
-elevatorFF = FeedForward(0, 0, 0, 0)
-
 # Chassis config
 chassisHalfLength = 0.32
 wheelRadius = 0.0508
@@ -91,17 +70,49 @@ backLeftDriveMotorId = 2
 backLeftTurnMotorId = 1
 backLeftTurnEncoderId = 11
 
-# Intake config
-intakeSpeed = 0.667
+# PID and feed-forward
+class PID:
+    def __init__(self, kP, kI, kD) -> None:
+        self.kP = kP
+        self.kI = kI
+        self.kD = kD
 
-intakeLeftMotorId = -1
-intakeRightMotorId = -1
-intakeSolenoid1Module = -1
-intakeSolenoid1Channel = -1
-intakeSolenoid2Module = -1
-intakeSolenoid2Channel = -1
-intakeSolenoid3Module = -1
-intakeSolenoid3Channel = -1
+    def toPIDController(self) -> PIDController:
+        return PIDController(
+            self.kP,
+            self.kI,
+            self.kD
+        )
+
+    def toProfiledPIDController(self) -> ProfiledPIDController:
+        return ProfiledPIDController(
+            self.kP,
+            self.kI,
+            self.kD,
+            TrapezoidProfile.Constraints(
+                maxAngularVelocity,
+                maxAngularAcceleration
+            )
+        )
+
+class FeedForward:
+    def __init__(self, kS, kV, kA=0, kG=0) -> None:
+        self.kS = kS
+        self.kV = kV
+        self.kA = kA
+        self.kG = kG
+
+    def toMotorFeedforward(self) -> SimpleMotorFeedforwardMeters:
+        return SimpleMotorFeedforwardMeters(self.kS, self.kV, self.kA, self.kG)
+
+swerveDrivePID = PID(0.02, 0, 0)
+swerveDriveFF = FeedForward(1.8, 3)
+swerveTurnPID = PID(7.8, 0, 0.055)
+swerveTurnFF = FeedForward(0, 0)
+swerveAutoDrivePID = PID(0.4, 0, 0.001)
+swerveAutoTurnPID = PID(1, 0, 0)
+elevatorPID = PID(0.1, 0, 0.01)
+elevatorFF = FeedForward(0, 0, 0, 0)
 
 # Controllers
 xSlewRate = 3

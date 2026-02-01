@@ -23,7 +23,7 @@
 from hardware import *
 from subsystems import *
 from commands import *
-from wpilib import PS4Controller, Field2d
+from wpilib import PS4Controller, Field2d, SmartDashboard
 from commands2 import Command, InstantCommand
 from commands2.button import JoystickButton
 
@@ -39,9 +39,9 @@ class RobotContainer:
         self.swerve.setDefaultCommand(self.swerveCmd)
 
         self.field = Field2d()
-        self.field.setRobotPose(self.swerve.getPose())
+        SmartDashboard.putData("Field", self.field)
 
-    def configureBinding(self, button: int, function) -> None:
+    def bindKey(self, button: int, function) -> None:
         if button <= self.controller.getButtonCount():
             JoystickButton(self.controller, button).onTrue(
                 InstantCommand(
@@ -51,7 +51,7 @@ class RobotContainer:
             )
 
     def configureBindings(self) -> None:
-        self.configureBinding(
+        self.bindKey(
             self.controller.Button.kCross,
             lambda: [self.swerveCmd.setFieldRelative(not self.swerveCmd.getFieldRelative())]
         )

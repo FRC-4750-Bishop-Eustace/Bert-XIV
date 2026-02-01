@@ -26,6 +26,7 @@ from .swerve_module import SwerveModule
 from .limelight_helpers import setRobotOrientation, PoseEstimate
 from hardware import *
 import constants
+from wpilib import SmartDashboard
 import wpimath
 from wpimath.geometry import Translation2d, Rotation2d, Pose2d
 from wpimath.controller import PIDController
@@ -81,17 +82,25 @@ class Drivetrain(Subsystem):
             constants.swerveAutoTurnPID.kI,
             constants.swerveAutoTurnPID.kD
         )
+
         self.trajectories: dict[str, SwerveTrajectory|None] = {}
         for path in Path("./deploy/choreo").glob("*.traj"):
+            filename = path.name[:-5] # Remove '.traj' from path
             try:
-                self.trajectories[path.name] = choreo.load_swerve_trajectory(path.name)
-            except Exception:
-                print(f"\033[31;1mFailed to load trajectory: {path.name}\033[0m")
-                self.trajectories[path.name] = None
+                self.trajectories[filename] = choreo.load_swerve_trajectory(filename)
+                print(f"\033[34;1mLoaded trajectory \'{filename}\'\033[0m")
+            except Exception as e:
+                print(f"\033[31;1mFailed to load trajectory \'{filename}\':\033[0m\n{e}")
+                self.trajectories[filename] = None
 
         self.camera = camera
 
         self.gyro.Reset()
+
+        SmartDashboard.putData("Lateral Teleop PID", constants.swerveDrivePID.toPIDController())
+        SmartDashboard.putData("Angular Teleop PID", constants.swerveTurnPID.toProfiledPIDController())
+        SmartDashboard.putData("Lateral Autonomous PID", constants.swerveAutoDrivePID.toPIDController())
+        SmartDashboard.putData("Angular Autonomous PID", constants.swerveAutoTurnPID.toPIDController())
 
     def drive(self, xSpeed: float, ySpeed: float, rot: float, fieldRelative: bool, period: float) -> None:
         states = self.kinematics.toSwerveModuleStates(
