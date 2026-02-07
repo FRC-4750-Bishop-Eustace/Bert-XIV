@@ -35,7 +35,7 @@ from wpimath.estimator import SwerveDrive4PoseEstimator
 from commands2 import Subsystem, Command
 import commands2.cmd as cmd
 import choreo
-from choreo.trajectory import SwerveTrajectory
+from choreo import SwerveTrajectory
 
 class Drivetrain(Subsystem):
     def __init__(self, loader: Loader, camera: str|None = None) -> None:
@@ -178,33 +178,6 @@ class Drivetrain(Subsystem):
             elif mt1_valid:
                 self.estimator.setVisionMeasurementStdDevs(mt1_std)
                 self.estimator.addVisionMeasurement(mt1.pose, mt1.timestamp)
-
-    def followPath(self, path: str) -> Command:
-        sample: SwerveTrajectory = self.trajectories[path]
-        if sample:
-            self.pose = self.getPose()
-            speeds = ChassisSpeeds(
-                sample.vx + self.drivePID.calculate(
-                    self.pose.X(),
-                    self.pose.Y()
-                ),
-                sample.vy + self.drivePID.calculate(
-                    self.pose.X(),
-                    self.pose.Y()
-                ),
-                sample.omega + self.turnPID.calculate(
-                    self.pose.rotation().radians(),
-                    sample.heading
-                )
-            )
-
-            return cmd.run(
-                lambda: [self.drive(speeds[0], speeds[1], speeds[2], True, 0.02)],
-                self
-            )
-        else:
-            print(f"\033[31;1mPath {path} not found\033[0m")
-            return cmd.none()
 
     def stop(self) -> Command:
         return cmd.run(

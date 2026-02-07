@@ -48,12 +48,21 @@ class MyRobot(TimedCommandRobot):
         if self.autoCmd:
             self.autoCmd.schedule()
 
+    def autonomousPeriodic(self) -> None:
+        pass
+
     def teleopInit(self) -> None:
         if self.autoCmd:
             self.autoCmd.cancel()
+
+    def teleopPeriodic(self) -> None:
+        pass
 
     def disabledPeriodic(self) -> None:
         pass
 
     def _simulationPeriodic(self) -> None:
+        pass
+
+    def testPeriodic(self) -> None:
         pass

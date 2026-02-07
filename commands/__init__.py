@@ -25,5 +25,6 @@ from .autonomous import *
 
 __all__ = [
     "DriveWithJoystick",
+    "FollowPath",
     "DefaultAuto",
 ]

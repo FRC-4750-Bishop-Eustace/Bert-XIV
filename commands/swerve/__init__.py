@@ -21,7 +21,9 @@
 # SOFTWARE.
 
 from .drive_with_joystick import DriveWithJoystick
+from .follow_path import FollowPath
 
 __all__ = [
     "DriveWithJoystick",
+    "FollowPath",
 ]
