@@ -106,13 +106,11 @@ class FeedForward:
         return SimpleMotorFeedforwardMeters(self.kS, self.kV, self.kA, self.kG)
 
 swerveDrivePID = PID(0.02, 0, 0)
-swerveDriveFF = FeedForward(1.8, 3)
+swerveDriveFF = FeedForward(0, 2.2)
 swerveTurnPID = PID(7.8, 0, 0.055)
 swerveTurnFF = FeedForward(0, 0)
 swerveAutoDrivePID = PID(0.4, 0, 0.001)
-swerveAutoTurnPID = PID(1, 0, 0)
-elevatorPID = PID(0.1, 0, 0.01)
-elevatorFF = FeedForward(0, 0, 0, 0)
+swerveAutoTurnPID = PID(1.3, 0, 0.1)
 
 # Controllers
 xSlewRate = 3

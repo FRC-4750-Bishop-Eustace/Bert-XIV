@@ -100,7 +100,6 @@ class RobotHealth:
 
         DriverStation.reportError(f"Robot fault: {msg}", False)
         print(f"\033[31;1mRobot fault: {msg}\033[0m")
-        exit(1) # Exit user program
 
     def triggerWarnFault(self, msg: str) -> None:
         if self.fatal:
