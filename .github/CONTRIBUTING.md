@@ -12,7 +12,7 @@ If you spot a bug in any code, please create a GitHub issue on the Bert XIV repo
 - Any relevant logs and/or screenshots.
 - Any other additional details that you think should be included.
 
-[Submit a bug](https://github.com/FRC-4750-Bishop-Eustace/Bert-XIV/issues/new?template=bug_report.md)
+[Submit a bug](https://github.com/FRC-4750-Bishop-Eustace/Bert-XIV/issues/new?template=BUG-REPORT.yml)
 
 ## 💡 Suggesting Features
 
