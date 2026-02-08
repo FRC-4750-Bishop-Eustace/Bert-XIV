@@ -19,6 +19,10 @@ components = [
 
 # Other pip packages to install
 requires = [
+    "robotpy-navx",
+    "robotpy-pathplannerlib",
+    "phoenix6",
+    "robotpy-rev",
     "sleipnirgroup-choreolib",
     "robotpy-urcl",
 ]

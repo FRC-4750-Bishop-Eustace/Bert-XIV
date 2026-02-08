@@ -30,7 +30,7 @@ from wpilib import SmartDashboard
 import wpimath
 from wpimath.geometry import Translation2d, Rotation2d, Pose2d
 from wpimath.controller import PIDController
-from wpimath.kinematics import SwerveDrive4Kinematics, ChassisSpeeds
+from wpimath.kinematics import SwerveDrive4Kinematics, ChassisSpeeds, SwerveModulePosition
 from wpimath.estimator import SwerveDrive4PoseEstimator
 from commands2 import Subsystem, Command
 import commands2.cmd as cmd
@@ -156,7 +156,7 @@ class Drivetrain(Subsystem):
                     mt1_std = [0.4, 0.4, 9999999]
                 elif len(mt1.fiducials) == 1:
                     fid = mt1.fiducials[0]
-                    if fid.ambiguity < 0.8 and fid.distToCamera < 4.0:
+                    if fid.ambiguity < 0.8 and fid.cameraDistance < 4.0:
                         mt1_valid = True
                         scale = min(fid.distToCamera / 4.0, 1.0)
                         mt1_std = [

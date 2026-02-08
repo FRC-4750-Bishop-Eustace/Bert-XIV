@@ -54,12 +54,8 @@ class FollowPath(Command):
                 )
             )
 
-            return cmd.run(
-                lambda: [self.drive(speeds[0], speeds[1], speeds[2], True, 0.02)],
-                self
-            )
+            self.drive(speeds[0], speeds[1], speeds[2], True, 0.02)
         else:
             print(f"\033[31;1mPath {self.path} not found\033[0m")
-            return cmd.none()
 
 

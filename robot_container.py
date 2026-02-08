@@ -20,10 +20,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import constants
 from hardware import *
 from subsystems import *
 from commands import *
-from wpilib import PS4Controller, Field2d, SmartDashboard
+from wpilib import PS4Controller, Joystick, Field2d, SmartDashboard
 from commands2 import Command, InstantCommand
 from commands2.button import JoystickButton
 
@@ -32,7 +33,8 @@ class RobotContainer:
         self.loader = Loader()
         print(self.loader.GetBackends())
 
-        self.controller = PS4Controller(0)
+        self.controller = PS4Controller(constants.ps4ControllerPort)
+        self.dashboard = Joystick(constants.dashboardPort)
 
         self.swerve = Drivetrain(self.loader, "limelight")
         self.swerveCmd = DriveWithJoystick(self.swerve, self.controller)

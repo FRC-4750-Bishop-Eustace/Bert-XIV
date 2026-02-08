@@ -28,14 +28,14 @@ from wpimath.trajectory import TrapezoidProfile
 # Robot health
 voltageWarn = 10.5
 voltageCritical = 9.3
-totalCurrentWarn = 180
-totalCurrentCritical = 220
-perChannelCurrentWarn = 60
-perChannelCurrentTime = 0.5
 cpuTempWarn = 75.0
 cpuTempCritical = 85.0
 canUsageWarn = 0.80
 messageInterval = 1.0
+
+# Input ports
+ps4ControllerPort = 2
+dashboardPort = 0
 
 # Speed config
 maxSpeed = 3.5

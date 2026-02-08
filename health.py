@@ -34,13 +34,12 @@ class RobotHealth:
         self.channelOvercurrentTime = [0.0] * 24
         self.brownedOut = False
 
-    def update(self, dt: float) -> None:
+    def update(self) -> None:
         if self.fatal:
             return
 
         voltage = RobotController.getBatteryVoltage()
         brownout = RobotController.isBrownedOut()
-        totalCurrent = self.pdh.getTotalCurrent()
         temp = RobotController.getCPUTemp()
         can = RobotController.getCANStatus()
 
@@ -52,21 +51,6 @@ class RobotHealth:
         if brownout and not self.brownedOut:
             self.triggerWarnFault("RoboRIO brownout detected")
         self.brownedOut = brownout
-
-        if totalCurrent > constants.totalCurrentCritical:
-            self.triggerFatalFault(f"Critical total current: {totalCurrent:.2f}A")
-        elif totalCurrent > constants.totalCurrentWarn:
-            self.triggerWarnFault(f"High total current: {totalCurrent:.2f}A")
-
-        for channel in range(24):
-            current = self.pdh.getCurrent(channel)
-            if current > constants.perChannelCurrentWarn:
-                self.channelOvercurrentTime[channel] += dt
-            else:
-                self.channelOvercurrentTime[channel] = 0.0
-
-            if self.channelOvercurrentTime[channel] > constants.perChannelCurrentTime:
-                self.triggerFatalFault(f"Channel {channel} overcurrent: {current:.2f}A")
 
         if temp > constants.cpuTempCritical:
             self.triggerFatalFault(f"Critical CPU temp: {temp:.2f}C")
@@ -81,7 +65,6 @@ class RobotHealth:
         SmartDashboard.putBoolean("Health/FatalFault", self.fatal)
         SmartDashboard.putString("Health/FatalMessage", self.fatalMsg)
         SmartDashboard.putNumber("Health/BatteryVoltage", voltage)
-        SmartDashboard.putNumber("Health/TotalCurrent", totalCurrent)
         SmartDashboard.putNumber("Health/CPUTemp", temp)
         SmartDashboard.putNumber("Health/CANUsage", can.percentBusUtilization)
 

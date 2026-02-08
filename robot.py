@@ -41,7 +41,7 @@ class MyRobot(TimedCommandRobot):
     def robotPeriodic(self) -> None:
         CommandScheduler.getInstance().run()
         self.robot.updateField()
-        self.health.update(self.getPeriod())
+        self.health.update()
 
     def autonomousInit(self) -> None:
         self.autoCmd = self.robot.getAutonomousCommand()
