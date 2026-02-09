@@ -173,7 +173,7 @@ def setFiducialDownscaling(name: str, downscale: float) -> None:
 def overrideFiducialIDFilters(name: str, IDs) -> None:
     setArray(name, "fiducial_id_filters_set", [IDs[0], IDs[-1]])
 
-def setCameraPoseRobotSpace(name: str, pos: Translation3d, rot: Translation3d) -> None:
+def setCameraPoseRobotSpace(name: str, pos: Translation3d, rot: Rotation3d) -> None:
     setArray(name, "camerapose_robotspace_set", [pos.X(), pos.Y(), pos.Z(), rot.X(), rot.Y(), rot.Z()])
 
 def setScriptData(name: str, data) -> None:

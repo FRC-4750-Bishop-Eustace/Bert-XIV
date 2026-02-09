@@ -36,9 +36,11 @@ class RobotContainer:
         self.controller = PS4Controller(constants.ps4ControllerPort)
         self.dashboard = Joystick(constants.dashboardPort)
 
-        self.swerve = Drivetrain(self.loader, "limelight")
+        self.swerve = Drivetrain(self.loader)
         self.swerveCmd = DriveWithJoystick(self.swerve, self.controller)
         self.swerve.setDefaultCommand(self.swerveCmd)
+
+        self.vision = Vision(self.swerve, [LimelightCamera("limelight")])
 
         self.field = Field2d()
         SmartDashboard.putData("Field", self.field)

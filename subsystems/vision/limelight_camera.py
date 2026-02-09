@@ -20,12 +20,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .swerve import *
-from .vision import *
+from .limelight_helpers import sanitizeName
+from wpimath.geometry import Pose3d
 
-__all__ = [
-    "SwerveModule",
-    "Drivetrain",
-    "LimelightCamera",
-    "Vision",
-]
+class LimelightCamera:
+    def __init__(self, name: str, offset: Pose3d|None = None) -> None:
+        self.name = sanitizeName(name)
+        self.offset = offset or None

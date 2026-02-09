@@ -20,12 +20,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .swerve import *
-from .vision import *
+from .limelight_camera import LimelightCamera
+from .vision import Vision
 
 __all__ = [
-    "SwerveModule",
-    "Drivetrain",
     "LimelightCamera",
     "Vision",
 ]

@@ -23,7 +23,6 @@
 import math
 from pathlib import Path
 from .swerve_module import SwerveModule
-from .limelight_helpers import setRobotOrientation, PoseEstimate
 from hardware import *
 import constants
 from wpilib import SmartDashboard
@@ -38,7 +37,7 @@ import choreo
 from choreo import SwerveTrajectory
 
 class Drivetrain(Subsystem):
-    def __init__(self, loader: Loader, camera: str|None = None) -> None:
+    def __init__(self, loader: Loader) -> None:
         super().__init__()
         self.frontLeftLocation = Translation2d(-constants.chassisHalfLength, constants.chassisHalfLength)
         self.frontRightLocation = Translation2d(-constants.chassisHalfLength, -constants.chassisHalfLength)
@@ -93,8 +92,6 @@ class Drivetrain(Subsystem):
                 print(f"\033[31;1mFailed to load trajectory \'{filename}\':\033[0m\n{e}")
                 self.trajectories[filename] = None
 
-        self.camera = camera
-
         self.gyro.Reset()
 
         SmartDashboard.putData("Lateral Teleop PID", constants.swerveDrivePID.toPIDController())
@@ -135,49 +132,6 @@ class Drivetrain(Subsystem):
                 self.backLeft.getPosition(),
             )
         )
-
-        if self.camera:
-            mt1 = PoseEstimate.getRobotPoseEstimateBlueMT1(self.camera)
-            setRobotOrientation(
-                self.camera,
-                self.gyro.GetRotation().Z(), 0, # Yaw (Z)
-                0, 0,                           # Pitch (Y)
-                0, 0                            # Roll (X)
-            )
-            mt2 = PoseEstimate.getRobotPoseEstimateBlueMT2(self.camera)
-
-            gyro_rate = abs(self.gyro.GetRate())
-            mt1_valid = False
-            mt1_std = [1.0, 1.0, 9999999]
-
-            if mt1.tagCount > 0:
-                if mt1.tagCount >= 2:
-                    mt1_valid = True
-                    mt1_std = [0.4, 0.4, 9999999]
-                elif len(mt1.fiducials) == 1:
-                    fid = mt1.fiducials[0]
-                    if fid.ambiguity < 0.8 and fid.cameraDistance < 4.0:
-                        mt1_valid = True
-                        scale = min(fid.distToCamera / 4.0, 1.0)
-                        mt1_std = [
-                            0.5 + 0.7 * scale,
-                            0.5 + 0.7 * scale,
-                            9999999
-                        ]
-
-            mt2_valid = (mt2.tagCount >= 2 and gyro_rate < 360)
-            mt2_std = [
-                0.6 + 0.002 * gyro_rate,
-                0.6 + 0.002 * gyro_rate,
-                9999999
-            ]
-
-            if mt2_valid:
-                self.estimator.setVisionMeasurementStdDevs(mt2_std)
-                self.estimator.addVisionMeasurement(mt2.pose, mt2.timestamp)
-            elif mt1_valid:
-                self.estimator.setVisionMeasurementStdDevs(mt1_std)
-                self.estimator.addVisionMeasurement(mt1.pose, mt1.timestamp)
 
     def stop(self) -> Command:
         return cmd.run(
