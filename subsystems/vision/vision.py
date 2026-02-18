@@ -28,6 +28,7 @@ from commands2 import Subsystem
 
 class Vision(Subsystem):
     def __init__(self, swerve: Drivetrain, cameras: list[LimelightCamera], block: bool = False) -> None:
+        super().__init__()
         self.swerve = swerve
         self.cameras = cameras
         self.stddevs = [0.0] * 3

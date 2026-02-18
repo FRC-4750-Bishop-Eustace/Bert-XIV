@@ -20,15 +20,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .swerve import *
-from .vision import *
-from .autonomous import *
+from .enable_vision_fusion import EnableVisionFusion
+from .disable_vision_fusion import DisableVisionFusion
+from .capture_snapshot import CaptureSnapshot
 
 __all__ = [
-    "DriveWithJoystick",
-    "FollowPath",
     "EnableVisionFusion",
     "DisableVisionFusion",
     "CaptureSnapshot",
-    "DefaultAuto",
 ]

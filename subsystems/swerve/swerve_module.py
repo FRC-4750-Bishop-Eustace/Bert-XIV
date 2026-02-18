@@ -36,35 +36,22 @@ class SwerveModule:
         self.turnMotor = loader.CreateMotor(MotorType.kSparkMAX, deviceId=turnMotorId, typ=MotorMode.kBrushless, inverted=False)
         self.turnEncoder = loader.CreateEncoder(EncoderType.kCANcoder, deviceId=turnEncoderId, canbus="rio")
 
-        self.drivePID = PIDController(
-            constants.swerveDrivePID.kP,
-            constants.swerveDrivePID.kI,
-            constants.swerveDrivePID.kD,
-        )
-        self.turnPID = ProfiledPIDController(
-            constants.swerveTurnPID.kP,
-            constants.swerveTurnPID.kI,
-            constants.swerveTurnPID.kD,
-            TrapezoidProfile.Constraints(
-                constants.maxAngularVelocity,
-                constants.maxAngularAcceleration
-            )
-        )
-
-        self.driveFF = SimpleMotorFeedforwardMeters(
-            constants.swerveDriveFF.kS,
-            constants.swerveDriveFF.kV
-        )
-        self.turnFF = SimpleMotorFeedforwardMeters(
-            constants.swerveTurnFF.kS,
-            constants.swerveTurnFF.kV
-        )
+        self.drivePID = constants.swerveDrivePID.toPIDController()
+        self.turnPID = constants.swerveTurnPID.toProfiledPIDController()
+        self.driveFF = constants.swerveDriveFF.toMotorFeedforwardMeters()
+        self.turnFF = constants.swerveTurnFF.toMotorFeedforwardMeters()
 
         self.turnPID.enableContinuousInput(-math.pi, math.pi)
 
+    def getState(self) -> SwerveModuleState:
+        return SwerveModuleState(
+            self.driveEncoder.GetVelocity(),
+            Rotation2d.fromRotations(self.turnEncoder.GetPosition())
+        )
+
     def getPosition(self) -> SwerveModulePosition:
         return SwerveModulePosition(
-                self.turnMotor.GetPosition(),
+                self.driveEncoder.GetPosition(),
                 Rotation2d.fromRotations(self.turnEncoder.GetPosition())
         )
 

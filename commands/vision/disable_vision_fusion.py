@@ -20,15 +20,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .swerve import *
-from .vision import *
-from .autonomous import *
+from subsystems import *
+from commands2 import InstantCommand
 
-__all__ = [
-    "DriveWithJoystick",
-    "FollowPath",
-    "EnableVisionFusion",
-    "DisableVisionFusion",
-    "CaptureSnapshot",
-    "DefaultAuto",
-]
+class DisableVisionFusion(InstantCommand):
+    def __init__(self, vision: Vision) -> None:
+        super().__init__(
+            lambda: [vision.blockVision(True)],
+            vision
+        )

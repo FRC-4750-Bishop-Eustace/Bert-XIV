@@ -20,15 +20,26 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .swerve import *
-from .vision import *
-from .autonomous import *
+from time import time
+from pathlib import Path
+from requests import RequestException, get
+from subsystems import *
+from commands2 import InstantCommand
 
-__all__ = [
-    "DriveWithJoystick",
-    "FollowPath",
-    "EnableVisionFusion",
-    "DisableVisionFusion",
-    "CaptureSnapshot",
-    "DefaultAuto",
-]
+class CaptureSnapshot(InstantCommand):
+    def __init__(self, vision: Vision) -> None:
+        super().__init__(
+            lambda: [self.getScreenshots(vision)],
+            vision
+        )
+
+    def getScreenshots(self, vision: Vision) -> None:
+        for camera in vision.cameras:
+            url = f"http://{camera.name}.local:5800/snapshot.jpg"
+            try:
+                response = get(url, timeout=0.2)
+                if response.status_code == 200 and response.content is not None:
+                    with open(f"./deploy/snapshots/snapshot{camera.name}-{int(time())}.jpg", "wb") as f:
+                        f.write(response.content)
+            except RequestException:
+                pass

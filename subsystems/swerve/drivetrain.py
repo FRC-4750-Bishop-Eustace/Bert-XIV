@@ -39,23 +39,18 @@ from choreo import SwerveTrajectory
 class Drivetrain(Subsystem):
     def __init__(self, loader: Loader) -> None:
         super().__init__()
-        self.frontLeftLocation = Translation2d(-constants.chassisHalfLength, constants.chassisHalfLength)
-        self.frontRightLocation = Translation2d(-constants.chassisHalfLength, -constants.chassisHalfLength)
-        self.backLeftLocation = Translation2d(constants.chassisHalfLength, constants.chassisHalfLength)
-        self.backRightLocation = Translation2d(constants.chassisHalfLength, -constants.chassisHalfLength)
-
         self.frontLeft = SwerveModule(loader, constants.frontLeftDriveMotorId, constants.frontLeftTurnMotorId, constants.frontLeftTurnEncoderId)
         self.frontRight = SwerveModule(loader, constants.frontRightDriveMotorId, constants.frontRightTurnMotorId, constants.frontRightTurnEncoderId)
-        self.backLeft = SwerveModule(loader, constants.backLeftDriveMotorId, constants.backLeftTurnMotorId, constants.backLeftTurnEncoderId)
         self.backRight = SwerveModule(loader, constants.backRightDriveMotorId, constants.backRightTurnMotorId, constants.backRightTurnEncoderId)
+        self.backLeft = SwerveModule(loader, constants.backLeftDriveMotorId, constants.backLeftTurnMotorId, constants.backLeftTurnEncoderId)
 
         self.gyro = loader.CreateIMU(IMUType.kNavX)
 
         self.kinematics = SwerveDrive4Kinematics(
-            self.frontLeftLocation,
-            self.frontRightLocation,
-            self.backRightLocation,
-            self.backLeftLocation
+            Translation2d(-constants.chassisHalfLength, constants.chassisHalfLength),
+            Translation2d(-constants.chassisHalfLength, -constants.chassisHalfLength),
+            Translation2d(constants.chassisHalfLength, -constants.chassisHalfLength),
+            Translation2d(constants.chassisHalfLength, constants.chassisHalfLength)
         )
         self.estimator = SwerveDrive4PoseEstimator(
             self.kinematics,
@@ -119,8 +114,8 @@ class Drivetrain(Subsystem):
 
         self.frontLeft.setDesiredState(states[0])
         self.frontRight.setDesiredState(states[1])
-        self.backLeft.setDesiredState(states[2])
-        self.backRight.setDesiredState(states[3])
+        self.backRight.setDesiredState(states[2])
+        self.backLeft.setDesiredState(states[3])
 
     def periodic(self) -> None:
         self.estimator.update(

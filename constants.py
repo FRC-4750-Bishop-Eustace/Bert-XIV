@@ -22,7 +22,7 @@
 
 import math
 from wpimath.geometry import Rotation2d
-from wpimath.controller import PIDController, ProfiledPIDController, SimpleMotorFeedforwardMeters
+from wpimath.controller import PIDController, ProfiledPIDController, SimpleMotorFeedforwardMeters, SimpleMotorFeedforwardRadians, ElevatorFeedforward
 from wpimath.trajectory import TrapezoidProfile
 
 # Robot health
@@ -102,8 +102,14 @@ class FeedForward:
         self.kA = kA
         self.kG = kG
 
-    def toMotorFeedforward(self) -> SimpleMotorFeedforwardMeters:
-        return SimpleMotorFeedforwardMeters(self.kS, self.kV, self.kA, self.kG)
+    def toMotorFeedforwardMeters(self) -> SimpleMotorFeedforwardMeters:
+        return SimpleMotorFeedforwardMeters(self.kS, self.kV, self.kA)
+
+    def toMotorFeedforwardRadians(self) -> SimpleMotorFeedforwardRadians:
+        return SimpleMotorFeedforwardRadians(self.kS, self.kV, self.kA)
+
+    def toElevatorFeedforward(self) -> ElevatorFeedforward:
+        return ElevatorFeedforward(self.kS, self.kG, self.kV, self.kA)
 
 swerveDrivePID = PID(0.02, 0, 0)
 swerveDriveFF = FeedForward(0, 2.2)

@@ -56,22 +56,22 @@ class DriveWithJoystick(Command):
                 constants.xDeadband
             ) * constants.maxSpeed
         )
-        ySpeed = self.xSlewRate.calculate(
+        ySpeed = self.ySlewRate.calculate(
             applyDeadband(
                 self.controller.getRawAxis(self.controller.Axis.kLeftX),
                 constants.yDeadband
             ) * constants.maxSpeed
         )
-        rotSpeed = (
-            self.xSlewRate.calculate(
+        rotSpeed = self.rotSlewRate.calculate(   # ✅ correct limiter
+            (
                 -applyDeadband(
                     (self.controller.getRawAxis(self.controller.Axis.kL2) + 1) / 2,
                     constants.rotDeadband
+                ) +
+                applyDeadband(
+                    (self.controller.getRawAxis(self.controller.Axis.kR2) + 1) / 2,
+                    constants.rotDeadband
                 )
-            ) +
-            applyDeadband(
-                (self.controller.getRawAxis(self.controller.Axis.kR2) + 1) / 2,
-                constants.rotDeadband
             ) * constants.rMaxSpeed
         )
 
