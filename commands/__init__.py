@@ -25,8 +25,10 @@ from .vision import *
 from .autonomous import *
 
 __all__ = [
+    "StopDrivetrain",
     "DriveWithJoystick",
     "FollowPath",
+    "ResetPose",
     "EnableVisionFusion",
     "DisableVisionFusion",
     "CaptureSnapshot",

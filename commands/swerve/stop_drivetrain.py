@@ -20,14 +20,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .stop_drivetrain import StopDrivetrain
-from .drive_with_joystick import DriveWithJoystick
-from .follow_path import FollowPath
-from .reset_pose import ResetPose
+from commands import swerve
+from subsystems import *
+from commands2 import InstantCommand
 
-__all__ = [
-    "StopDrivetrain",
-    "DriveWithJoystick",
-    "FollowPath",
-    "ResetPose",
-]
+class StopDrivetrain(InstantCommand):
+    def __init__(self, swerve: Drivetrain):
+        super().__init__(
+            lambda: [swerve.drive(0, 0, 0, True, 0.02)],
+            swerve
+        )

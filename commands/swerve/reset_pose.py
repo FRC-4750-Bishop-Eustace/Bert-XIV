@@ -20,14 +20,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .stop_drivetrain import StopDrivetrain
-from .drive_with_joystick import DriveWithJoystick
-from .follow_path import FollowPath
-from .reset_pose import ResetPose
+from subsystems import *
+from wpimath.geometry import Pose2d, Pose3d
+from commands2 import InstantCommand
 
-__all__ = [
-    "StopDrivetrain",
-    "DriveWithJoystick",
-    "FollowPath",
-    "ResetPose",
-]
+class ResetPose(InstantCommand):
+    def __init__(self, swerve: Drivetrain, pose: Pose2d):
+        def reset():
+            swerve.estimator.resetPose(pose),
+            swerve.gyro.Reset(Pose3d(pose))
+
+        super().__init__(reset, swerve)

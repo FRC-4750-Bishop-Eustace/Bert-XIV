@@ -46,7 +46,7 @@ Notify any collaborators to get editor access or to push requests.
 
 ### ⚙️ Installation
 
-1. Clone the Nautilus repository.
+1. Clone the Bert XIV repository.
 2. Navigate to the projects directory.
 3. Install dependencies (if required).
 
@@ -63,4 +63,4 @@ By contributing to Bert XIV, all of your contributions will be licensed under an
 ## ❓ FAQ
 
 - For answers to questions about the Code of Conduct go to [Contributor Covenant FAQ](https://www.contributor-covenant.org/faq/).
-- For answers to questions about Nautilus, contact any contributors.
+- For answers to questions about FRC 4750 Beʳᵗ, contact any contributors.

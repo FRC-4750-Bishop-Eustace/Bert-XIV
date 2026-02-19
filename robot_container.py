@@ -37,10 +37,20 @@ class RobotContainer:
         self.dashboard = Joystick(constants.dashboardPort)
 
         self.swerve = Drivetrain(self.loader)
-        self.swerveCmd = DriveWithJoystick(self.swerve, self.controller)
+        self.swerveCmd = DriveWithJoystick(
+            self.swerve,
+            self.controller
+        )
         self.swerve.setDefaultCommand(self.swerveCmd)
 
-        self.vision = Vision(self.swerve, [LimelightCamera("limelight")])
+        self.vision = Vision(
+            self.swerve,
+            [
+                LimelightCamera("limelight"),
+                # ...
+            ]
+        )
+        self.vision.setDefaultCommand(EnableVisionFusion(self.vision))
 
         self.field = Field2d()
         SmartDashboard.putData("Field", self.field)

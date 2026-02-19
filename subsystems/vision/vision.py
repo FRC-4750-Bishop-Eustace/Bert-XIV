@@ -27,14 +27,14 @@ from wpimath.geometry import Pose2d
 from commands2 import Subsystem
 
 class Vision(Subsystem):
-    def __init__(self, swerve: Drivetrain, cameras: list[LimelightCamera], block: bool = False) -> None:
+    def __init__(self, swerve: Drivetrain, cameras: list[LimelightCamera]) -> None:
         super().__init__()
         self.swerve = swerve
         self.cameras = cameras
         self.stddevs = [0.0] * 3
         self.pose = Pose2d()
         self.timestamp = 0
-        self.block = block
+        self.block = True
 
     def blockVision(self, block: bool = True) -> None:
         self.block = block

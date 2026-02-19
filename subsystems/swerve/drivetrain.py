@@ -31,7 +31,7 @@ from wpimath.geometry import Translation2d, Rotation2d, Pose2d
 from wpimath.controller import PIDController
 from wpimath.kinematics import SwerveDrive4Kinematics, ChassisSpeeds, SwerveModulePosition
 from wpimath.estimator import SwerveDrive4PoseEstimator
-from commands2 import Subsystem, Command
+from commands2 import Subsystem
 import commands2.cmd as cmd
 import choreo
 from choreo import SwerveTrajectory
@@ -126,12 +126,6 @@ class Drivetrain(Subsystem):
                 self.backRight.getPosition(),
                 self.backLeft.getPosition(),
             )
-        )
-
-    def stop(self) -> Command:
-        return cmd.run(
-            lambda: [self.drive(0, 0, 0, False, 0.02)],
-            self
         )
 
     def getPose(self) -> Pose2d:

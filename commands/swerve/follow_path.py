@@ -40,15 +40,15 @@ class FollowPath(Command):
         if sample:
             pose = self.getPose()
             speeds = ChassisSpeeds(
-                sample.vx + self.drivePID.calculate(
+                sample.vx + self.swerve.drivePID.calculate(
                     pose.X(),
                     pose.Y()
                 ),
-                sample.vy + self.drivePID.calculate(
+                sample.vy + self.swerve.drivePID.calculate(
                     pose.X(),
                     pose.Y()
                 ),
-                sample.omega + self.turnPID.calculate(
+                sample.omega + self.swerve.turnPID.calculate(
                     pose.rotation().radians(),
                     sample.heading
                 )
