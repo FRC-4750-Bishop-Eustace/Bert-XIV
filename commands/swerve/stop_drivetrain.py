@@ -27,6 +27,6 @@ from commands2 import InstantCommand
 class StopDrivetrain(InstantCommand):
     def __init__(self, swerve: Drivetrain):
         super().__init__(
-            lambda: [swerve.drive(0, 0, 0, True, 0.02)],
+            lambda: swerve.drive(0, 0, 0, True, 0.02),
             swerve
         )

@@ -28,18 +28,17 @@ from commands2 import InstantCommand
 
 class CaptureSnapshot(InstantCommand):
     def __init__(self, vision: Vision) -> None:
-        super().__init__(
-            lambda: [self.getScreenshots(vision)],
-            vision
-        )
+        def getScreenshots(vision: Vision) -> None:
+            for camera in vision.cameras:
+                url = f"http://{camera.name}.local:5800/snapshot.jpg"
+                try:
+                    response = get(url, timeout=0.2)
+                    if response.status_code == 200 and response.content is not None:
+                        with open(f"./deploy/snapshots/snapshot{camera.name}-{int(time())}.jpg", "wb") as f:
+                            f.write(response.content)
+                    else:
+                        print(f"\033[31;1mFailed to capture snapshot for \'{camera.name}\'\033[0m")
+                except RequestException:
+                    print(f"\033[31;1mFailed to capture snapshot for \'{camera.name}\'\033[0m")
 
-    def getScreenshots(self, vision: Vision) -> None:
-        for camera in vision.cameras:
-            url = f"http://{camera.name}.local:5800/snapshot.jpg"
-            try:
-                response = get(url, timeout=0.2)
-                if response.status_code == 200 and response.content is not None:
-                    with open(f"./deploy/snapshots/snapshot{camera.name}-{int(time())}.jpg", "wb") as f:
-                        f.write(response.content)
-            except RequestException:
-                pass
+        super().__init__(getScreenshots(vision), vision)

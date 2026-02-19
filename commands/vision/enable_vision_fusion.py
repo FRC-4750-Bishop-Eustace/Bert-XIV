@@ -26,6 +26,6 @@ from commands2 import InstantCommand
 class EnableVisionFusion(InstantCommand):
     def __init__(self, vision: Vision) -> None:
         super().__init__(
-            lambda: [vision.blockVision(False)],
+            lambda: vision.blockVision(False),
             vision
         )
