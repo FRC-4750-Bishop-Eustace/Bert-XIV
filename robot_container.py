@@ -67,7 +67,7 @@ class RobotContainer:
     def configureBindings(self) -> None:
         self.bindKey(
             self.controller.Button.kCross,
-            lambda: [self.swerveCmd.setFieldRelative(not self.swerveCmd.getFieldRelative())]
+            lambda: self.swerveCmd.setFieldRelative(not self.swerveCmd.getFieldRelative())
         )
 
     def updateField(self) -> None:
