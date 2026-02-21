@@ -57,17 +57,17 @@ vEncoderResolution = 42
 maxAngularVelocity = 1000
 maxAngularAcceleration = 1000
 
-frontLeftDriveMotorId = 4
-frontLeftTurnMotorId = 3
-frontLeftTurnEncoderId = 13
-frontRightDriveMotorId = 7
-frontRightTurnMotorId = 8
-frontRightTurnEncoderId = 10
-backRightDriveMotorId = 5
+frontLeftDriveMotorId = 1
+frontLeftTurnMotorId = 8
+frontLeftTurnEncoderId = 12
+frontRightDriveMotorId = 4
+frontRightTurnMotorId = 5
+frontRightTurnEncoderId = 9
+backRightDriveMotorId = 7
 backRightTurnMotorId = 6
-backRightTurnEncoderId = 12
+backRightTurnEncoderId = 10
 backLeftDriveMotorId = 2
-backLeftTurnMotorId = 1
+backLeftTurnMotorId = 3
 backLeftTurnEncoderId = 11
 
 # Shooter config
@@ -76,9 +76,9 @@ shooterMotor2Id = 15
 shooterSpeed = 6
 
 # Intake config
-intakeActuatorMotorId = -1
-intakeLeftMotorId = -1
-intakeRightMotorId = -1
+intakeActuatorMotorId = 13
+intakeLeftMotorId = 16
+intakeRightMotorId = 17
 intakeSpeed = 6
 actuatorSpeed = 4
 actuatorMaxRotations = 5

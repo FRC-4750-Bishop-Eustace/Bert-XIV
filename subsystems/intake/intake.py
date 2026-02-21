@@ -27,7 +27,7 @@ from commands2 import Subsystem
 class Intake(Subsystem):
     def __init__(self, loader: Loader) -> None:
         super().__init__()
-        self.actuatorMotor = loader.CreateMotor(MotorType.kSparkMAX, deviceId=constants.actuatorMotorId, typ=MotorMode.kBrushed, inverted=False)
+        self.actuatorMotor = loader.CreateMotor(MotorType.kSparkMAX, deviceId=constants.intakeActuatorMotorId, typ=MotorMode.kBrushed, inverted=False)
         self.leftMotor = loader.CreateMotor(MotorType.kSparkFlex, deviceId=constants.intakeLeftMotorId, typ=MotorMode.kBrushless, inverted=False)
         self.rightMotor = loader.CreateMotor(MotorType.kSparkFlex, deviceId=constants.intakeRightMotorId, typ=MotorMode.kBrushless, inverted=True)
 
