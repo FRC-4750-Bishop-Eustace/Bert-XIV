@@ -20,13 +20,20 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from commands import swerve
 from subsystems import *
-from commands2 import InstantCommand
+from wpilib import Joystick
+from commands2 import Command
 
-class StopDrivetrain(InstantCommand):
-    def __init__(self, swerve: Drivetrain):
-        super().__init__(
-            lambda: swerve.drive(0, 0, 0, True, 0.02),
-            swerve
-        )
+class RunShooter(Command):
+    def __init__(self, shooter: Shooter, controller: Joystick) -> None:
+        super().__init__()
+        self.shooter = shooter
+        self.controller = controller
+
+        self.addRequirements(self.shooter)
+
+    def execute(self) -> None:
+        if self.controller.getRawButton(6) == 1:
+            self.shooter.start(1)
+        if self.controller.getRawButton(9) == 1:
+            self.shooter.start(-1)

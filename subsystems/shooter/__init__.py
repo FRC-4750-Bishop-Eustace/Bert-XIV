@@ -20,14 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .swerve import *
-from .vision import *
-from .shooter import *
+from .shooter import Shooter
 
 __all__ = [
-    "SwerveModule",
-    "Drivetrain",
-    "LimelightCamera",
-    "Vision",
     "Shooter",
 ]

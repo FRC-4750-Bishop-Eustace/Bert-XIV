@@ -70,6 +70,11 @@ backLeftDriveMotorId = 2
 backLeftTurnMotorId = 1
 backLeftTurnEncoderId = 11
 
+# Shooter config
+shooterMotor1Id = 14
+shooterMotor2Id = 15
+shooterSpeed = 6
+
 # PID and feed-forward
 class PID:
     def __init__(self, kP, kI, kD) -> None:

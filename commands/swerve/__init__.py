@@ -20,13 +20,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .stop_drivetrain import StopDrivetrain
 from .drive_with_joystick import DriveWithJoystick
 from .follow_path import FollowPath
 from .reset_pose import ResetPose
 
 __all__ = [
-    "StopDrivetrain",
     "DriveWithJoystick",
     "FollowPath",
     "ResetPose",

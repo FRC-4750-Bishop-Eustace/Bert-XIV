@@ -40,12 +40,6 @@ class DriveWithJoystick(Command):
 
         self.addRequirements(self.swerve)
 
-    def setFieldRelative(self, fieldRelative: bool) -> None:
-        self.fieldRelative = fieldRelative
-
-    def getFieldRelative(self) -> bool:
-        return self.fieldRelative
-
     def execute(self) -> None:
         if not DriverStation.isTeleopEnabled():
             return
@@ -90,5 +84,8 @@ class DriveWithJoystick(Command):
             rotSpeed = 0.5
         if self.controller.getRawButton(self.controller.Button.kR1) == 1:
             rotSpeed = -0.5
+
+        if self.controller.getRawButton(self.controller.Button.kCross) == 1:
+            self.fieldRelative = not self.fieldRelative
 
         self.swerve.drive(xSpeed, ySpeed, rotSpeed, self.fieldRelative, 0.02)

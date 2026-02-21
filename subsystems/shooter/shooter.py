@@ -20,14 +20,20 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .swerve import *
-from .vision import *
-from .shooter import *
+import constants
+from hardware import *
+from commands2 import Subsystem
 
-__all__ = [
-    "SwerveModule",
-    "Drivetrain",
-    "LimelightCamera",
-    "Vision",
-    "Shooter",
-]
+class Shooter(Subsystem):
+    def __init__(self, loader: Loader) -> None:
+        super().__init__()
+        self.motor1 = loader.CreateMotor(MotorType.kSparkFlex, deviceId=constants.shooterMotor1Id, typ=MotorMode.kBrushless, inverted=True)
+        self.motor2 = loader.CreateMotor(MotorType.kSparkFlex, deviceId=constants.shooterMotor2Id, typ=MotorMode.kBrushless, inverted=False)
+
+    def start(self, direction: int) -> None:
+        self.motor1.SetVoltage(constants.shooterSpeed * direction)
+        self.motor2.SetVoltage(constants.shooterSpeed * direction)
+
+    def stop(self) -> None:
+        self.motor1.SetVoltage(0)
+        self.motor2.SetVoltage(0)

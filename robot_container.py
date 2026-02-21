@@ -37,11 +37,7 @@ class RobotContainer:
         self.dashboard = Joystick(constants.dashboardPort)
 
         self.swerve = Drivetrain(self.loader)
-        self.swerveCmd = DriveWithJoystick(
-            self.swerve,
-            self.controller
-        )
-        self.swerve.setDefaultCommand(self.swerveCmd)
+        self.swerve.setDefaultCommand(DriveWithJoystick(self.swerve, self.controller))
 
         self.vision = Vision(
             self.swerve,
@@ -52,23 +48,11 @@ class RobotContainer:
         )
         self.vision.setDefaultCommand(EnableVisionFusion(self.vision))
 
+        self.shooter = Shooter(self.loader)
+        self.shooter.setDefaultCommand(RunShooter(self.shooter, self.dashboard))
+
         self.field = Field2d()
         SmartDashboard.putData("Field", self.field)
-
-    def bindKey(self, button: int, function) -> None:
-        if button <= self.controller.getButtonCount():
-            JoystickButton(self.controller, button).onTrue(
-                InstantCommand(
-                    function,
-                    self
-                )
-            )
-
-    def configureBindings(self) -> None:
-        self.bindKey(
-            self.controller.Button.kCross,
-            lambda: self.swerveCmd.setFieldRelative(not self.swerveCmd.getFieldRelative())
-        )
 
     def updateField(self) -> None:
         self.field.setRobotPose(self.swerve.getPose())

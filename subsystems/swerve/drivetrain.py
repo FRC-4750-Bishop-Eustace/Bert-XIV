@@ -117,6 +117,9 @@ class Drivetrain(Subsystem):
         self.backRight.setDesiredState(states[2])
         self.backLeft.setDesiredState(states[3])
 
+    def stop(self) -> None:
+        self.drive(0, 0, 0, True, 0.02)
+
     def periodic(self) -> None:
         self.estimator.update(
             self.gyro.GetRotation().toRotation2d(),

@@ -22,15 +22,16 @@
 
 from .swerve import *
 from .vision import *
+from .shooter import *
 from .autonomous import *
 
 __all__ = [
-    "StopDrivetrain",
     "DriveWithJoystick",
     "FollowPath",
     "ResetPose",
     "EnableVisionFusion",
     "DisableVisionFusion",
     "CaptureSnapshot",
+    "RunShooter",
     "DefaultAuto",
 ]
