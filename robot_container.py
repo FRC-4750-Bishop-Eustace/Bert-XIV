@@ -51,6 +51,9 @@ class RobotContainer:
         self.shooter = Shooter(self.loader)
         self.shooter.setDefaultCommand(RunShooter(self.shooter, self.dashboard))
 
+        self.intake = Intake(self.loader)
+        DeployIntake(self.intake).schedule()
+        
         self.field = Field2d()
         SmartDashboard.putData("Field", self.field)
 

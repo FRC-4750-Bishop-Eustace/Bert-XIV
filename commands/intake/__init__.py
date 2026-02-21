@@ -20,21 +20,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .swerve import *
-from .vision import *
-from .shooter import *
-from .intake import *
-from .autonomous import *
+from .deploy_intake import DeployIntake
+from .stow_intake import StowIntake
 
 __all__ = [
-    "DriveWithJoystick",
-    "FollowPath",
-    "ResetPose",
-    "EnableVisionFusion",
-    "DisableVisionFusion",
-    "CaptureSnapshot",
-    "RunShooter",
     "DeployIntake",
     "StowIntake",
-    "DefaultAuto",
 ]

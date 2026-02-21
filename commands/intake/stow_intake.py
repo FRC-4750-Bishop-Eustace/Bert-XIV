@@ -20,21 +20,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .swerve import *
-from .vision import *
-from .shooter import *
-from .intake import *
-from .autonomous import *
+from subsystems import *
+from commands2 import InstantCommand
 
-__all__ = [
-    "DriveWithJoystick",
-    "FollowPath",
-    "ResetPose",
-    "EnableVisionFusion",
-    "DisableVisionFusion",
-    "CaptureSnapshot",
-    "RunShooter",
-    "DeployIntake",
-    "StowIntake",
-    "DefaultAuto",
-]
+class StowIntake(InstantCommand):
+    def __init__(self, intake: Intake) -> None:
+        def stow() -> None:
+            while intake.actuatorMotor.GetPosition() >= 0:
+                if intake.actuatorMotor.GetPosition() == 0:
+                    intake.stop()
+                intake.actuatorMotor.Set(-1)
+        super().__init__(
+            lambda: stow,
+            intake
+        )

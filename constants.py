@@ -75,6 +75,14 @@ shooterMotor1Id = 14
 shooterMotor2Id = 15
 shooterSpeed = 6
 
+# Intake config
+intakeActuatorMotorId = -1
+intakeLeftMotorId = -1
+intakeRightMotorId = -1
+intakeSpeed = 6
+actuatorSpeed = 4
+actuatorMaxRotations = 5
+
 # PID and feed-forward
 class PID:
     def __init__(self, kP, kI, kD) -> None:

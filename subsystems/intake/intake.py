@@ -20,21 +20,21 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .swerve import *
-from .vision import *
-from .shooter import *
-from .intake import *
-from .autonomous import *
+import constants
+from hardware import *
+from commands2 import Subsystem
 
-__all__ = [
-    "DriveWithJoystick",
-    "FollowPath",
-    "ResetPose",
-    "EnableVisionFusion",
-    "DisableVisionFusion",
-    "CaptureSnapshot",
-    "RunShooter",
-    "DeployIntake",
-    "StowIntake",
-    "DefaultAuto",
-]
+class Intake(Subsystem):
+    def __init__(self, loader: Loader) -> None:
+        super().__init__()
+        self.actuatorMotor = loader.CreateMotor(MotorType.kSparkMAX, deviceId=constants.actuatorMotorId, typ=MotorMode.kBrushed, inverted=False)
+        self.leftMotor = loader.CreateMotor(MotorType.kSparkFlex, deviceId=constants.intakeLeftMotorId, typ=MotorMode.kBrushless, inverted=False)
+        self.rightMotor = loader.CreateMotor(MotorType.kSparkFlex, deviceId=constants.intakeRightMotorId, typ=MotorMode.kBrushless, inverted=True)
+
+    def start(self, direction: int) -> None:
+        self.leftMotor.SetVoltage(constants.intakeSpeed * direction)
+        self.leftMotor.SetVoltage(constants.intakeSpeed * direction)
+
+    def stop(self) -> None:
+        self.leftMotor.SetVoltage(0)
+        self.rightMotor.SetVoltage(0)
