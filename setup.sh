@@ -3,7 +3,7 @@
 set -e
 
 pip install --upgrade pip
-pip install -r requirements.txt --upgrade
+pip install robotpy --upgrade
 
 SKIP_SYNC=true
 for arg in "$@"; do

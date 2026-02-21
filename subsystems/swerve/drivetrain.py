@@ -47,10 +47,10 @@ class Drivetrain(Subsystem):
         self.gyro = loader.CreateIMU(IMUType.kNavX)
 
         self.kinematics = SwerveDrive4Kinematics(
-            Translation2d(-constants.chassisHalfLength, constants.chassisHalfLength),
+            Translation2d( constants.chassisHalfLength,  constants.chassisHalfLength),
+            Translation2d( constants.chassisHalfLength, -constants.chassisHalfLength),
             Translation2d(-constants.chassisHalfLength, -constants.chassisHalfLength),
-            Translation2d(constants.chassisHalfLength, -constants.chassisHalfLength),
-            Translation2d(constants.chassisHalfLength, constants.chassisHalfLength)
+            Translation2d(-constants.chassisHalfLength,  constants.chassisHalfLength)
         )
         self.estimator = SwerveDrive4PoseEstimator(
             self.kinematics,

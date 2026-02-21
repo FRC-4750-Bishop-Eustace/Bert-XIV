@@ -22,7 +22,7 @@
 
 from typing import Any
 from ..motor_base import Motor
-from ..enums import MotorMode
+from ..enums import MotorMode, IdleMode
 
 class SparkMAX(Motor):
     backendName = "REV_SparkMAX"
@@ -39,7 +39,7 @@ class SparkMAX(Motor):
             self.hw = rev.SparkMax(self.deviceId, rev.SparkMax.MotorType.kBrushless if self.typ == MotorMode.kBrushless else rev.SparkMax.MotorType.kBrushed)
             config = rev.SparkMaxConfig()
             config.inverted(self.inverted)
-            self.hw.configure(config, rev.SparkBase.ResetMode.kNoResetSafeParameters, rev.SparkBase.PersistMode.kPersistParameters)
+            self.hw.configure(config, rev.ResetMode.kNoResetSafeParameters, rev.PersistMode.kPersistParameters)
 
         except Exception:
             class Dummy:
@@ -62,6 +62,12 @@ class SparkMAX(Motor):
                     self.voltage = 0
                     self.enc = self.DummyAbsoluteEncoder()
 
+                def disable(self) -> None:
+                    self.speed = self.voltage = 0
+
+                def configure(self, config, resetMode, persistMode) -> None:
+                    pass
+
                 def set(self, speed: float) -> None:
                     self.speed = speed
 
@@ -76,6 +82,21 @@ class SparkMAX(Motor):
                     self.voltage = 0
 
             self.hw = Dummy(self.deviceId, self.typ, self.inverted)
+
+    def SetParameters(self, inverted: bool, mode: IdleMode, velocityFactor: float|None = None, positionFactor: float|None = None) -> None:
+        try:
+            import rev
+            config = rev.SparkMaxConfig()
+            config.inverted(inverted)
+            config.setIdleMode(rev.SparkMaxConfig.IdleMode.kCoast if mode == IdleMode.kCoast else rev.SparkMaxConfig.IdleMode.kBrake)
+            if velocityFactor is not None:
+                config.encoder.velocityConversionFactor(velocityFactor)
+            if positionFactor is not None:
+                config.encoder.positionConversionFactor(positionFactor)
+            self.hw.disable()
+            self.hw.configure(config, rev.ResetMode.kResetSafeParameters, rev.PersistMode.kPersistParameters)
+        except Exception:
+            self.hw.configure(None, None, None)
 
     def Set(self, speed: float) -> None:
         try:

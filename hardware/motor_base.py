@@ -22,6 +22,8 @@
 
 from abc import abstractmethod
 from typing import Any, Dict
+
+from .enums import IdleMode
 from .device import Device
 
 class Motor(Device):
@@ -29,6 +31,10 @@ class Motor(Device):
 
     def __init__(self) -> None:
         super().__init__()
+
+    @abstractmethod
+    def SetParameters(self, inverted: bool, mode: IdleMode, velocityFactor: float|None = None, positionFactor: float|None = None) -> None:
+        raise NotImplementedError
 
     @abstractmethod
     def Set(self, speed: float) -> None:

@@ -39,6 +39,10 @@ class MotorMode(Enum):
     kBrushless = "Brushless"
     kBrushed = "Brushed"
 
+class IdleMode(Enum):
+    kCoast = 0
+    kBrake = 1
+
 class EncoderType(Enum):
     kEncoder = "WPI_Encoder"
     kCANcoder = "CTRE_CANcoder"

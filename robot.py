@@ -22,7 +22,6 @@
 
 from health import RobotHealth
 from robot_container import RobotContainer
-from wpilib import DataLogManager
 from commands2 import TimedCommandRobot, CommandScheduler
 from urcl import URCL
 
@@ -31,7 +30,6 @@ class MyRobot(TimedCommandRobot):
         super().__init__()
 
     def robotInit(self) -> None:
-        DataLogManager.start()
         URCL.start()
 
         self.health = RobotHealth()

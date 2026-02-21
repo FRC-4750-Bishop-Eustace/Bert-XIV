@@ -81,7 +81,7 @@ class RobotHealth:
         self.fatal = True
         self.fatalMsg = msg
 
-        DriverStation.reportError(f"Robot fault: {msg}", False)
+        # DriverStation.reportError(f"Robot fault: {msg}", False)
         print(f"\033[31;1mRobot fault: {msg}\033[0m")
 
     def triggerWarnFault(self, msg: str) -> None:
@@ -90,6 +90,6 @@ class RobotHealth:
 
         now = time.monotonic()
         if now - self.lastMsgTime >= constants.messageInterval:
-            DriverStation.reportWarning(f"Robot warning: {msg}", False)
+            # DriverStation.reportWarning(f"Robot warning: {msg}", False)
             print(f"\033[33;1mRobot warning: {msg}\033[0m")
             self.lastMsgTime = now

@@ -33,6 +33,7 @@ __all__ = [
     "DeviceType",
     "MotorType",
     "MotorMode",
+    "IdleMode",
     "EncoderType",
     "IMUType",
     "CameraType",

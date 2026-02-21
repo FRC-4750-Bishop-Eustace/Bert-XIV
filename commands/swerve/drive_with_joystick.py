@@ -50,29 +50,45 @@ class DriveWithJoystick(Command):
         if not DriverStation.isTeleopEnabled():
             return
 
-        xSpeed = self.xSlewRate.calculate(
+        xSpeed = -self.xSlewRate.calculate(
             applyDeadband(
                 self.controller.getRawAxis(self.controller.Axis.kLeftY),
                 constants.xDeadband
             ) * constants.maxSpeed
         )
-        ySpeed = self.ySlewRate.calculate(
+        ySpeed = -self.ySlewRate.calculate(
             applyDeadband(
                 self.controller.getRawAxis(self.controller.Axis.kLeftX),
                 constants.yDeadband
             ) * constants.maxSpeed
         )
-        rotSpeed = self.rotSlewRate.calculate(   # ✅ correct limiter
+        rotSpeed = (
             (
-                -applyDeadband(
-                    (self.controller.getRawAxis(self.controller.Axis.kL2) + 1) / 2,
-                    constants.rotDeadband
-                ) +
+                self.rotSlewRate.calculate(
+                    applyDeadband(
+                        (self.controller.getRawAxis(self.controller.Axis.kL2) + 1) / 2,
+                        constants.rotDeadband
+                    )
+                ) -
                 applyDeadband(
                     (self.controller.getRawAxis(self.controller.Axis.kR2) + 1) / 2,
                     constants.rotDeadband
                 )
             ) * constants.rMaxSpeed
         )
+
+        if self.controller.getPOV() == 0:
+            xSpeed = 0.2
+        if self.controller.getPOV() == 90:
+            ySpeed = -0.2
+        if self.controller.getPOV() == 180:
+            xSpeed = -0.2
+        if self.controller.getPOV() == 270:
+            ySpeed = 0.2
+
+        if self.controller.getRawButton(self.controller.Button.kL1) == 1:
+            rotSpeed = 0.5
+        if self.controller.getRawButton(self.controller.Button.kR1) == 1:
+            rotSpeed = -0.5
 
         self.swerve.drive(xSpeed, ySpeed, rotSpeed, self.fieldRelative, 0.02)

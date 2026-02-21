@@ -74,6 +74,12 @@ class TalonFXS(Motor):
 
             self.hw = Dummy(self.deviceId, self.canbus, self.inverted)
 
+    def SetParameters(self, inverted: bool, mode, velocityFactor: float|None = None, positionFactor: float|None = None) -> None:
+        try:
+            pass
+        except Exception:
+            pass
+
     def Set(self, speed: float) -> None:
         try:
             self.hw.set(speed)

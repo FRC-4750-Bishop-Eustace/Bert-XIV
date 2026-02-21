@@ -26,4 +26,6 @@ requires = [
     "robotpy-rev",
     "sleipnirgroup-choreolib",
     "robotpy-urcl",
+
+    "requests",
 ]

@@ -38,9 +38,9 @@ ps4ControllerPort = 2
 dashboardPort = 0
 
 # Speed config
-maxSpeed = 3.5
+maxSpeed = 4.6
 rMaxSpeed = 8.5
-tMaxSpeed = 3.0
+tMaxSpeed = 4.6
 maxAngularSpeed = math.pi
 frontLeftZero = 0
 frontRightZero = 0
@@ -49,8 +49,8 @@ backRightZero = 0
 zeroThreshold = Rotation2d(0.3)
 
 # Chassis config
-chassisHalfLength = 0.32
-wheelRadius = 0.0508
+chassisHalfLength = 0.314
+wheelRadius = 0.0492
 driveReduction = 425 / 63
 encoderResolution = 4096
 vEncoderResolution = 42

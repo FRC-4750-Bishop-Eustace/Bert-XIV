@@ -36,6 +36,17 @@ class SwerveModule:
         self.turnMotor = loader.CreateMotor(MotorType.kSparkMAX, deviceId=turnMotorId, typ=MotorMode.kBrushless, inverted=False)
         self.turnEncoder = loader.CreateEncoder(EncoderType.kCANcoder, deviceId=turnEncoderId, canbus="rio")
 
+        self.driveMotor.SetParameters(
+            False,
+            IdleMode.kCoast,
+            (math.tau * constants.wheelRadius / 60) / constants.driveReduction,
+            (constants.wheelRadius * math.tau) / constants.driveReduction
+        )
+        self.turnMotor.SetParameters(
+            True,
+            IdleMode.kCoast
+        )
+
         self.drivePID = constants.swerveDrivePID.toPIDController()
         self.turnPID = constants.swerveTurnPID.toProfiledPIDController()
         self.driveFF = constants.swerveDriveFF.toMotorFeedforwardMeters()
