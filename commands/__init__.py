@@ -34,7 +34,9 @@ __all__ = [
     "DisableVisionFusion",
     "CaptureSnapshot",
     "RunShooter",
+    "FeedShooter",
     "DeployIntake",
     "StowIntake",
+    "RunIntake",
     "DefaultAuto",
 ]

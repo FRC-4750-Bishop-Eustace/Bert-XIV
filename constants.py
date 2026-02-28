@@ -72,15 +72,16 @@ backLeftTurnEncoderId = 11
 
 # Shooter config
 shooterMotor1Id = 14
-shooterMotor2Id = 15
+shooterMotor2Id = 17
+shooterFeederMotorId = 18
 shooterSpeed = 6
 
 # Intake config
 intakeActuatorMotorId = 13
 intakeLeftMotorId = 16
-intakeRightMotorId = 17
+intakeRightMotorId = 15 
 intakeSpeed = 6
-actuatorSpeed = 4
+actuatorSpeed = 12
 actuatorMaxRotations = 5
 
 # PID and feed-forward

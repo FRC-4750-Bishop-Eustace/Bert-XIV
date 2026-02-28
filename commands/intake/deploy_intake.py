@@ -21,16 +21,15 @@
 # SOFTWARE.
 
 from subsystems import *
-from commands2 import InstantCommand
+from wpilib import Joystick
+from commands2 import Command
 
-class DeployIntake(InstantCommand):
-    def __init__(self, intake: Intake) -> None:
-        def deploy() -> None:
-            while intake.actuatorMotor.GetPosition() <= constants.actuatorMaxRotations:
-                if intake.actuatorMotor.GetPosition() == constants.actuatorMaxRotations:
-                    intake.stop()
-                intake.actuatorMotor.Set(1)
-        super().__init__(
-            lambda: deploy,
-            intake
-        )
+class DeployIntake(Command):
+    def __init__(self, intake_actuator: IntakeActuator) -> None:
+        super().__init__()
+        self.intake_actuator = intake_actuator
+
+        self.addRequirements(self.intake_actuator)
+
+    def execute(self) -> None:
+        self.intake_actuator.deploy()

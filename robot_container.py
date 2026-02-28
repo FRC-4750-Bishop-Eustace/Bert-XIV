@@ -39,23 +39,44 @@ class RobotContainer:
         self.swerve = Drivetrain(self.loader)
         self.swerve.setDefaultCommand(DriveWithJoystick(self.swerve, self.controller))
 
-        self.vision = Vision(
-            self.swerve,
-            [
-                LimelightCamera("limelight"),
-                # ...
-            ]
-        )
+        self.vision = Vision(self.swerve, [LimelightCamera("limelight")])
         self.vision.setDefaultCommand(EnableVisionFusion(self.vision))
 
         self.shooter = Shooter(self.loader)
         self.shooter.setDefaultCommand(RunShooter(self.shooter, self.dashboard))
 
+        self.intake_actuator = IntakeActuator(self.loader)
         self.intake = Intake(self.loader)
-        DeployIntake(self.intake).schedule()
+        self.intake.setDefaultCommand(RunIntake(self.intake, self.dashboard))
         
         self.field = Field2d()
         SmartDashboard.putData("Field", self.field)
+
+    def configureBindings(self) -> None:
+        JoystickButton(self.dashboard, 1).whileTrue(
+            FeedShooter(self.shooter)
+        ).whileFalse(
+            InstantCommand(
+                lambda: self.shooter.stopFeeder(),
+                self.shooter
+            )
+        )
+        JoystickButton(self.dashboard, 8).whileTrue(
+            DeployIntake(self.intake_actuator)
+        ).whileFalse(
+            InstantCommand(
+                lambda: self.intake_actuator.stop(),
+                self.intake_actuator
+            )
+        )
+        JoystickButton(self.dashboard, 10).whileTrue(
+            StowIntake(self.intake_actuator)
+        ).whileFalse(
+            InstantCommand(
+                lambda: self.intake_actuator.stop(),
+                self.intake_actuator
+            )
+        )
 
     def updateField(self) -> None:
         self.field.setRobotPose(self.swerve.getPose())

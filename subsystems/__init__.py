@@ -32,4 +32,5 @@ __all__ = [
     "Vision",
     "Shooter",
     "Intake",
+    "IntakeActuator",
 ]

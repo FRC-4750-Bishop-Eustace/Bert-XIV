@@ -21,7 +21,9 @@
 # SOFTWARE.
 
 from .intake import Intake
+from .intake_actuator import IntakeActuator
 
 __all__ = [
     "Intake",
+    "IntakeActuator",
 ]

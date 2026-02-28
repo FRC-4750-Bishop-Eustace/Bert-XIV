@@ -21,16 +21,15 @@
 # SOFTWARE.
 
 from subsystems import *
-from commands2 import InstantCommand
+from wpilib import Joystick
+from commands2 import Command
 
-class StowIntake(InstantCommand):
-    def __init__(self, intake: Intake) -> None:
-        def stow() -> None:
-            while intake.actuatorMotor.GetPosition() >= 0:
-                if intake.actuatorMotor.GetPosition() == 0:
-                    intake.stop()
-                intake.actuatorMotor.Set(-1)
-        super().__init__(
-            lambda: stow,
-            intake
-        )
+class StowIntake(Command):
+    def __init__(self, intake_actuator: IntakeActuator) -> None:
+        super().__init__()
+        self.intake_actuator = intake_actuator
+
+        self.addRequirements(self.intake_actuator)
+
+    def execute(self) -> None:
+        self.intake_actuator.stow()

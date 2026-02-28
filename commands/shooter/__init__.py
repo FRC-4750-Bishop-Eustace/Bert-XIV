@@ -21,7 +21,9 @@
 # SOFTWARE.
 
 from .run_shooter import RunShooter
+from .feed_shooter import FeedShooter
 
 __all__ = [
     "RunShooter",
+    "FeedShooter",
 ]
