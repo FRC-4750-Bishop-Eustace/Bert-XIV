@@ -20,22 +20,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from subsystems import *
-from wpilib import Joystick
-from commands2 import Command
+from .intake import Intake
+from .intake_actuator import IntakeActuator
 
-class RunShooter(Command):
-    def __init__(self, shooter: Shooter, controller: Joystick) -> None:
-        super().__init__()
-        self.shooter = shooter
-        self.controller = controller
-
-        self.addRequirements(self.shooter)
-
-    def execute(self) -> None:
-        if self.controller.getRawButton(6):
-            self.shooter.start(1)
-        elif self.controller.getRawButton(9):
-            self.shooter.start(-1)
-        else:
-            self.shooter.stop()
+__all__ = [
+    "Intake",
+    "IntakeActuator",
+]

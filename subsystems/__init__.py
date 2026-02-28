@@ -23,6 +23,7 @@
 from .swerve import *
 from .vision import *
 from .shooter import *
+from .intake import *
 
 __all__ = [
     "SwerveModule",
@@ -30,4 +31,6 @@ __all__ = [
     "LimelightCamera",
     "Vision",
     "Shooter",
+    "Intake",
+    "IntakeActuator",
 ]

@@ -24,18 +24,12 @@ from subsystems import *
 from wpilib import Joystick
 from commands2 import Command
 
-class RunShooter(Command):
-    def __init__(self, shooter: Shooter, controller: Joystick) -> None:
+class StowIntake(Command):
+    def __init__(self, intake_actuator: IntakeActuator) -> None:
         super().__init__()
-        self.shooter = shooter
-        self.controller = controller
+        self.intake_actuator = intake_actuator
 
-        self.addRequirements(self.shooter)
+        self.addRequirements(self.intake_actuator)
 
     def execute(self) -> None:
-        if self.controller.getRawButton(6):
-            self.shooter.start(1)
-        elif self.controller.getRawButton(9):
-            self.shooter.start(-1)
-        else:
-            self.shooter.stop()
+        self.intake_actuator.stow()

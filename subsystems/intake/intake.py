@@ -20,22 +20,20 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from subsystems import *
-from wpilib import Joystick
-from commands2 import Command
+import constants
+from hardware import *
+from commands2 import Subsystem
 
-class RunShooter(Command):
-    def __init__(self, shooter: Shooter, controller: Joystick) -> None:
+class Intake(Subsystem):
+    def __init__(self, loader: Loader) -> None:
         super().__init__()
-        self.shooter = shooter
-        self.controller = controller
+        self.leftMotor = loader.CreateMotor(MotorType.kSparkFlex, deviceId=constants.intakeLeftMotorId, typ=MotorMode.kBrushless, inverted=False)
+        self.rightMotor = loader.CreateMotor(MotorType.kSparkFlex, deviceId=constants.intakeRightMotorId, typ=MotorMode.kBrushless, inverted=True)
 
-        self.addRequirements(self.shooter)
+    def start(self, direction: int) -> None:
+        self.leftMotor.SetVoltage(constants.intakeSpeed * direction)
+        self.leftMotor.SetVoltage(constants.intakeSpeed * direction)
 
-    def execute(self) -> None:
-        if self.controller.getRawButton(6):
-            self.shooter.start(1)
-        elif self.controller.getRawButton(9):
-            self.shooter.start(-1)
-        else:
-            self.shooter.stop()
+    def stop(self) -> None:
+        self.leftMotor.SetVoltage(0)
+        self.rightMotor.SetVoltage(0)

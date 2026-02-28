@@ -35,6 +35,7 @@ class MyRobot(TimedCommandRobot):
         self.health = RobotHealth()
 
         self.robot = RobotContainer()
+        self.robot.configureBindings()
         self.autoCmd = None
 
     def robotPeriodic(self) -> None:

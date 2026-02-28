@@ -23,6 +23,7 @@
 from .swerve import *
 from .vision import *
 from .shooter import *
+from .intake import *
 from .autonomous import *
 
 __all__ = [
@@ -34,5 +35,9 @@ __all__ = [
     "DisableVisionFusion",
     "CaptureSnapshot",
     "RunShooter",
+    "FeedShooter",
+    "DeployIntake",
+    "StowIntake",
+    "RunIntake",
     "DefaultAuto",
 ]

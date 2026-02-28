@@ -61,23 +61,32 @@ vEncoderResolution = 42
 maxAngularVelocity = 1000
 maxAngularAcceleration = 1000
 
-frontLeftDriveMotorId = 4
-frontLeftTurnMotorId = 3
-frontLeftTurnEncoderId = 13
-frontRightDriveMotorId = 7
-frontRightTurnMotorId = 8
-frontRightTurnEncoderId = 10
-backRightDriveMotorId = 5
+frontLeftDriveMotorId = 1
+frontLeftTurnMotorId = 8
+frontLeftTurnEncoderId = 12
+frontRightDriveMotorId = 4
+frontRightTurnMotorId = 5
+frontRightTurnEncoderId = 9
+backRightDriveMotorId = 7
 backRightTurnMotorId = 6
-backRightTurnEncoderId = 12
+backRightTurnEncoderId = 10
 backLeftDriveMotorId = 2
-backLeftTurnMotorId = 1
+backLeftTurnMotorId = 3
 backLeftTurnEncoderId = 11
 
 # Shooter config
 shooterMotor1Id = 14
-shooterMotor2Id = 15
+shooterMotor2Id = 17
+shooterFeederMotorId = 18
 shooterSpeed = 6
+
+# Intake config
+intakeActuatorMotorId = 13
+intakeLeftMotorId = 16
+intakeRightMotorId = 15 
+intakeSpeed = 6
+actuatorSpeed = 12
+actuatorMaxRotations = 5
 
 # PID and feed-forward
 class PID:
