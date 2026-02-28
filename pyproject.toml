@@ -19,7 +19,6 @@ components = [
 
 # Other pip packages to install
 requires = [
-    "robotpy-commands-v2",
     "robotpy-navx",
     "robotpy-pathplannerlib",
     "phoenix6",
