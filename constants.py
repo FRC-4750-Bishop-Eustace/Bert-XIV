@@ -25,6 +25,10 @@ from wpimath.geometry import Rotation2d
 from wpimath.controller import PIDController, ProfiledPIDController, SimpleMotorFeedforwardMeters, SimpleMotorFeedforwardRadians, ElevatorFeedforward
 from wpimath.trajectory import TrapezoidProfile
 
+# Field dimensions (meters)
+fieldLength = 17.37
+fieldWidth = 8.08
+
 # Robot health
 voltageWarn = 10.5
 voltageCritical = 9.3

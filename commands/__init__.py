@@ -29,6 +29,7 @@ __all__ = [
     "DriveWithJoystick",
     "FollowPath",
     "ResetPose",
+    "LockOntoPoint",
     "EnableVisionFusion",
     "DisableVisionFusion",
     "CaptureSnapshot",
