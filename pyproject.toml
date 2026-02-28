@@ -3,7 +3,7 @@
 [tool.robotpy]
 
 # Version of robotpy this project depends on
-robotpy_version = "2026.2.1"
+robotpy_version = "2026.2.1.1"
 
 # Which extra RobotPy components should be installed
 components = [
@@ -19,6 +19,7 @@ components = [
 
 # Other pip packages to install
 requires = [
+    "robotpy-commands-v2",
     "robotpy-navx",
     "robotpy-pathplannerlib",
     "phoenix6",
