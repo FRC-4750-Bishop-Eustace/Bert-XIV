@@ -36,10 +36,12 @@ class MyRobot(TimedCommandRobot):
 
         self.robot = RobotContainer()
         self.robot.configureBindings()
+
         self.autoCmd = None
+        self.cmdScheduler = CommandScheduler.getInstance()
 
     def robotPeriodic(self) -> None:
-        CommandScheduler.getInstance().run()
+        self.cmdScheduler.run()
         self.robot.updateField()
         self.health.update()
 
@@ -56,6 +58,11 @@ class MyRobot(TimedCommandRobot):
             self.autoCmd.cancel()
 
     def teleopPeriodic(self) -> None:
+        """
+        The `teleopPeriodic` function is not directly used here
+        but if it's not defined, WPILib sends an annoying warning message
+        (this is the same for `autonomousPeriodic`, `disabledPeriodic`, `_simulationPeriodic`, and `testPeriodic`)
+        """
         pass
 
     def disabledPeriodic(self) -> None:

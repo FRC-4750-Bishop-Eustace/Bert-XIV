@@ -38,7 +38,7 @@ class Shooter(Subsystem):
     def start(self, direction: int) -> None:
         self.motor1.SetVoltage(constants.shooterSpeed * direction)
         self.motor2.SetVoltage(constants.shooterSpeed * direction)
-        
+
     def startFeeder(self, direction: int) -> None:
         self.feeder.SetVoltage((constants.shooterSpeed * direction) / 2)
 

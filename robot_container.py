@@ -48,7 +48,7 @@ class RobotContainer:
         self.intake_actuator = IntakeActuator(self.loader)
         self.intake = Intake(self.loader)
         self.intake.setDefaultCommand(RunIntake(self.intake, self.dashboard))
-        
+
         self.field = Field2d()
         SmartDashboard.putData("Field", self.field)
 

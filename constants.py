@@ -78,12 +78,12 @@ backLeftTurnEncoderId = 11
 shooterMotor1Id = 14
 shooterMotor2Id = 17
 shooterFeederMotorId = 18
-shooterSpeed = 6
+shooterSpeed = 10
 
 # Intake config
 intakeActuatorMotorId = 13
 intakeLeftMotorId = 16
-intakeRightMotorId = 15 
+intakeRightMotorId = 15
 intakeSpeed = 6
 actuatorSpeed = 12
 actuatorMaxRotations = 5
