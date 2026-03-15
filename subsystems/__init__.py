@@ -31,6 +31,7 @@ __all__ = [
     "LimelightCamera",
     "Vision",
     "Shooter",
+    "Feeder",
     "Intake",
     "IntakeActuator",
 ]
