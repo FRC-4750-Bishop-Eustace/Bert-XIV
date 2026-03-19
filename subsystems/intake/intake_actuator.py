@@ -28,12 +28,16 @@ class IntakeActuator(Subsystem):
     def __init__(self, loader: Loader) -> None:
         super().__init__()
         self.actuatorMotor = loader.CreateMotor(MotorType.kSparkMAX, deviceId=constants.intakeActuatorMotorId, typ=MotorMode.kBrushed, inverted=True)
+        self.actuatorMotor2 = loader.CreateMotor(MotorType.kSparkMAX, deviceId=constants.intakeActuatorMotor2Id, typ=MotorMode.kBrushed, inverted=True)
 
     def deploy(self) -> None:
         self.actuatorMotor.SetVoltage(constants.actuatorSpeed)
+        self.actuatorMotor2.SetVoltage(constants.actuatorSpeed)
 
     def stow(self) -> None:
         self.actuatorMotor.SetVoltage(-constants.actuatorSpeed)
+        self.actuatorMotor2.SetVoltage(-constants.actuatorSpeed)
 
     def stop(self) -> None:
         self.actuatorMotor.Stop()
+        self.actuatorMotor2.Stop()

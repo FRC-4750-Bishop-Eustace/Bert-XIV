@@ -23,6 +23,7 @@
 import constants
 from hardware import *
 from commands2 import Subsystem
+from wpilib import SmartDashboard
 
 class Shooter(Subsystem):
     def __init__(self, loader: Loader) -> None:
@@ -35,12 +36,14 @@ class Shooter(Subsystem):
         self.motor2.SetParameters(False, IdleMode.kCoast)
         self.feeder.SetParameters(False, IdleMode.kCoast)
 
+        SmartDashboard.putNumber("Shooter Voltage", constants.shooterSpeed)
+
     def start(self, direction: int) -> None:
-        self.motor1.SetVoltage(constants.shooterSpeed * direction)
-        self.motor2.SetVoltage(constants.shooterSpeed * direction)
+        self.motor1.SetVoltage(SmartDashboard.getNumber("Shooter Voltage", constants.shooterSpeed) * direction)
+        self.motor2.SetVoltage(SmartDashboard.getNumber("Shooter Voltage", constants.shooterSpeed) * direction)
 
     def startFeeder(self, direction: int) -> None:
-        self.feeder.SetVoltage((constants.shooterSpeed * direction) / 2)
+        self.feeder.SetVoltage((SmartDashboard.getNumber("Shooter Voltage", constants.shooterSpeed) * direction) / 2)
 
     def stop(self) -> None:
         self.motor1.SetVoltage(0)

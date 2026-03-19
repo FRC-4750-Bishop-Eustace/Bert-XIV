@@ -53,7 +53,7 @@ backRightZero = 0
 zeroThreshold = Rotation2d(0.3)
 
 # Chassis config
-chassisHalfLength = 0.314
+chassisHalfLength = 0.3429 #0.314
 wheelRadius = 0.0492
 driveReduction = 425 / 63
 encoderResolution = 4096
@@ -78,10 +78,11 @@ backLeftTurnEncoderId = 11
 shooterMotor1Id = 14
 shooterMotor2Id = 17
 shooterFeederMotorId = 18
-shooterSpeed = 10
+shooterSpeed = 6
 
 # Intake config
 intakeActuatorMotorId = 13
+intakeActuatorMotor2Id = 19
 intakeLeftMotorId = 16
 intakeRightMotorId = 15
 intakeSpeed = 6
@@ -137,9 +138,9 @@ swerveAutoDrivePID = PID(0.4, 0, 0.001)
 swerveAutoTurnPID = PID(1.3, 0, 0.1)
 
 # Controllers
-xSlewRate = 3
-ySlewRate = 3
+xSlewRate = 4 #3
+ySlewRate = 4 #3
 rotSlewRate = 1
-xDeadband = 0.1
-yDeadband = 0.1
+xDeadband = 0.05
+yDeadband = 0.05
 rotDeadband = 0.2
