@@ -38,6 +38,5 @@ __all__ = [
     "FeedShooter",
     "DeployIntake",
     "StowIntake",
-    "RunIntake",
     "DefaultAuto",
 ]

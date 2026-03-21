@@ -42,19 +42,23 @@ class DriveWithJoystick(Command):
 
         SmartDashboard.putBoolean("Field Relative", self.fieldRelative)
 
+    def toggleFieldRelative(self) -> None:
+        self.fieldRelative = not self.fieldRelative
+        SmartDashboard.putBoolean("Field Relative", self.fieldRelative)
+
     def execute(self) -> None:
         if not DriverStation.isTeleopEnabled():
             return
 
         xSpeed = -self.xSlewRate.calculate(
             applyDeadband(
-                self.controller.getRawAxis(self.controller.Axis.kLeftY),
+                self.controller.getRawAxis(constants.ps4LeftY),
                 constants.xDeadband
             ) * constants.maxSpeed
         )
         ySpeed = -self.ySlewRate.calculate(
             applyDeadband(
-                self.controller.getRawAxis(self.controller.Axis.kLeftX),
+                self.controller.getRawAxis(constants.ps4LeftX),
                 constants.yDeadband
             ) * constants.maxSpeed
         )
@@ -62,33 +66,29 @@ class DriveWithJoystick(Command):
             (
                 self.rotSlewRate.calculate(
                     applyDeadband(
-                        (self.controller.getRawAxis(self.controller.Axis.kL2) + 1) / 2,
+                        (self.controller.getRawAxis(constants.ps4L2) + 1) / 2,
+                        constants.rotDeadband
+                    ) -
+                    applyDeadband(
+                        (self.controller.getRawAxis(constants.ps4R2) + 1) / 2,
                         constants.rotDeadband
                     )
-                ) -
-                applyDeadband(
-                    (self.controller.getRawAxis(self.controller.Axis.kR2) + 1) / 2,
-                    constants.rotDeadband
                 )
             ) * constants.rMaxSpeed
         )
 
-        if self.controller.getPOV() == 0:
+        if self.controller.getPOV() == constants.ps4Up:
             xSpeed = 0.2
-        if self.controller.getPOV() == 90:
+        if self.controller.getPOV() == constants.ps4Right:
             ySpeed = -0.2
-        if self.controller.getPOV() == 180:
+        if self.controller.getPOV() == constants.ps4Down:
             xSpeed = -0.2
-        if self.controller.getPOV() == 270:
+        if self.controller.getPOV() == constants.ps4Left:
             ySpeed = 0.2
 
-        if self.controller.getRawButton(self.controller.Button.kL1) == 1:
+        if self.controller.getRawButton(constants.ps4L1) == 1:
             rotSpeed = 0.5
-        if self.controller.getRawButton(self.controller.Button.kR1) == 1:
+        if self.controller.getRawButton(constants.ps4R1) == 1:
             rotSpeed = -0.5
-
-        if self.controller.getRawButton(self.controller.Button.kCross) == 1:
-            self.fieldRelative = not self.fieldRelative
-            SmartDashboard.putBoolean("Field Relative", self.fieldRelative)
 
         self.swerve.drive(xSpeed, ySpeed, rotSpeed, self.fieldRelative, 0.02)

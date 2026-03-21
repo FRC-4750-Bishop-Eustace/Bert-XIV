@@ -27,13 +27,19 @@ from commands2 import Subsystem
 class Intake(Subsystem):
     def __init__(self, loader: Loader) -> None:
         super().__init__()
-        self.leftMotor = loader.CreateMotor(MotorType.kSparkFlex, deviceId=constants.intakeLeftMotorId, typ=MotorMode.kBrushless, inverted=False)
-        self.rightMotor = loader.CreateMotor(MotorType.kSparkFlex, deviceId=constants.intakeRightMotorId, typ=MotorMode.kBrushless, inverted=True)
+        self.leftMotor = loader.CreateMotor(MotorType.kSparkFlex, deviceId=constants.intakeLeftMotorId, typ=MotorMode.kBrushless, inverted=True)
+        self.rightMotor = loader.CreateMotor(MotorType.kSparkFlex, deviceId=constants.intakeRightMotorId, typ=MotorMode.kBrushless, inverted=False)
+        self.stopped = True
+
+    def isStopped(self) -> bool:
+        return self.stopped
 
     def start(self, direction: int) -> None:
         self.leftMotor.SetVoltage(constants.intakeSpeed * direction)
         self.leftMotor.SetVoltage(constants.intakeSpeed * direction)
+        self.stopped = False
 
     def stop(self) -> None:
         self.leftMotor.SetVoltage(0)
         self.rightMotor.SetVoltage(0)
+        self.stopped = True

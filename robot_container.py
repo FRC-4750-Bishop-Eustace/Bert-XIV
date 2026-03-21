@@ -37,7 +37,8 @@ class RobotContainer:
         self.dashboard = Joystick(constants.dashboardPort)
 
         self.swerve = Drivetrain(self.loader)
-        self.swerve.setDefaultCommand(DriveWithJoystick(self.swerve, self.controller))
+        self.swerveCmd = DriveWithJoystick(self.swerve, self.controller)
+        self.swerve.setDefaultCommand(self.swerveCmd)
 
         self.vision = Vision(self.swerve, [LimelightCamera("limelight")])
         self.vision.setDefaultCommand(EnableVisionFusion(self.vision))
@@ -54,12 +55,18 @@ class RobotContainer:
 
         self.intake_actuator = IntakeActuator(self.loader)
         self.intake = Intake(self.loader)
-        self.intake.setDefaultCommand(RunIntake(self.intake, self.dashboard))
 
         self.field = Field2d()
         SmartDashboard.putData("Field", self.field)
 
     def configureBindings(self) -> None:
+        JoystickButton(self.controller, constants.ps4Cross).onTrue(
+            InstantCommand(
+                lambda: self.swerveCmd.toggleFieldRelative(),
+                None
+            )
+        )
+
         JoystickButton(self.dashboard, 8).whileTrue(
             DeployIntake(self.intake_actuator)
         ).whileFalse(
@@ -74,6 +81,13 @@ class RobotContainer:
             InstantCommand(
                 lambda: self.intake_actuator.stop(),
                 self.intake_actuator
+            )
+        )
+
+        JoystickButton(self.controller, constants.ps4Square).onTrue(
+            InstantCommand(
+                lambda: self.intake.start(1) if self.intake.isStopped() else self.intake.stop(),
+                self.intake
             )
         )
 

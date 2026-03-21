@@ -52,9 +52,6 @@ class Shooter(Subsystem):
         self.motor1.SetVoltage(self.speed * direction)
         self.motor2.SetVoltage(self.speed * direction)
 
-    def startFeeder(self, direction: int) -> None:
-        self.feeder.SetVoltage((self.speed * direction) / 2)
-
     def stop(self) -> None:
         self.motor1.SetVoltage(0)
         self.motor2.SetVoltage(0)

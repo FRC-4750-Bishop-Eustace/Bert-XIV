@@ -80,7 +80,7 @@ shooterMotor2Id = 17
 shooterFeederMotorId = 18
 shooterDefaultSpeed = 7
 feederSpeed = 4.5
-feederToShooterTime = 3
+feederToShooterTime = 10
 
 # Intake config
 intakeActuatorMotorId = 13
@@ -142,7 +142,28 @@ swerveAutoTurnPID = PID(1.3, 0, 0.1)
 # Controllers
 xSlewRate = 4 #3
 ySlewRate = 4 #3
-rotSlewRate = 1
+rotSlewRate = 1.3 #1
 xDeadband = 0.05
 yDeadband = 0.05
 rotDeadband = 0.2
+# (Official PS4 mappings don't line up with custom controller)
+ps4Cross = 1
+ps4Circle = 2
+ps4Square = 3
+ps4Triangle = 4
+ps4L1 = 5
+ps4R1 = 6
+ps4Share = 7
+ps4Options = 8
+ps4L3 = 9
+ps4R3 = 10
+ps4Up = 0
+ps4Down = 180
+ps4Left = 270
+ps4Right = 90
+ps4LeftX = 0
+ps4LeftY = 1
+ps4L2 = 2
+ps4R2 = 3
+ps4RightX = 4
+ps4RightY = 5
