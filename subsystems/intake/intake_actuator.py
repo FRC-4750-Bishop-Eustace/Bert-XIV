@@ -20,6 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import wpilib
 import constants
 from hardware import *
 from commands2 import Subsystem
@@ -29,10 +30,16 @@ class IntakeActuator(Subsystem):
         super().__init__()
         self.actuatorMotor = loader.CreateMotor(MotorType.kSparkMAX, deviceId=constants.intakeActuatorMotorId, typ=MotorMode.kBrushed, inverted=True)
         self.actuatorMotor2 = loader.CreateMotor(MotorType.kSparkMAX, deviceId=constants.intakeActuatorMotor2Id, typ=MotorMode.kBrushed, inverted=True)
+        self.limitSwitch = wpilib.DigitalInput(8)
+        
 
     def deploy(self) -> None:
-        self.actuatorMotor.SetVoltage(constants.actuatorSpeed)
-        self.actuatorMotor2.SetVoltage(constants.actuatorSpeed)
+        if self.limitSwitch.get() == True:
+            self.actuatorMotor.SetVoltage(constants.actuatorSpeed)
+            self.actuatorMotor2.SetVoltage(constants.actuatorSpeed)
+        else:
+            self.actuatorMotor.Stop()
+            self.actuatorMotor2.Stop()
 
     def stow(self) -> None:
         self.actuatorMotor.SetVoltage(-constants.actuatorSpeed)
