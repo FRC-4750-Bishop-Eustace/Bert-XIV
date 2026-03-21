@@ -48,14 +48,12 @@ class Shooter(Subsystem):
         self.speed = speed
         SmartDashboard.putNumber("Shooter Voltage", self.speed)
 
-        SmartDashboard.putNumber("Shooter Voltage", constants.shooterSpeed)
-
     def start(self, direction: int) -> None:
-        self.motor1.SetVoltage(SmartDashboard.getNumber("Shooter Voltage", constants.shooterSpeed) * direction)
-        self.motor2.SetVoltage(SmartDashboard.getNumber("Shooter Voltage", constants.shooterSpeed) * direction)
+        self.motor1.SetVoltage(self.speed * direction)
+        self.motor2.SetVoltage(self.speed * direction)
 
     def startFeeder(self, direction: int) -> None:
-        self.feeder.SetVoltage((SmartDashboard.getNumber("Shooter Voltage", constants.shooterSpeed) * direction) / 2)
+        self.feeder.SetVoltage((self.speed * direction) / 2)
 
     def stop(self) -> None:
         self.motor1.SetVoltage(0)
