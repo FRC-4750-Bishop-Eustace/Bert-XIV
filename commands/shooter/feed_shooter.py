@@ -25,11 +25,17 @@ from wpilib import Joystick
 from commands2 import Command
 
 class FeedShooter(Command):
-    def __init__(self, shooter: Shooter) -> None:
+    def __init__(self, feeder: Feeder, controller: Joystick) -> None:
         super().__init__()
-        self.shooter = shooter
+        self.feeder = feeder
+        self.controller = controller
 
-        self.addRequirements(self.shooter)
+        self.addRequirements(self.feeder)
 
     def execute(self) -> None:
-        self.shooter.startFeeder(1)
+        if self.controller.getRawButton(6):
+            self.feeder.start(1)
+        elif self.controller.getRawButton(9):
+            self.feeder.start(-1)
+        else:
+            self.feeder.stop()

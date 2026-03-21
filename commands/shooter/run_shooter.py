@@ -20,6 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import constants
 from subsystems import *
 from wpilib import Joystick
 from commands2 import Command
@@ -33,9 +34,10 @@ class RunShooter(Command):
         self.addRequirements(self.shooter)
 
     def execute(self) -> None:
-        if self.controller.getRawButton(6):
-            self.shooter.start(1)
-        elif self.controller.getRawButton(9):
-            self.shooter.start(-1)
-        else:
-            self.shooter.stop()
+        if not (self.controller.getRawButton(11) or self.controller.getRawButton(12)):
+            if self.controller.getRawButton(6):
+                self.shooter.start(1)
+            elif self.controller.getRawButton(9):
+                self.shooter.start(-1)
+            else:
+                self.shooter.stop()

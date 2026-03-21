@@ -78,7 +78,9 @@ backLeftTurnEncoderId = 11
 shooterMotor1Id = 14
 shooterMotor2Id = 17
 shooterFeederMotorId = 18
-shooterSpeed = 6
+shooterDefaultSpeed = 7
+feederSpeed = 4.5
+feederToShooterTime = 3
 
 # Intake config
 intakeActuatorMotorId = 13

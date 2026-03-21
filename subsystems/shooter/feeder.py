@@ -20,10 +20,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .shooter import Shooter
-from .feeder import Feeder
+import constants
+from hardware import *
+from commands2 import Subsystem
 
-__all__ = [
-    "Shooter",
-    "Feeder",
-]
+class Feeder(Subsystem):
+    def __init__(self, loader: Loader) -> None:
+        super().__init__()
+        self.feeder = loader.CreateMotor(MotorType.kSparkFlex, deviceId=constants.shooterFeederMotorId, typ=MotorMode.kBrushless, inverted=False)
+        self.feeder.SetParameters(False, IdleMode.kCoast)
+
+    def start(self, direction: int) -> None:
+        self.feeder.SetVoltage(constants.feederSpeed * direction)
+
+    def stop(self) -> None:
+        self.feeder.SetVoltage(0)

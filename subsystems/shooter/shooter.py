@@ -22,6 +22,7 @@
 
 import constants
 from hardware import *
+from wpilib import SmartDashboard
 from commands2 import Subsystem
 from wpilib import SmartDashboard
 
@@ -30,11 +31,22 @@ class Shooter(Subsystem):
         super().__init__()
         self.motor1 = loader.CreateMotor(MotorType.kSparkFlex, deviceId=constants.shooterMotor1Id, typ=MotorMode.kBrushless, inverted=True)
         self.motor2 = loader.CreateMotor(MotorType.kSparkFlex, deviceId=constants.shooterMotor2Id, typ=MotorMode.kBrushless, inverted=False)
-        self.feeder = loader.CreateMotor(MotorType.kSparkFlex, deviceId=constants.shooterFeederMotorId, typ=MotorMode.kBrushless, inverted=False)
 
         self.motor1.SetParameters(True, IdleMode.kCoast)
         self.motor2.SetParameters(False, IdleMode.kCoast)
-        self.feeder.SetParameters(False, IdleMode.kCoast)
+        self.setSpeed(constants.shooterDefaultSpeed)
+
+    def getSpeed(self) -> float:
+        return self.speed
+
+    def setSpeed(self, speed: float) -> None:
+        if speed > 12:
+            speed = 1
+        elif speed < 1:
+            speed = 12
+
+        self.speed = speed
+        SmartDashboard.putNumber("Shooter Voltage", self.speed)
 
         SmartDashboard.putNumber("Shooter Voltage", constants.shooterSpeed)
 
@@ -48,6 +60,3 @@ class Shooter(Subsystem):
     def stop(self) -> None:
         self.motor1.SetVoltage(0)
         self.motor2.SetVoltage(0)
-
-    def stopFeeder(self) -> None:
-        self.feeder.SetVoltage(0)

@@ -25,7 +25,7 @@ from hardware import *
 from subsystems import *
 from commands import *
 from wpilib import PS4Controller, Joystick, Field2d, SmartDashboard
-from commands2 import Command, InstantCommand
+from commands2 import *
 from commands2.button import JoystickButton
 
 class RobotContainer:
@@ -42,6 +42,13 @@ class RobotContainer:
         self.vision = Vision(self.swerve, [LimelightCamera("limelight")])
         self.vision.setDefaultCommand(EnableVisionFusion(self.vision))
 
+        self.feeder = Feeder(self.loader)
+        self.feeder.setDefaultCommand(
+            SequentialCommandGroup(
+                WaitCommand(constants.feederToShooterTime),
+                FeedShooter(self.feeder, self.dashboard),
+            )
+        )
         self.shooter = Shooter(self.loader)
         self.shooter.setDefaultCommand(RunShooter(self.shooter, self.dashboard))
 
@@ -53,14 +60,6 @@ class RobotContainer:
         SmartDashboard.putData("Field", self.field)
 
     def configureBindings(self) -> None:
-        JoystickButton(self.dashboard, 1).whileTrue(
-            FeedShooter(self.shooter)
-        ).whileFalse(
-            InstantCommand(
-                lambda: self.shooter.stopFeeder(),
-                self.shooter
-            )
-        )
         JoystickButton(self.dashboard, 8).whileTrue(
             DeployIntake(self.intake_actuator)
         ).whileFalse(
@@ -75,6 +74,19 @@ class RobotContainer:
             InstantCommand(
                 lambda: self.intake_actuator.stop(),
                 self.intake_actuator
+            )
+        )
+
+        JoystickButton(self.dashboard, 12).onTrue(
+            InstantCommand(
+                lambda: self.shooter.setSpeed(self.shooter.getSpeed() + 0.5),
+                self.shooter
+            )
+        )
+        JoystickButton(self.dashboard, 11).onTrue(
+            InstantCommand(
+                lambda: self.shooter.setSpeed(self.shooter.getSpeed() - 0.5),
+                self.shooter
             )
         )
 
