@@ -22,7 +22,7 @@
 
 import constants
 from subsystems import *
-from wpilib import DriverStation
+from wpilib import DriverStation, SmartDashboard
 from commands2 import Command
 from wpilib import PS4Controller
 from wpimath import applyDeadband
@@ -39,6 +39,8 @@ class DriveWithJoystick(Command):
         self.fieldRelative = False
 
         self.addRequirements(self.swerve)
+
+        SmartDashboard.putBoolean("Field Relative", self.fieldRelative)
 
     def execute(self) -> None:
         if not DriverStation.isTeleopEnabled():
@@ -87,5 +89,6 @@ class DriveWithJoystick(Command):
 
         if self.controller.getRawButton(self.controller.Button.kCross) == 1:
             self.fieldRelative = not self.fieldRelative
+            SmartDashboard.putBoolean("Field Relative", self.fieldRelative)
 
         self.swerve.drive(xSpeed, ySpeed, rotSpeed, self.fieldRelative, 0.02)

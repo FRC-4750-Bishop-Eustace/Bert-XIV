@@ -34,7 +34,7 @@ class Vision(Subsystem):
         self.stddevs = [0.0] * 3
         self.pose = Pose2d()
         self.timestamp = 0
-        self.block = True
+        self.block = False
 
     def blockVision(self, block: bool = True) -> None:
         self.block = block

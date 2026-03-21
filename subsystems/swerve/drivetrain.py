@@ -101,7 +101,7 @@ class Drivetrain(Subsystem):
                     xSpeed,
                     ySpeed,
                     rot,
-                    Rotation2d(wpimath.units.degreesToRadians(self.gyro.GetRotation().Z()))
+                    Rotation2d(wpimath.units.degreesToRadians(-self.gyro.GetRotation().Z()))
                 ) if fieldRelative else ChassisSpeeds(
                     xSpeed,
                     ySpeed,
