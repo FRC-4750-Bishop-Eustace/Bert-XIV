@@ -21,13 +21,15 @@
 # SOFTWARE.
 
 import math
-from wpimath.geometry import Rotation2d
+from wpimath.geometry import Translation2d, Rotation2d
 from wpimath.controller import PIDController, ProfiledPIDController, SimpleMotorFeedforwardMeters, SimpleMotorFeedforwardRadians, ElevatorFeedforward
 from wpimath.trajectory import TrapezoidProfile
 
 # Field dimensions (meters)
-fieldLength = 17.37
-fieldWidth = 8.08
+fieldLength = 16.5409880001
+fieldWidth = 8.069326
+blueAllianceHub = Translation2d(4.625594, 4.034536)
+redAllianceHub = Translation2d(fieldLength - blueAllianceGoal.X(), fieldWidth - blueAllianceGoal.Y())
 
 # Robot health
 voltageWarn = 10.5
@@ -81,6 +83,7 @@ shooterFeederMotorId = 18
 shooterDefaultSpeed = 7
 feederSpeed = 4.5
 feederToShooterTime = 10
+shooterMetersPerVolt = 0.9906 # ~3.25 feet per volt
 
 # Intake config
 intakeActuatorMotorId = 13

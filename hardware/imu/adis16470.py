@@ -120,9 +120,9 @@ class ADIS16470(IMU):
 
     def GetRotation(self) -> Rotation3d:
         try:
-            return Rotation3d(self.hw.getAngle(self.IMUAxis.kPitch), self.hw.getAngle(self.IMUAxis.kYaw), self.hw.getAngle(self.IMUAxis.kRoll))
+            return Rotation3d(self.hw.getAngle(self.IMUAxis.kRoll), self.hw.getAngle(self.IMUAxis.kPitch), self.hw.getAngle(self.IMUAxis.kYaw))
         except Exception:
-            return Rotation3d(self.hw.getAngle(self.IMUAxis.kPitch), self.hw.getAngle(self.IMUAxis.kYaw), self.hw.getAngle(self.IMUAxis.kRoll))
+            return Rotation3d(self.hw.getAngle(self.IMUAxis.kRoll), self.hw.getAngle(self.IMUAxis.kPitch), self.hw.getAngle(self.IMUAxis.kYaw))
 
     def GetAcceleration(self) -> Translation3d:
         try:

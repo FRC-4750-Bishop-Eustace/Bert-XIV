@@ -85,9 +85,9 @@ class NavX(IMU):
 
     def GetRotation(self) -> Rotation3d:
         try:
-            return Rotation3d(self.hw.getRoll(), self.hw.getYaw(), self.hw.getPitch())
+            return Rotation3d(self.hw.getRoll(), self.hw.getPitch(), self.hw.getYaw())
         except Exception:
-            return Rotation3d(self.hw.getRoll(), self.hw.getYaw(), self.hw.getPitch())
+            return Rotation3d(self.hw.getRoll(), self.hw.getPitch(), self.hw.getYaw())
 
     def GetAcceleration(self) -> Translation3d:
         try:

@@ -22,9 +22,9 @@
 
 import constants
 from hardware import *
-from wpilib import SmartDashboard
+from wpilib import SmartDashboard, DriverStation
+from wpimath import Translation2d
 from commands2 import Subsystem
-from wpilib import SmartDashboard
 
 class Shooter(Subsystem):
     def __init__(self, loader: Loader) -> None:
@@ -47,6 +47,13 @@ class Shooter(Subsystem):
 
         self.speed = speed
         SmartDashboard.putNumber("Shooter Voltage", self.speed)
+
+    def setSpeedByPosition(self, position: Translation2d) -> None:
+        # voltage = distance / constants.shooterMetersPerVolt
+        if DriverStation.getAlliance() == DriverStation.Alliance.kBlue:
+            self.setSpeed(position.distance(constants.blueAllianceHub) / constants.shooterMetersPerVolt)
+        else:
+            self.setSpeed(position.distance(constants.redAllianceHub) / constants.shooterMetersPerVolt)
 
     def start(self, direction: int) -> None:
         self.motor1.SetVoltage(self.speed * direction)

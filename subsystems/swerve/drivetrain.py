@@ -78,14 +78,18 @@ class Drivetrain(Subsystem):
         )
 
         self.trajectories: dict[str, SwerveTrajectory|None] = {}
-        for path in Path("./deploy/choreo").glob("*.traj"):
-            filename = path.name[:-5] # Remove '.traj' from path
-            try:
-                self.trajectories[filename] = choreo.load_swerve_trajectory(filename)
-                print(f"\033[34;1mLoaded trajectory \'{filename}\'\033[0m")
-            except Exception as e:
-                print(f"\033[31;1mFailed to load trajectory \'{filename}\':\033[0m\n{e}")
-                self.trajectories[filename] = None
+
+        #        RoboRIO Path                               Simulation Path
+        paths = [Path("/home/lvuser/py_new/deploy/choreo"), Path("./deploy/choreo")]
+        for path in paths:
+            for path in Path("/home/lvuser/py_new/deploy/choreo").glob("*.traj"):
+                filename = path.name[:-5] # Remove '.traj' from path
+                try:
+                    self.trajectories[filename] = choreo.load_swerve_trajectory(filename)
+                    print(f"\033[34;1mLoaded trajectory \'{filename}\'\033[0m")
+                except Exception as e:
+                    print(f"\033[31;1mFailed to load trajectory \'{filename}\':\033[0m\n{e}")
+                    self.trajectories[filename] = None
 
         self.gyro.Reset()
 
@@ -101,7 +105,7 @@ class Drivetrain(Subsystem):
                     xSpeed,
                     ySpeed,
                     rot,
-                    Rotation2d(wpimath.units.degreesToRadians(-self.gyro.GetRotation().Z()))
+                    self.gyro.GetRotation().toRotation2d()
                 ) if fieldRelative else ChassisSpeeds(
                     xSpeed,
                     ySpeed,
@@ -118,7 +122,7 @@ class Drivetrain(Subsystem):
         self.backLeft.setDesiredState(states[3])
 
     def stop(self) -> None:
-        self.drive(0, 0, 0, True, 0.02)
+        self.drive(0, 0, 0, False, 0.02)
 
     def periodic(self) -> None:
         self.estimator.update(
