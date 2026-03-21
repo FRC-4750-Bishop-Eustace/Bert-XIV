@@ -29,7 +29,7 @@ from wpimath.trajectory import TrapezoidProfile
 fieldLength = 16.5409880001
 fieldWidth = 8.069326
 blueAllianceHub = Translation2d(4.625594, 4.034536)
-redAllianceHub = Translation2d(fieldLength - blueAllianceGoal.X(), fieldWidth - blueAllianceGoal.Y())
+redAllianceHub = Translation2d(fieldLength - blueAllianceHub.X(), fieldWidth - blueAllianceHub.Y())
 
 # Robot health
 voltageWarn = 10.5

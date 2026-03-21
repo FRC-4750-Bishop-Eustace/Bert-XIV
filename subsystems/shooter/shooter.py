@@ -23,7 +23,7 @@
 import constants
 from hardware import *
 from wpilib import SmartDashboard, DriverStation
-from wpimath import Translation2d
+from wpimath.geometry import Translation2d
 from commands2 import Subsystem
 
 class Shooter(Subsystem):
