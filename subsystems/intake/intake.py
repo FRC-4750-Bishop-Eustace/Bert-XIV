@@ -28,7 +28,7 @@ class Intake(Subsystem):
     def __init__(self, loader: Loader) -> None:
         super().__init__()
         self.leftMotor = loader.CreateMotor(MotorType.kSparkFlex, deviceId=constants.intakeLeftMotorId, typ=MotorMode.kBrushless, inverted=True)
-        self.rightMotor = loader.CreateMotor(MotorType.kSparkFlex, deviceId=constants.intakeRightMotorId, typ=MotorMode.kBrushless, inverted=False)
+        self.rightMotor = loader.CreateMotor(MotorType.kSparkFlex, deviceId=constants.intakeRightMotorId, typ=MotorMode.kBrushless, inverted=True)
         self.stopped = True
 
     def isStopped(self) -> bool:
@@ -36,7 +36,7 @@ class Intake(Subsystem):
 
     def start(self, direction: int) -> None:
         self.leftMotor.SetVoltage(constants.intakeSpeed * direction)
-        self.leftMotor.SetVoltage(constants.intakeSpeed * direction)
+        self.rightMotor.SetVoltage(constants.intakeSpeed * direction)
         self.stopped = False
 
     def stop(self) -> None:
