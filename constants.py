@@ -82,7 +82,7 @@ shooterMotor2Id = 17
 shooterFeederMotorId = 18
 shooterDefaultSpeed = 7
 feederSpeed = 4.5
-feederToShooterTime = 10
+feederToShooterTime = 3
 shooterMetersPerVolt = 0.9906 # ~3.25 feet per volt
 
 # Intake config

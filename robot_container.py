@@ -44,12 +44,7 @@ class RobotContainer:
         self.vision.setDefaultCommand(EnableVisionFusion(self.vision))
 
         self.feeder = Feeder(self.loader)
-        self.feeder.setDefaultCommand(
-            SequentialCommandGroup(
-                WaitCommand(constants.feederToShooterTime),
-                FeedShooter(self.feeder, self.dashboard),
-            )
-        )
+        self.feeder.setDefaultCommand(FeedShooter(self.feeder, self.dashboard))
         self.shooter = Shooter(self.loader)
         self.shooter.setDefaultCommand(RunShooter(self.shooter, self.dashboard))
 

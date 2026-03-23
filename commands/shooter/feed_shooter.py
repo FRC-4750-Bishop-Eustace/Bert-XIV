@@ -33,7 +33,7 @@ class FeedShooter(Command):
         self.addRequirements(self.feeder)
 
     def execute(self) -> None:
-        if self.controller.getRawButton(6):
+        if self.controller.getRawButton(1):
             self.feeder.start(1)
         elif self.controller.getRawButton(9):
             self.feeder.start(-1)
