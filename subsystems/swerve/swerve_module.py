@@ -38,13 +38,13 @@ class SwerveModule:
 
         self.driveMotor.SetParameters(
             False,
-            IdleMode.kCoast,
+            1,
             (math.tau * constants.wheelRadius / 60) / constants.driveReduction,
             (constants.wheelRadius * math.tau) / constants.driveReduction
         )
         self.turnMotor.SetParameters(
             True,
-            IdleMode.kCoast
+            1
         )
 
         self.drivePID = constants.swerveDrivePID.toPIDController()

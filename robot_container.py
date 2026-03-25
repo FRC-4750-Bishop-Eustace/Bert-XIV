@@ -61,7 +61,12 @@ class RobotContainer:
                 None
             )
         )
-
+        JoystickButton(self.controller, constants.ps4Triangle).onTrue(
+            InstantCommand(
+                lambda: self.swerveCmd.resetGyro(),
+                None
+            )
+        )
         JoystickButton(self.dashboard, 8).whileTrue(
             DeployIntake(self.intake_actuator)
         ).whileFalse(

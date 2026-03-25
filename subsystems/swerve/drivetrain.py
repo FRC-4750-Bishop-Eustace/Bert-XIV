@@ -105,7 +105,7 @@ class Drivetrain(Subsystem):
                     xSpeed,
                     ySpeed,
                     rot,
-                    Rotation2d.fromDegrees(self.gyro.GetRotation().Z())
+                    self.gyro.GetRotation().toRotation2d()
                 ) if fieldRelative else ChassisSpeeds(
                     xSpeed,
                     ySpeed,

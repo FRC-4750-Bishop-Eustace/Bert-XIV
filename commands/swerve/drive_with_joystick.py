@@ -46,6 +46,9 @@ class DriveWithJoystick(Command):
         self.fieldRelative = not self.fieldRelative
         SmartDashboard.putBoolean("Field Relative", self.fieldRelative)
 
+    def resetGyro(self):
+        self.swerve.gyro.Reset()
+
     def execute(self) -> None:
         if not DriverStation.isTeleopEnabled():
             return
