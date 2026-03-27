@@ -45,7 +45,7 @@ dashboardPort = 0
 
 # Speed config
 maxSpeed = 4.6
-rMaxSpeed = 8.5
+rMaxSpeed = 5
 tMaxSpeed = 4.6
 maxAngularSpeed = math.pi
 frontLeftZero = 0
@@ -141,14 +141,15 @@ swerveTurnPID = PID(7.8, 0, 0.055)
 swerveTurnFF = FeedForward(0, 0)
 swerveAutoDrivePID = PID(0.4, 0, 0.001)
 swerveAutoTurnPID = PID(1.3, 0, 0.1)
+swerveHeadingPID = PID(0.09, 0, 0.005)
 
 # Controllers
-xSlewRate = 4 #3
-ySlewRate = 4 #3
-rotSlewRate = 1.3 #1
+xSlewRate = 10 #3
+ySlewRate = 10 #3
+rotSlewRate = 20 #1
 xDeadband = 0.05
 yDeadband = 0.05
-rotDeadband = 0.2
+rotDeadband = 0.05
 # (Official PS4 mappings don't line up with custom controller)
 ps4Cross = 1
 ps4Circle = 2

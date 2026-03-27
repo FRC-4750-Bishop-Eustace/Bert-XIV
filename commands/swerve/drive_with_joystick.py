@@ -36,7 +36,7 @@ class DriveWithJoystick(Command):
         self.xSlewRate = SlewRateLimiter(constants.xSlewRate)
         self.ySlewRate = SlewRateLimiter(constants.ySlewRate)
         self.rotSlewRate = SlewRateLimiter(constants.rotSlewRate)
-        self.fieldRelative = False
+        self.fieldRelative = True
 
         self.addRequirements(self.swerve)
 
@@ -65,18 +65,10 @@ class DriveWithJoystick(Command):
                 constants.yDeadband
             ) * constants.maxSpeed
         )
-        rotSpeed = (
-            (
-                self.rotSlewRate.calculate(
-                    applyDeadband(
-                        (self.controller.getRawAxis(constants.ps4L2) + 1) / 2,
-                        constants.rotDeadband
-                    ) -
-                    applyDeadband(
-                        (self.controller.getRawAxis(constants.ps4R2) + 1) / 2,
-                        constants.rotDeadband
-                    )
-                )
+        rotSpeed = -self.rotSlewRate.calculate(
+            applyDeadband(
+                self.controller.getRawAxis(constants.ps4RightX),
+                constants.rotDeadband
             ) * constants.rMaxSpeed
         )
 

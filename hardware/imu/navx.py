@@ -100,9 +100,15 @@ class NavX(IMU):
             return self.hw.getRate()
         except Exception:
             return self.hw.getRate()
+        
+    def GetYaw(self) -> float:
+        try:
+            return -self.hw.getYaw()
+        except Exception:
+            return -self.hw.getYaw()
 
     def Reset(self, pose: Pose3d = Pose3d()) -> None:
         try:
-            self.hw.reset()
+            self.hw.zeroYaw()
         except Exception:
-            self.hw.reset()
+            self.hw.zeroYaw()

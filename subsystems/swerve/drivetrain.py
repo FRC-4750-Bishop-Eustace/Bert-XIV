@@ -105,7 +105,7 @@ class Drivetrain(Subsystem):
                     xSpeed,
                     ySpeed,
                     rot,
-                    self.gyro.GetRotation().toRotation2d()
+                    Rotation2d.fromDegrees(self.gyro.GetYaw())
                 ) if fieldRelative else ChassisSpeeds(
                     xSpeed,
                     ySpeed,
@@ -134,6 +134,7 @@ class Drivetrain(Subsystem):
                 self.backLeft.getPosition(),
             )
         )
+        SmartDashboard.putNumber("Yaw", self.gyro.GetYaw())
 
     def getPose(self) -> Pose2d:
         return self.estimator.getEstimatedPosition()
