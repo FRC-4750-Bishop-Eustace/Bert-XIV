@@ -23,11 +23,13 @@
 from .drive_with_joystick import DriveWithJoystick
 from .follow_path import FollowPath
 from .reset_pose import ResetPose
-from .lock_onto_point import LockOntoPoint
+from .lock_onto_goal import LockOntoGoal
+from .drive_facing_angle import DriveFacingAngle
 
 __all__ = [
     "DriveWithJoystick",
     "FollowPath",
     "ResetPose",
-    "LockOntoPoint",
+    "LockOntoGoal",
+    "DriveFacingAngle",
 ]

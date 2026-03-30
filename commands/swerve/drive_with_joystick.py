@@ -73,17 +73,17 @@ class DriveWithJoystick(Command):
         )
 
         if self.controller.getPOV() == constants.ps4Up:
-            xSpeed = 0.2
+            xSpeed = constants.microTSpeed
         if self.controller.getPOV() == constants.ps4Right:
-            ySpeed = -0.2
+            ySpeed = -constants.microTSpeed
         if self.controller.getPOV() == constants.ps4Down:
-            xSpeed = -0.2
+            xSpeed = -constants.microTSpeed
         if self.controller.getPOV() == constants.ps4Left:
-            ySpeed = 0.2
+            ySpeed = constants.microTSpeed
 
         if self.controller.getRawButton(constants.ps4L1) == 1:
-            rotSpeed = 0.5
+            rotSpeed = constants.microRSpeed
         if self.controller.getRawButton(constants.ps4R1) == 1:
-            rotSpeed = -0.5
+            rotSpeed = -constants.microRSpeed
 
         self.swerve.drive(xSpeed, ySpeed, rotSpeed, self.fieldRelative, 0.02)

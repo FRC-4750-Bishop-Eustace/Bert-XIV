@@ -20,7 +20,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import math
 from subsystems import *
 import constants
 from wpilib import DriverStation
@@ -28,26 +27,19 @@ from wpimath.kinematics import ChassisSpeeds
 from wpimath.geometry import Translation2d, Rotation2d
 from commands2 import Command
 
-class LockOntoPoint(Command):
-    def __init__(self, swerve: Drivetrain, point: Translation2d):
+class LockOntoGoal(Command):
+    def __init__(self, swerve: Drivetrain):
         super().__init__()
         self.swerve = swerve
-        self.point = point
-        self.mirrorPoint()
+        if DriverStation.getAlliance() == DriverStation.Alliance.kBlue:
+            self.point = constants.blueAllianceHub
+        else:
+            self.point = constants.redAllianceHub
 
         current_pos = self.swerve.getPosition()
-        self.target_theta = Rotation2d(point.X() - current_pos.X(), point.Y() - current_pos.Y())
+        self.target_theta = Rotation2d(self.point.X() - current_pos.X(), self.point.Y() - current_pos.Y())
 
         self.addRequirements(self.swerve)
-
-    def mirrorPoint(self) -> None:
-        alliance = DriverStation.getAlliance()
-        if alliance == DriverStation.Alliance.kBlue and self.point.X() > (constants.fieldLength / 2) or \
-            alliance == DriverStation.Alliance.kRed and self.point.X() < (constants.fieldLength / 2):
-            self.point = Translation2d(
-                constants.fieldLength - self.point.X(),
-                constants.fieldWidth - self.point.Y()
-            )
 
     def initialize(self) -> None:
         self.swerve.drivePID.reset()

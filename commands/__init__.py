@@ -30,7 +30,8 @@ __all__ = [
     "DriveWithJoystick",
     "FollowPath",
     "ResetPose",
-    "LockOntoPoint",
+    "LockOntoGoal",
+    "DriveFacingAngle",
     "EnableVisionFusion",
     "DisableVisionFusion",
     "CaptureSnapshot",
@@ -39,4 +40,5 @@ __all__ = [
     "DeployIntake",
     "StowIntake",
     "DefaultAuto",
+    "PointAndShootAuto",
 ]

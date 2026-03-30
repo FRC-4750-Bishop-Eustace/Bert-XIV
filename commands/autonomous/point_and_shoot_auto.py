@@ -20,10 +20,23 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .default_auto import DefaultAuto
-from .point_and_shoot_auto import PointAndShootAuto
+from subsystems import *
+from commands2 import Command
 
-__all__ = [
-    "DefaultAuto",
-    "PointAndShootAuto",
-]
+class PointAndShootAuto(Command):
+    """
+    **NOTICE: Align the robot to the goal before autonomous starts!!!**
+    """
+    def __init__(self, swerve: Drivetrain, intake_actuator: IntakeActuator, shooter: Shooter, feeder: Feeder) -> None:
+        super().__init__()
+        self.swerve = swerve
+        self.intake_actuator = intake_actuator
+        self.shooter = shooter
+        self.feeder = feeder
+
+        self.addRequirements(self.shooter, self.feeder, self.intake_actuator)
+
+    def execute(self) -> None:
+        self.intake_actuator.deploy()
+        self.shooter.start(1)
+        self.feeder.start(1)

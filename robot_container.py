@@ -20,7 +20,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from commands.swerve.drive_facing_angle import DriveFacingAngle
 import constants
 from hardware import *
 from subsystems import *
@@ -112,4 +111,4 @@ class RobotContainer:
         self.field.setRobotPose(self.swerve.getPose())
 
     def getAutonomousCommand(self) -> Command:
-        return DefaultAuto()
+        return PointAndShootAuto(self.swerve, self.intake_actuator, self.shooter, self.feeder)
