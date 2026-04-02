@@ -136,6 +136,12 @@ class ADIS16470(IMU):
         except Exception:
             return self.hw.getRate(self.IMUAxis.kYaw)
 
+    def GetYaw(self) -> float:
+        try:
+            return self.hw.getAngle(self.IMUAxis.kYaw)
+        except Exception:
+            return self.hw.getAngle(self.IMUAxis.kYaw)
+
     def Reset(self, pose: Pose3d = Pose3d()) -> None:
         try:
             self.hw.reset()

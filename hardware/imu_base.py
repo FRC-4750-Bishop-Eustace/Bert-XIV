@@ -48,6 +48,10 @@ class IMU(Device):
         raise NotImplementedError
 
     @abstractmethod
+    def GetYaw(self) -> float:
+        raise NotImplementedError
+
+    @abstractmethod
     def Reset(self, pose: Pose3d = Pose3d()) -> None:
         raise NotImplementedError
 

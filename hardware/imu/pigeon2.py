@@ -102,6 +102,12 @@ class Pigeon2(IMU):
         except Exception:
             return self.hw.get_angular_velocity_z_device().value
 
+    def GetYaw(self) -> float:
+        try:
+            return self.hw.getRotation3d().Z()
+        except Exception:
+            return self.hw.getRotation3d().Z()
+
     def Reset(self, pose: Pose3d = Pose3d()) -> None:
         try:
             self.hw.reset()

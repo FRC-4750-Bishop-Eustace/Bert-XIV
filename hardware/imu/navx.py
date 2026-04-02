@@ -100,7 +100,7 @@ class NavX(IMU):
             return self.hw.getRate()
         except Exception:
             return self.hw.getRate()
-        
+
     def GetYaw(self) -> float:
         try:
             return -self.hw.getYaw()

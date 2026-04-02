@@ -23,7 +23,6 @@
 from .limelight_camera import LimelightCamera
 from ..swerve.drivetrain import Drivetrain
 from .limelight_helpers import setCameraPoseRobotSpace, setRobotOrientation, PoseEstimate
-from wpilib import SmartDashboard, Field2d
 from wpimath.geometry import Pose2d
 from commands2 import Subsystem
 
@@ -32,12 +31,10 @@ class Vision(Subsystem):
         super().__init__()
         self.swerve = swerve
         self.cameras = cameras
-        self.stddevs = [0.0] * 3
+        self.stddevs = [1.0] * 3
         self.pose = Pose2d()
         self.timestamp = 0
         self.block = False
-        self.field = Field2d()
-        SmartDashboard.putData("camera pose", self.field)
 
     def blockVision(self, block: bool = True) -> None:
         self.block = block
@@ -45,12 +42,11 @@ class Vision(Subsystem):
     def useMT1(self, camera: LimelightCamera) -> bool:
         mt1 = PoseEstimate.getRobotPoseEstimateBlueMT1(camera.name)
         mt1_valid = False
-        self.stddevs = [1.0, 1.0, 9999999]
 
         if mt1.tagCount > 0:
             if mt1.tagCount >= 2:
                 mt1_valid = True
-                self.stddevs = [0.4, 0.4, 9999999]
+                self.stddevs = [0.4, 0.4, 0.5]
                 self.pose = mt1.pose
                 self.timestamp = mt1.timestamp
             elif len(mt1.fiducials) == 1:
@@ -61,7 +57,7 @@ class Vision(Subsystem):
                     self.stddevs = [
                         0.5 + 0.7 * scale,
                         0.5 + 0.7 * scale,
-                        9999999
+                        0.6 + 0.6 * scale
                     ]
                     self.pose = mt1.pose
                     self.timestamp = mt1.timestamp
@@ -75,7 +71,7 @@ class Vision(Subsystem):
         self.stddevs = [
             0.6 + 0.002 * gyro_rate,
             0.6 + 0.002 * gyro_rate,
-            9999999
+            1.0 + 0.01 * gyro_rate
         ]
 
         self.pose = mt2.pose
@@ -92,7 +88,6 @@ class Vision(Subsystem):
 
         return mt2_valid
 
-
     def periodic(self) -> None:
         if not self.block:
             for camera in self.cameras:
@@ -102,8 +97,7 @@ class Vision(Subsystem):
                         camera.offset.translation(),
                         camera.offset.rotation()
                     )
-            
+
                 if self.useMT1(camera):
                     self.swerve.estimator.setVisionMeasurementStdDevs(self.stddevs)
                     self.swerve.estimator.addVisionMeasurement(self.pose, self.timestamp)
-                    self.field.setRobotPose(self.pose)

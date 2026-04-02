@@ -21,8 +21,7 @@
 # SOFTWARE.
 
 from subsystems import *
-import constants
-from wpilib import DriverStation
+from wpilib import PS4Controller, SmartDashboard
 from wpimath.kinematics import ChassisSpeeds
 from wpimath.geometry import Rotation2d
 from commands2 import Command
