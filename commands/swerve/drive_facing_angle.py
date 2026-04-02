@@ -20,65 +20,31 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import constants
 from subsystems import *
-from wpilib import DriverStation, SmartDashboard
-from wpimath.controller import PIDController
+import constants
+from wpilib import DriverStation
+from wpimath.kinematics import ChassisSpeeds
+from wpimath.geometry import Rotation2d
 from commands2 import Command
-from wpilib import PS4Controller
-from wpimath import applyDeadband
-from wpimath.filter import SlewRateLimiter
 
 class DriveFacingAngle(Command):
-    def __init__(self, swerve: Drivetrain, controller: PS4Controller) -> None:
+    def __init__(self, swerve: Drivetrain, controller: PS4Controller, target_theta: Rotation2d) -> None:
         super().__init__()
         self.swerve = swerve
         self.controller = controller
-        self.xSlewRate = SlewRateLimiter(constants.xSlewRate)
-        self.ySlewRate = SlewRateLimiter(constants.ySlewRate)
-        self.fieldRelative = True
-        self.headingPID = constants.swerveHeadingPID.toPIDController()
-        self.headingPID.enableContinuousInput(-180, 180)
-        self.headingTarget = (self.swerve.gyro.GetYaw())
+        self.target_theta = target_theta
 
         self.addRequirements(self.swerve)
 
-        SmartDashboard.putBoolean("Field Relative", self.fieldRelative)
         SmartDashboard.putData("Heading PID Controller", self.headingPID)
 
-    def initialize(self) -> None:
-        self.headingTarget = (self.swerve.gyro.GetYaw())
-
     def execute(self) -> None:
-        if not DriverStation.isTeleopEnabled():
-            return
-
-        xSpeed = -self.xSlewRate.calculate(
-            applyDeadband(
-                self.controller.getRawAxis(constants.ps4LeftY),
-                constants.xDeadband
-            ) * constants.maxSpeed
+        speeds = ChassisSpeeds(
+            0.0,
+            0.0,
+            self.swerve.turnPID.calculate(
+                self.swerve.getRotation().radians(),
+                self.target_theta.radians()
+            )
         )
-        ySpeed = -self.ySlewRate.calculate(
-            applyDeadband(
-                self.controller.getRawAxis(constants.ps4LeftX),
-                constants.yDeadband
-            ) * constants.maxSpeed
-        )
-        rotSpeed = self.headingPID.calculate(self.swerve.gyro.GetYaw(), self.headingTarget)
-
-        if self.controller.getPOV() == constants.ps4Up:
-            xSpeed = 0.2
-        if self.controller.getPOV() == constants.ps4Right:
-            ySpeed = -0.2
-        if self.controller.getPOV() == constants.ps4Down:
-            xSpeed = -0.2
-        if self.controller.getPOV() == constants.ps4Left:
-            ySpeed = 0.2
-
-        if self.controller.getRawButton(constants.ps4L1) == 1:
-            rotSpeed = 0.5
-        if self.controller.getRawButton(constants.ps4R1) == 1:
-            rotSpeed = -0.5
-
-        self.swerve.drive(xSpeed, ySpeed, rotSpeed, self.fieldRelative, 0.02)
+        self.swerve.drive(0.0, 0.0, speeds[2], True, 0.02)

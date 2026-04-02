@@ -66,16 +66,8 @@ class Drivetrain(Subsystem):
             [0.5, 0.5, math.pi / 6]
         )
 
-        self.drivePID = PIDController(
-            constants.swerveAutoDrivePID.kP,
-            constants.swerveAutoDrivePID.kI,
-            constants.swerveAutoDrivePID.kD
-        )
-        self.turnPID = PIDController(
-            constants.swerveAutoTurnPID.kP,
-            constants.swerveAutoTurnPID.kI,
-            constants.swerveAutoTurnPID.kD
-        )
+        self.drivePID = constants.swerveAutoDrivePID.toPIDController()
+        self.turnPID = constants.swerveAutoTurnPID.toPIDController()
 
         self.trajectories: dict[str, SwerveTrajectory|None] = {}
 

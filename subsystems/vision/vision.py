@@ -23,6 +23,7 @@
 from .limelight_camera import LimelightCamera
 from ..swerve.drivetrain import Drivetrain
 from .limelight_helpers import setCameraPoseRobotSpace, setRobotOrientation, PoseEstimate
+from wpilib import SmartDashboard, Field2d
 from wpimath.geometry import Pose2d
 from commands2 import Subsystem
 
@@ -35,6 +36,8 @@ class Vision(Subsystem):
         self.pose = Pose2d()
         self.timestamp = 0
         self.block = False
+        self.field = Field2d()
+        SmartDashboard.putData("camera pose", self.field)
 
     def blockVision(self, block: bool = True) -> None:
         self.block = block
@@ -78,24 +81,29 @@ class Vision(Subsystem):
         self.pose = mt2.pose
         self.timestamp = mt2.timestamp
 
-        return mt2.tagCount >= 2 and gyro_rate < 360
-
-def periodic(self) -> None:
-    if not self.block:
-        for camera in self.cameras:
-            if camera.pose is not None:
-                setCameraPoseRobotSpace(
-                    camera.name,
-                    camera.pose.translation(),
-                    camera.pose.rotation()
-                )
+        mt2_valid = mt2.tagCount == 1 and gyro_rate < 360
+        if mt2_valid:
             setRobotOrientation(
-                self.camera,
-                self.swerve.gyro.GetRotation().Z(), 0, # Yaw (Z)
-                0, 0,                                  # Pitch (Y)
-                0, 0                                   # Roll (X)
+                camera.name,
+                self.swerve.gyro.GetYaw(), 0, # Yaw (Z)
+                0, 0,                         # Pitch (Y)
+                0, 0                          # Roll (X)
             )
 
-            if self.useMT1(camera) or self.useMT2(camera):
-                self.swerve.estimator.setVisionMeasurementStdDevs(self.stddevs)
-                self.swerve.estimator.addVisionMeasurement(self.pose, self.timestamp)
+        return mt2_valid
+
+
+    def periodic(self) -> None:
+        if not self.block:
+            for camera in self.cameras:
+                if camera.offset is not None:
+                    setCameraPoseRobotSpace(
+                        camera.name,
+                        camera.offset.translation(),
+                        camera.offset.rotation()
+                    )
+            
+                if self.useMT1(camera):
+                    self.swerve.estimator.setVisionMeasurementStdDevs(self.stddevs)
+                    self.swerve.estimator.addVisionMeasurement(self.pose, self.timestamp)
+                    self.field.setRobotPose(self.pose)

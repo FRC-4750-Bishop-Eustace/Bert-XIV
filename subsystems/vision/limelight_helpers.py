@@ -34,9 +34,9 @@ def toPose3D(data) -> Pose3d:
     return Pose3d(
         Translation3d(data[0], data[1], data[2]),
         Rotation3d.fromDegrees(
-            data[3] * 360,
-            data[4] * 360,
-            data[5] * 360
+            data[3],
+            data[4],
+            data[5]
         )
     )
 
@@ -45,7 +45,7 @@ def toPose2D(data) -> Pose2d:
         return Pose2d()
     return Pose2d(
         Translation2d(data[0], data[1]),
-        Rotation2d.fromRotations(data[5])
+        Rotation2d.fromDegrees(data[5])
     )
 
 def getTable(name: str) -> NetworkTable:
@@ -188,12 +188,12 @@ def extractArrayEntry(data, pos: int) -> float:
     return data[pos]
 
 class RawFiducial:
-    def __init__(self, id: int, txnc: float, tync: float, ta: float, cameraDistace: float, robotDistance: float, ambiguity: float):
+    def __init__(self, id: int, txnc: float, tync: float, ta: float, cameraDistance: float, robotDistance: float, ambiguity: float):
         self.id = id
         self.txnc = txnc
         self.tync = tync
         self.ta = ta
-        self.cameraDistace = cameraDistace
+        self.cameraDistance = cameraDistance
         self.robotDistance = robotDistance
         self.ambiguity = ambiguity
 

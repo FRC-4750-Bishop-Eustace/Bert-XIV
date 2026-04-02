@@ -55,6 +55,3 @@ class LockOntoGoal(Command):
             )
         )
         self.swerve.drive(0.0, 0.0, speeds[2], True, 0.02)
-
-    def isFinished(self):
-        return abs(self.swerve.getRotation().minus(self.target_theta).radians()) < 0.02

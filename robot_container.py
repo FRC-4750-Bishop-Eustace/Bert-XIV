@@ -38,7 +38,6 @@ class RobotContainer:
 
         self.swerve = Drivetrain(self.loader)
         self.swerveCmd = DriveWithJoystick(self.swerve, self.controller)
-        self.headingCmd = DriveFacingAngle(self.swerve, self.controller)
         self.swerve.setDefaultCommand(self.swerveCmd)
 
         self.vision = Vision(self.swerve, [LimelightCamera("limelight")])
@@ -68,7 +67,6 @@ class RobotContainer:
                 None
             )
         )
-        JoystickButton(self.controller, constants.ps4Circle).whileTrue(self.headingCmd)
 
         JoystickButton(self.dashboard, 8).whileTrue(
             DeployIntake(self.intake_actuator)

@@ -142,8 +142,7 @@ swerveDriveFF = FeedForward(0, 2.2)
 swerveTurnPID = PID(7.8, 0, 0.055)
 swerveTurnFF = FeedForward(0, 0)
 swerveAutoDrivePID = PID(0.4, 0, 0.001)
-swerveAutoTurnPID = PID(1.3, 0, 0.1)
-swerveHeadingPID = PID(0.09, 0, 0.005)
+swerveAutoTurnPID = PID(0.09, 0, 0.005)
 
 # Controllers
 xSlewRate = 10 #3
